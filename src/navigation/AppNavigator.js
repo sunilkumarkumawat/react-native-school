@@ -87,6 +87,16 @@ const menuItems = [
     color: '#a8edea',
     screen: 'Settings',
     submenus: []
+  },
+  {
+    id: 7,
+    title: 'User Detail',
+    icon: '⚙️',
+    color: '#a8edea',
+    screen: 'Users',
+   submenus: [
+      { id: 54, title: 'View', screen: 'UserViewDetail', icon: '📊' },
+    ]
   }
 ];
 
