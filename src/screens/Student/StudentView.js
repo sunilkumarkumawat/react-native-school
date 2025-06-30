@@ -33,7 +33,8 @@ const StudentView = () => {
       section: 'A',
       rollNumber: 'A001',
       email: 'aarav.sharma@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
       isOnline: true,
       parentContact: '+91 98765 43210',
       attendance: 92,
@@ -48,7 +49,8 @@ const StudentView = () => {
       section: 'B',
       rollNumber: 'B015',
       email: 'priya.patel@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
       isOnline: false,
       parentContact: '+91 87654 32109',
       attendance: 88,
@@ -63,7 +65,8 @@ const StudentView = () => {
       section: 'A',
       rollNumber: 'A025',
       email: 'arjun.singh@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
       isOnline: true,
       parentContact: '+91 76543 21098',
       attendance: 95,
@@ -78,7 +81,8 @@ const StudentView = () => {
       section: 'C',
       rollNumber: 'C008',
       email: 'kavya.reddy@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
       isOnline: true,
       parentContact: '+91 65432 10987',
       attendance: 90,
@@ -93,7 +97,8 @@ const StudentView = () => {
       section: 'B',
       rollNumber: 'B012',
       email: 'rohit.kumar@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
       isOnline: false,
       parentContact: '+91 54321 09876',
       attendance: 85,
@@ -108,7 +113,8 @@ const StudentView = () => {
       section: 'A',
       rollNumber: 'A003',
       email: 'ananya.gupta@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
       isOnline: true,
       parentContact: '+91 43210 98765',
       attendance: 94,
@@ -123,7 +129,8 @@ const StudentView = () => {
       section: 'A',
       rollNumber: 'A018',
       email: 'vikram.joshi@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
       isOnline: false,
       parentContact: '+91 32109 87654',
       attendance: 78,
@@ -138,7 +145,8 @@ const StudentView = () => {
       section: 'C',
       rollNumber: 'C020',
       email: 'sneha.agarwal@school.edu',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
       isOnline: true,
       parentContact: '+91 21098 76543',
       attendance: 97,
@@ -165,47 +173,59 @@ const StudentView = () => {
 
     // Filter by section
     if (selectedSection !== 'All') {
-      filtered = filtered.filter(student => student.section === selectedSection);
+      filtered = filtered.filter(
+        student => student.section === selectedSection,
+      );
     }
 
     // Filter by keyword (name, email, roll number, parent contact, or subjects)
     if (searchKeyword.trim()) {
       const keyword = searchKeyword.toLowerCase().trim();
-      
+
       filtered = filtered.filter(student => {
         // Search in name
         const nameMatch = student.name.toLowerCase().includes(keyword);
-        
+
         // Search in email
         const emailMatch = student.email.toLowerCase().includes(keyword);
-        
+
         // Search in roll number
         const rollMatch = student.rollNumber.toLowerCase().includes(keyword);
-        
+
         // Search in parent contact (both with and without special characters)
         const phoneDigitsOnly = student.parentContact.replace(/\D/g, '');
         const keywordDigitsOnly = keyword.replace(/\D/g, '');
-        const phoneMatch = student.parentContact.toLowerCase().includes(keyword) || 
-                          (keywordDigitsOnly && phoneDigitsOnly.includes(keywordDigitsOnly));
-        
+        const phoneMatch =
+          student.parentContact.toLowerCase().includes(keyword) ||
+          (keywordDigitsOnly && phoneDigitsOnly.includes(keywordDigitsOnly));
+
         // Search in subjects
-        const subjectMatch = student.subjects.some(subject => 
-          subject.toLowerCase().includes(keyword)
+        const subjectMatch = student.subjects.some(subject =>
+          subject.toLowerCase().includes(keyword),
         );
-        
+
         // Search in status
         const statusMatch = student.status.toLowerCase().includes(keyword);
-        
+
         // Search in class (without 'th' suffix for easier searching)
         const classNumber = student.class.replace('th', '');
-        const classMatch = student.class.toLowerCase().includes(keyword) || 
-                          classNumber.includes(keyword);
-        
+        const classMatch =
+          student.class.toLowerCase().includes(keyword) ||
+          classNumber.includes(keyword);
+
         // Search in section
         const sectionMatch = student.section.toLowerCase().includes(keyword);
-        
-        return nameMatch || emailMatch || rollMatch || phoneMatch || 
-               subjectMatch || statusMatch || classMatch || sectionMatch;
+
+        return (
+          nameMatch ||
+          emailMatch ||
+          rollMatch ||
+          phoneMatch ||
+          subjectMatch ||
+          statusMatch ||
+          classMatch ||
+          sectionMatch
+        );
       });
     }
 
@@ -214,7 +234,7 @@ const StudentView = () => {
 
   const handleDropdownAction = (action, student) => {
     setActiveDropdown(null);
-    
+
     switch (action) {
       case 'downloadIdCard':
         console.log(`Downloading ID card for ${student.name}`);
@@ -245,19 +265,23 @@ const StudentView = () => {
     }
   };
 
-  const getAttendanceColor = (attendance) => {
+  const getAttendanceColor = attendance => {
     if (attendance >= 95) return '#10b981';
     if (attendance >= 90) return '#f59e0b';
     if (attendance >= 80) return '#f97316';
     return '#ef4444';
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
-      case 'Present': return '#10b981';
-      case 'Absent': return '#ef4444';
-      case 'On Leave': return '#f59e0b';
-      default: return '#6b7280';
+      case 'Present':
+        return '#10b981';
+      case 'Absent':
+        return '#ef4444';
+      case 'On Leave':
+        return '#f59e0b';
+      default:
+        return '#6b7280';
     }
   };
 
@@ -270,79 +294,91 @@ const StudentView = () => {
         </View>
         <View style={styles.studentInfo}>
           <Text style={styles.studentName}>{student.name}</Text>
-          <Text style={styles.classSection}>{student.class} - Section {student.section}</Text>
+          <Text style={styles.classSection}>
+            {student.class} - Section {student.section}
+          </Text>
           <Text style={styles.rollNumber}>Roll No: {student.rollNumber}</Text>
           <Text style={styles.studentEmail}>{student.email}</Text>
         </View>
         <View style={styles.dropdownContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.moreButton}
-            onPress={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}
+            onPress={() =>
+              setActiveDropdown(
+                activeDropdown === student.id ? null : student.id,
+              )
+            }
           >
             <Text style={styles.moreText}>⋯</Text>
           </TouchableOpacity>
-          
+
           {activeDropdown === student.id && (
             <View style={styles.dropdown}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.dropdownItem}
                 onPress={() => handleDropdownAction('downloadIdCard', student)}
               >
                 <Text style={styles.dropdownIcon}>🆔</Text>
                 <Text style={styles.dropdownText}>Download ID Card</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('downloadReportCard', student)}
+                onPress={() =>
+                  handleDropdownAction('downloadReportCard', student)
+                }
               >
                 <Text style={styles.dropdownIcon}>📊</Text>
                 <Text style={styles.dropdownText}>Download Report Card</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('downloadCertificate', student)}
+                onPress={() =>
+                  handleDropdownAction('downloadCertificate', student)
+                }
               >
                 <Text style={styles.dropdownIcon}>📜</Text>
                 <Text style={styles.dropdownText}>Download Certificate</Text>
               </TouchableOpacity>
-              
+
               <View style={styles.dropdownDivider} />
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.dropdownItem}
                 onPress={() => handleDropdownAction('viewTimetable', student)}
               >
                 <Text style={styles.dropdownIcon}>📅</Text>
                 <Text style={styles.dropdownText}>View Timetable</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('attendanceReport', student)}
+                onPress={() =>
+                  handleDropdownAction('attendanceReport', student)
+                }
               >
                 <Text style={styles.dropdownIcon}>📈</Text>
                 <Text style={styles.dropdownText}>Attendance Report</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.dropdownItem}
                 onPress={() => handleDropdownAction('viewGrades', student)}
               >
                 <Text style={styles.dropdownIcon}>🎓</Text>
                 <Text style={styles.dropdownText}>View Grades</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.dropdownItem}
                 onPress={() => handleDropdownAction('contactParent', student)}
               >
                 <Text style={styles.dropdownIcon}>📞</Text>
                 <Text style={styles.dropdownText}>Contact Parent</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.dropdownItem}
                 onPress={() => handleDropdownAction('editProfile', student)}
               >
@@ -376,7 +412,12 @@ const StudentView = () => {
 
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: getAttendanceColor(student.attendance) }]}>
+            <Text
+              style={[
+                styles.statValue,
+                { color: getAttendanceColor(student.attendance) },
+              ]}
+            >
               {student.attendance}%
             </Text>
             <Text style={styles.statLabel}>Attendance</Text>
@@ -384,8 +425,18 @@ const StudentView = () => {
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
             <View style={styles.statusContainer}>
-              <View style={[styles.statusDot, { backgroundColor: getStatusColor(student.status) }]} />
-              <Text style={[styles.statusText, { color: getStatusColor(student.status) }]}>
+              <View
+                style={[
+                  styles.statusDot,
+                  { backgroundColor: getStatusColor(student.status) },
+                ]}
+              />
+              <Text
+                style={[
+                  styles.statusText,
+                  { color: getStatusColor(student.status) },
+                ]}
+              >
                 {student.status}
               </Text>
             </View>
@@ -410,7 +461,7 @@ const StudentView = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Student Directory</Text>
@@ -447,7 +498,7 @@ const StudentView = () => {
           {/* Class Dropdown */}
           <View style={styles.dropdownWrapper}>
             <Text style={styles.filterLabel}>Class:</Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.dropdownButton}
               onPress={() => {
                 setShowClassDropdown(!showClassDropdown);
@@ -455,27 +506,33 @@ const StudentView = () => {
               }}
             >
               <Text style={styles.dropdownButtonText}>{selectedClass}</Text>
-              <Text style={styles.dropdownArrow}>{showClassDropdown ? '▲' : '▼'}</Text>
+              <Text style={styles.dropdownArrow}>
+                {showClassDropdown ? '▲' : '▼'}
+              </Text>
             </TouchableOpacity>
-            
+
             {showClassDropdown && (
               <View style={styles.dropdownMenu}>
-                {classes.map((classItem) => (
+                {classes.map(classItem => (
                   <TouchableOpacity
                     key={classItem}
                     style={[
                       styles.dropdownMenuItem,
-                      selectedClass === classItem && styles.dropdownMenuItemActive
+                      selectedClass === classItem &&
+                        styles.dropdownMenuItemActive,
                     ]}
                     onPress={() => {
                       setSelectedClass(classItem);
                       setShowClassDropdown(false);
                     }}
                   >
-                    <Text style={[
-                      styles.dropdownMenuText,
-                      selectedClass === classItem && styles.dropdownMenuTextActive
-                    ]}>
+                    <Text
+                      style={[
+                        styles.dropdownMenuText,
+                        selectedClass === classItem &&
+                          styles.dropdownMenuTextActive,
+                      ]}
+                    >
                       {classItem}
                     </Text>
                     {selectedClass === classItem && (
@@ -490,7 +547,7 @@ const StudentView = () => {
           {/* Section Dropdown */}
           <View style={styles.dropdownWrapper}>
             <Text style={styles.filterLabel}>Section:</Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.dropdownButton}
               onPress={() => {
                 setShowSectionDropdown(!showSectionDropdown);
@@ -498,27 +555,33 @@ const StudentView = () => {
               }}
             >
               <Text style={styles.dropdownButtonText}>{selectedSection}</Text>
-              <Text style={styles.dropdownArrow}>{showSectionDropdown ? '▲' : '▼'}</Text>
+              <Text style={styles.dropdownArrow}>
+                {showSectionDropdown ? '▲' : '▼'}
+              </Text>
             </TouchableOpacity>
-            
+
             {showSectionDropdown && (
               <View style={styles.dropdownMenu}>
-                {sections.map((section) => (
+                {sections.map(section => (
                   <TouchableOpacity
                     key={section}
                     style={[
                       styles.dropdownMenuItem,
-                      selectedSection === section && styles.dropdownMenuItemActive
+                      selectedSection === section &&
+                        styles.dropdownMenuItemActive,
                     ]}
                     onPress={() => {
                       setSelectedSection(section);
                       setShowSectionDropdown(false);
                     }}
                   >
-                    <Text style={[
-                      styles.dropdownMenuText,
-                      selectedSection === section && styles.dropdownMenuTextActive
-                    ]}>
+                    <Text
+                      style={[
+                        styles.dropdownMenuText,
+                        selectedSection === section &&
+                          styles.dropdownMenuTextActive,
+                      ]}
+                    >
                       {section}
                     </Text>
                     {selectedSection === section && (
@@ -533,8 +596,8 @@ const StudentView = () => {
       </View>
 
       {/* Student List */}
-      <TouchableOpacity 
-        style={styles.overlay} 
+      <TouchableOpacity
+        style={styles.overlay}
         activeOpacity={1}
         onPress={() => {
           setActiveDropdown(null);
@@ -545,7 +608,7 @@ const StudentView = () => {
         <FlatList
           data={filteredStudents}
           renderItem={({ item }) => <StudentCard student={item} />}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={item => item.id.toString()}
           contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={styles.separator} />}

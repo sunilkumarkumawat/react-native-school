@@ -13,78 +13,205 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/authSlice';
 import { removeUser } from '../utils/storage';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
 const menuItems = [
   {
     id: 1,
     title: 'Dashboard',
-    icon: '📊',
+    icon: 'dashboard',
     screen: 'Dashboard',
     color: '#667eea',
     submenus: [],
   },
   {
     id: 2,
-    title: 'Products',
-    icon: '📦',
+    title: 'Fees Report',
+    icon: 'attach-money',
     color: '#f093fb',
     submenus: [
-      { id: 21, title: 'All Products', screen: 'Test', icon: '📋' },
-      { id: 22, title: 'Add Product', screen: 'AddProduct', icon: '➕' },
-      { id: 23, title: 'Categories', screen: 'Categories', icon: '🏷️' },
+      { id: 21, title: 'Fee Statment', screen: 'Test', icon: '📋' },
+      {
+        id: 22,
+        title: 'Current Balance Report',
+        screen: 'AddProduct',
+        icon: '➕',
+      },
+      {
+        id: 23,
+        title: 'Balance Fees Report',
+        screen: 'Categories',
+        icon: '🏷️',
+      },
+      { id: 24, title: 'Transaction Report', screen: 'Categories', icon: '🏷️' },
+      {
+        id: 25,
+        title: 'Daily Collection Report',
+        screen: 'Categories',
+        icon: '🏷️',
+      },
+      { id: 26, title: 'Fee Follow Up', screen: 'Categories', icon: '🏷️' },
     ],
   },
   {
     id: 3,
-    title: 'Orders',
-    icon: '🛒',
+    title: 'Students',
+    icon: 'people',
     color: '#4facfe',
     submenus: [
-      { id: 31, title: 'All Orders', screen: 'AllOrders', icon: '📜' },
-      { id: 32, title: 'Pending Orders', screen: 'PendingOrders', icon: '⏳' },
+      { id: 31, title: 'Students Profile', screen: 'StudentView', icon: '📜' },
+      {
+        id: 32,
+        title: 'Mark Students Attendance',
+        screen: 'PendingOrders',
+        icon: '⏳',
+      },
       {
         id: 33,
-        title: 'Completed Orders',
-        screen: 'CompletedOrders',
-        icon: '✅',
+        title: 'Students Attendance Report',
+        screen: 'StudentAttendence',
+        icon: '⏳',
       },
+      {
+        id: 34,
+        title: 'Students Leave Management',
+        screen: 'PendingOrders',
+        icon: '⏳',
+      },
+      { id: 35, title: 'Students PTM', screen: 'PendingOrders', icon: '⏳' },
     ],
   },
   {
     id: 4,
-    title: 'Customers',
-    icon: '👥',
+    title: 'Examination',
+    icon: 'schedule',
     color: '#43e97b',
     submenus: [
-      { id: 41, title: 'All Customers', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
-      { id: 42, title: 'Add Customer', screen: 'AddCustomer', icon: '👤' },
+      { id: 41, title: 'Exam Marks', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
+      { id: 42, title: 'Exam Schedule', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
+      { id: 43, title: 'Teacher Comment', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
+      {
+        id: 44,
+        title: 'Co-Curricular Grade',
+        screen: 'AllCustomers',
+        icon: '👨‍👩‍👧‍👦',
+      },
+      {
+        id: 45,
+        title: 'Primary Evaluation',
+        screen: 'AddCustomer',
+        icon: '👤',
+      },
     ],
   },
   {
     id: 5,
-    title: 'Analytics',
-    icon: '📈',
+    title: 'Disciplinary',
+    icon: 'grade',
     color: '#fa709a',
     submenus: [
-      { id: 51, title: 'Sales Analytics', screen: 'SalesReport', icon: '📊' },
       {
-        id: 52,
-        title: 'Customer Insights',
-        screen: 'CustomerReport',
-        icon: '🔍',
-      },
-      {
-        id: 53,
-        title: 'Product Performance',
-        screen: 'ProductReport',
-        icon: '📉',
+        id: 51,
+        title: 'Disciplinary Report',
+        screen: 'SalesReport',
+        icon: '📊',
       },
     ],
   },
   {
     id: 6,
+    title: 'Human Resource',
+    icon: 'grade',
+    color: '#fa709a',
+    submenus: [
+      { id: 61, title: 'Staff Directory', screen: 'SalesReport', icon: '📊' },
+      { id: 62, title: 'Recruitment', screen: 'SalesReport', icon: '📊' },
+      {
+        id: 63,
+        title: 'Staff Attendence Report',
+        screen: 'SalesReport',
+        icon: '📊',
+      },
+      {
+        id: 64,
+        title: 'Staff Monthly Attendence Report',
+        screen: 'SalesReport',
+        icon: '📊',
+      },
+      { id: 65, title: 'Apply Leave', screen: 'SalesReport', icon: '📊' },
+      {
+        id: 66,
+        title: 'Approve Leave Request',
+        screen: 'SalesReport',
+        icon: '📊',
+      },
+      { id: 67, title: 'Payroll', screen: 'SalesReport', icon: '📊' },
+      { id: 68, title: 'Task', screen: 'SalesReport', icon: '📊' },
+      { id: 69, title: 'Employee', screen: 'SalesReport', icon: '📊' },
+    ],
+  },
+  {
+    id: 7,
+    title: 'Academics',
+    icon: 'school',
+    color: '#fa709a',
+    submenus: [
+      { id: 71, title: 'Teacher Timetable', screen: 'SalesReport', icon: '📊' },
+      {
+        id: 72,
+        title: 'Daily Class Timetable',
+        screen: 'SalesReport',
+        icon: '📊',
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: 'Income / Expense',
+    icon: 'class',
+    color: '#fa709a',
+    submenus: [
+      { id: 81, title: 'Income', screen: 'SalesReport', icon: '📊' },
+      { id: 82, title: 'Expense', screen: 'SalesReport', icon: '📊' },
+    ],
+  },
+  {
+    id: 9,
+    title: 'Front Office',
+    icon: 'class',
+    color: '#fa709a',
+    submenus: [
+      { id: 91, title: 'Admission Enquiry', screen: 'SalesReport', icon: '📊' },
+      { id: 92, title: 'Visitor Book', screen: 'SalesReport', icon: '📊' },
+      { id: 93, title: 'Complain', screen: 'SalesReport', icon: '📊' },
+      { id: 94, title: 'Gate Pass', screen: 'SalesReport', icon: '📊' },
+    ],
+  },
+  {
+    id: 10,
+    title: 'Homework / Classwork',
+    icon: 'class',
+    color: '#fa709a',
+    submenus: [
+      { id: 101, title: 'Homework', screen: 'SalesReport', icon: '📊' },
+      { id: 102, title: 'Classwork', screen: 'SalesReport', icon: '📊' },
+      {
+        id: 103,
+        title: 'Homework Evaluation',
+        screen: 'SalesReport',
+        icon: '📊',
+      },
+      {
+        id: 104,
+        title: 'Classwork Evaluation',
+        screen: 'SalesReport',
+        icon: '📊',
+      },
+    ],
+  },
+  {
+    id: 11,
     title: 'Settings',
-    icon: '⚙️',
+    icon: 'settings',
     color: '#a8edea',
     screen: 'Settings',
     submenus: [],
@@ -136,7 +263,8 @@ const CustomDrawerContent = ({ navigation }) => {
   };
 
   const renderIcon = (item, size = 22) => (
-    <Text style={{ fontSize: size }}>{item.icon}</Text>
+    // <Text style={{ fontSize: size }}>{item.icon}</Text>
+    <Icon name={item.icon} size={22} color={'#6B7280'} />
   );
 
   return (
@@ -177,6 +305,7 @@ const CustomDrawerContent = ({ navigation }) => {
                 flexDirection: 'row',
                 padding: 15,
                 justifyContent: 'space-between',
+                alignItems: 'center',
               }}
               onPress={() =>
                 item.submenus.length
@@ -209,9 +338,7 @@ const CustomDrawerContent = ({ navigation }) => {
                     onPress={() => navigateToScreen(sub.screen)}
                     style={{ paddingLeft: 30, paddingVertical: 10 }}
                   >
-                    <Text>
-                      {sub.icon} {sub.title}
-                    </Text>
+                    <Text>{sub.title}</Text>
                   </TouchableOpacity>
                 ))}
               </Animated.View>

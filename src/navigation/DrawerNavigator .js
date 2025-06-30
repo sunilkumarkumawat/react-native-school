@@ -5,6 +5,8 @@ import { Dimensions, TouchableOpacity, Text, View } from 'react-native';
 import DashboardScreen from '../screens/DashboardScreen';
 import Test from '../Test/Test';
 import CustomDrawerContent from './CustomDrawerContent'; // ✅ Make sure this path is correct
+import StudentAttendence from '../screens/Student/StudentAttendence';
+import StudentView from '../screens/Student/StudentView';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -49,6 +51,8 @@ const DrawerNavigator = () => (
   >
     <Drawer.Screen name="Dashboard" component={DashboardScreen} />
     <Drawer.Screen name="Test" component={Test} />
+    <Drawer.Screen name="StudentAttendence" component={StudentAttendence} />
+    <Drawer.Screen name="StudentView" component={StudentView} />
   </Drawer.Navigator>
 );
 
