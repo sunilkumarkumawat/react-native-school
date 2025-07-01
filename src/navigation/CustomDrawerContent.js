@@ -223,7 +223,7 @@ const CustomDrawerContent = ({ navigation }) => {
   const { user } = useSelector(state => state.auth);
   const [expandedMenus, setExpandedMenus] = useState({});
   const [animatedValues] = useState({});
-
+  const [activeItemId, setActiveItemId] = useState(null);
   useEffect(() => {
     menuItems.forEach(item => {
       if (item.submenus?.length) {
@@ -262,26 +262,28 @@ const CustomDrawerContent = ({ navigation }) => {
     navigation.closeDrawer();
   };
 
-   const iconMap = {
-  house: require('../theme/asserts/icon/house.png'),
-  desk: require('../theme/asserts/icon/desk.png'),
-  disciplinary: require('../theme/asserts/icon/disciplinary.png'),
-  exam: require('../theme/asserts/icon/exam.png'),
-  graduate: require('../theme/asserts/icon/graduate.png'),
-  money: require('../theme/asserts/icon/money.png'),
-  receptionist: require('../theme/asserts/icon/receptionist.png'),
-  salary: require('../theme/asserts/icon/salary.png'),
-  students: require('../theme/asserts/icon/students.png'),
-  write: require('../theme/asserts/icon/write.png'),
-  settings: require('../theme/asserts/icon/settings.png'),
-  // add all icons here
-};
+  const iconMap = {
+    house: require('../theme/asserts/icon/house.png'),
+    desk: require('../theme/asserts/icon/desk.png'),
+    disciplinary: require('../theme/asserts/icon/disciplinary.png'),
+    exam: require('../theme/asserts/icon/exam.png'),
+    graduate: require('../theme/asserts/icon/graduate.png'),
+    money: require('../theme/asserts/icon/money.png'),
+    receptionist: require('../theme/asserts/icon/receptionist.png'),
+    salary: require('../theme/asserts/icon/salary.png'),
+    students: require('../theme/asserts/icon/students.png'),
+    write: require('../theme/asserts/icon/write.png'),
+    settings: require('../theme/asserts/icon/settings.png'),
+    // add all icons here
+  };
 
   const renderIcon = (item, size = 22) => (
     // <Text style={{ fontSize: size }}>{item.icon}</Text>
     // <Icon name={item.icon} size={22} color={'#6B7280'} />
     <Image
-      source={iconMap[item.icon] || require('../theme/asserts/icon/default.png')} // optional fallback icon
+      source={
+        iconMap[item.icon] || require('../theme/asserts/icon/default.png')
+      } // optional fallback icon
       style={{ width: 18, height: 18 }}
       resizeMode="contain"
     />
@@ -319,23 +321,39 @@ const CustomDrawerContent = ({ navigation }) => {
 
       <ScrollView style={{ flex: 1 }}>
         {menuItems.map(item => (
-          <View key={item.id}>
+          <View key={item.id} style={{paddingBottom:10,paddingTop:10}}>
             <TouchableOpacity
-              style={{
-                flexDirection: 'row',
-                padding: 15,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-              onPress={() =>
+              style={[
+                styles.moduleButton,
+                activeItemId === item.id && styles.moduleButtonActive,
+              ]}
+              onPress={() => {
+                setActiveItemId(item.id); // <-- Mark active
                 item.submenus.length
                   ? toggleSubmenu(item.id)
-                  : navigateToScreen(item.screen)
-              }
+                  : navigateToScreen(item.screen);
+              }}
+              activeOpacity={0.7}
             >
-              <Text>
-                {renderIcon(item)} {' '} {item.title}
+              <Image
+                source={
+                  iconMap[item.icon] ||
+                  require('../theme/asserts/icon/default.png')
+                } // optional fallback icon
+                style={{ width: 18, height: 18 }}
+                resizeMode="contain"
+              />
+              <Text
+                style={[
+                  styles.moduleButtonText,
+                  activeItemId === item.id && { color: module.color },
+                ]}
+              >
+                {item.title}
               </Text>
+              {/* <Text>
+                {renderIcon(item)} {' '} {item.title}
+              </Text> */}
               {item.submenus.length > 0 && (
                 <Text>{expandedMenus[item.id] ? '▲' : '▼'}</Text>
               )}
@@ -595,6 +613,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.1)',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  moduleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    marginHorizontal: 12,
+    borderRadius: 12,
+    marginBottom: 4,
+  },
+  moduleButtonActive: {
+    backgroundColor: '#F3F4F6',
+    borderLeftWidth: 3,
+    borderLeftColor: '#3B82F6',
+  },
+  moduleButtonText: {
+    marginLeft: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#6B7280',
   },
 });
 
