@@ -18,7 +18,7 @@ const menuItems = [
   {
     id: 1,
     title: 'Dashboard',
-    icon: 'dashboard',
+    icon: 'house',
     screen: 'Dashboard',
     color: '#667eea',
     submenus: [],
@@ -26,7 +26,7 @@ const menuItems = [
   {
     id: 2,
     title: 'Fees Report',
-    icon: 'attach-money',
+    icon: 'money',
     color: '#f093fb',
     submenus: [
       { id: 21, title: 'Fee Statment', screen: 'Test', icon: '📋' },
@@ -55,7 +55,7 @@ const menuItems = [
   {
     id: 3,
     title: 'Students',
-    icon: 'people',
+    icon: 'students',
     color: '#4facfe',
     submenus: [
       { id: 31, title: 'Students Profile', screen: 'StudentView', icon: '📜' },
@@ -83,7 +83,7 @@ const menuItems = [
   {
     id: 4,
     title: 'Examination',
-    icon: 'schedule',
+    icon: 'exam',
     color: '#43e97b',
     submenus: [
       { id: 41, title: 'Exam Marks', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
@@ -106,7 +106,7 @@ const menuItems = [
   {
     id: 5,
     title: 'Disciplinary',
-    icon: 'grade',
+    icon: 'disciplinary',
     color: '#fa709a',
     submenus: [
       {
@@ -120,7 +120,7 @@ const menuItems = [
   {
     id: 6,
     title: 'Human Resource',
-    icon: 'grade',
+    icon: 'desk',
     color: '#fa709a',
     submenus: [
       { id: 61, title: 'Staff Directory', screen: 'SalesReport', icon: '📊' },
@@ -152,7 +152,7 @@ const menuItems = [
   {
     id: 7,
     title: 'Academics',
-    icon: 'school',
+    icon: 'graduate',
     color: '#fa709a',
     submenus: [
       { id: 71, title: 'Teacher Timetable', screen: 'SalesReport', icon: '📊' },
@@ -167,7 +167,7 @@ const menuItems = [
   {
     id: 8,
     title: 'Income / Expense',
-    icon: 'class',
+    icon: 'salary',
     color: '#fa709a',
     submenus: [
       { id: 81, title: 'Income', screen: 'SalesReport', icon: '📊' },
@@ -177,7 +177,7 @@ const menuItems = [
   {
     id: 9,
     title: 'Front Office',
-    icon: 'class',
+    icon: 'receptionist',
     color: '#fa709a',
     submenus: [
       { id: 91, title: 'Admission Enquiry', screen: 'SalesReport', icon: '📊' },
@@ -189,7 +189,7 @@ const menuItems = [
   {
     id: 10,
     title: 'Homework / Classwork',
-    icon: 'class',
+    icon: 'write',
     color: '#fa709a',
     submenus: [
       { id: 101, title: 'Homework', screen: 'SalesReport', icon: '📊' },
@@ -262,9 +262,29 @@ const CustomDrawerContent = ({ navigation }) => {
     navigation.closeDrawer();
   };
 
+   const iconMap = {
+  house: require('../theme/asserts/icon/house.png'),
+  desk: require('../theme/asserts/icon/desk.png'),
+  disciplinary: require('../theme/asserts/icon/disciplinary.png'),
+  exam: require('../theme/asserts/icon/exam.png'),
+  graduate: require('../theme/asserts/icon/graduate.png'),
+  money: require('../theme/asserts/icon/money.png'),
+  receptionist: require('../theme/asserts/icon/receptionist.png'),
+  salary: require('../theme/asserts/icon/salary.png'),
+  students: require('../theme/asserts/icon/students.png'),
+  write: require('../theme/asserts/icon/write.png'),
+  settings: require('../theme/asserts/icon/settings.png'),
+  // add all icons here
+};
+
   const renderIcon = (item, size = 22) => (
     // <Text style={{ fontSize: size }}>{item.icon}</Text>
-    <Icon name={item.icon} size={22} color={'#6B7280'} />
+    // <Icon name={item.icon} size={22} color={'#6B7280'} />
+    <Image
+      source={iconMap[item.icon] || require('../theme/asserts/icon/default.png')} // optional fallback icon
+      style={{ width: 18, height: 18 }}
+      resizeMode="contain"
+    />
   );
 
   return (
@@ -314,7 +334,7 @@ const CustomDrawerContent = ({ navigation }) => {
               }
             >
               <Text>
-                {renderIcon(item)} {item.title}
+                {renderIcon(item)} {' '} {item.title}
               </Text>
               {item.submenus.length > 0 && (
                 <Text>{expandedMenus[item.id] ? '▲' : '▼'}</Text>
