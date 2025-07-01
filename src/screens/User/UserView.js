@@ -11,6 +11,7 @@ import {
   TextInput,
   FlatList,
   Platform,
+  Modal,
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -20,6 +21,7 @@ const UserView = () => {
   const [selectedRole, setSelectedRole] = useState('All');
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 });
 
   // Sample user data
   const users = [
@@ -121,31 +123,38 @@ const UserView = () => {
     
     switch (action) {
       case 'downloadId':
-        // Simulate ID card download
         console.log(`Downloading ID card for ${user.name}`);
         break;
       case 'downloadPayslip':
-        // Simulate payslip download
         console.log(`Downloading payslip for ${user.name}`);
         break;
       case 'downloadCertificate':
-        // Simulate certificate download
         console.log(`Downloading certificate for ${user.name}`);
         break;
       case 'viewSchedule':
-        // Navigate to schedule view
         console.log(`Viewing schedule for ${user.name}`);
         break;
       case 'attendanceReport':
-        // Navigate to attendance report
         console.log(`Viewing attendance report for ${user.name}`);
         break;
       case 'editProfile':
-        // Navigate to edit profile
         console.log(`Editing profile for ${user.name}`);
         break;
       default:
         break;
+    }
+  };
+
+  const handleMorePress = (userId, event) => {
+    if (activeDropdown === userId) {
+      setActiveDropdown(null);
+    } else {
+      // Close any existing dropdown first
+      setActiveDropdown(null);
+      // Small delay to ensure smooth animation
+      setTimeout(() => {
+        setActiveDropdown(userId);
+      }, 50);
     }
   };
 
@@ -177,68 +186,13 @@ const UserView = () => {
           <Text style={styles.userRole}>{user.role}</Text>
           <Text style={styles.userEmail}>{user.email}</Text>
         </View>
-        <View style={styles.dropdownContainer}>
-          <TouchableOpacity 
-            style={styles.moreButton}
-            onPress={() => setActiveDropdown(activeDropdown === user.id ? null : user.id)}
-          >
-            <Text style={styles.moreText}>⋯</Text>
-          </TouchableOpacity>
-          
-          {activeDropdown === user.id && (
-            <View style={styles.dropdown}>
-              <TouchableOpacity 
-                style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('downloadId', user)}
-              >
-                <Text style={styles.dropdownIcon}>🆔</Text>
-                <Text style={styles.dropdownText}>Download ID Card</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('downloadPayslip', user)}
-              >
-                <Text style={styles.dropdownIcon}>💰</Text>
-                <Text style={styles.dropdownText}>Download Payslip</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('downloadCertificate', user)}
-              >
-                <Text style={styles.dropdownIcon}>📜</Text>
-                <Text style={styles.dropdownText}>Download Certificate</Text>
-              </TouchableOpacity>
-              
-              <View style={styles.dropdownDivider} />
-              
-              <TouchableOpacity 
-                style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('viewSchedule', user)}
-              >
-                <Text style={styles.dropdownIcon}>📅</Text>
-                <Text style={styles.dropdownText}>View Schedule</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('attendanceReport', user)}
-              >
-                <Text style={styles.dropdownIcon}>📊</Text>
-                <Text style={styles.dropdownText}>Attendance Report</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.dropdownItem}
-                onPress={() => handleDropdownAction('editProfile', user)}
-              >
-                <Text style={styles.dropdownIcon}>✏️</Text>
-                <Text style={styles.dropdownText}>Edit Profile</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
+        <TouchableOpacity 
+          style={styles.moreButton}
+          onPress={(event) => handleMorePress(user.id, event)}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.moreText}>⋯</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.cardBody}>
@@ -279,6 +233,80 @@ const UserView = () => {
       </View>
     </View>
   );
+
+  const DropdownMenu = () => {
+    if (!activeDropdown) return null;
+
+    const user = users.find(u => u.id === activeDropdown);
+    if (!user) return null;
+
+    return (
+      <Modal
+        visible={true}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setActiveDropdown(null)}
+      >
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setActiveDropdown(null)}
+        >
+          <View style={styles.dropdown}>
+            <TouchableOpacity 
+              style={styles.dropdownItem}
+              onPress={() => handleDropdownAction('downloadId', user)}
+            >
+              <Text style={styles.dropdownIcon}>🆔</Text>
+              <Text style={styles.dropdownText}>Download ID Card</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.dropdownItem}
+              onPress={() => handleDropdownAction('downloadPayslip', user)}
+            >
+              <Text style={styles.dropdownIcon}>💰</Text>
+              <Text style={styles.dropdownText}>Download Payslip</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.dropdownItem}
+              onPress={() => handleDropdownAction('downloadCertificate', user)}
+            >
+              <Text style={styles.dropdownIcon}>📜</Text>
+              <Text style={styles.dropdownText}>Download Certificate</Text>
+            </TouchableOpacity>
+            
+            <View style={styles.dropdownDivider} />
+            
+            <TouchableOpacity 
+              style={styles.dropdownItem}
+              onPress={() => handleDropdownAction('viewSchedule', user)}
+            >
+              <Text style={styles.dropdownIcon}>📅</Text>
+              <Text style={styles.dropdownText}>View Schedule</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.dropdownItem}
+              onPress={() => handleDropdownAction('attendanceReport', user)}
+            >
+              <Text style={styles.dropdownIcon}>📊</Text>
+              <Text style={styles.dropdownText}>Attendance Report</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.dropdownItem}
+              onPress={() => handleDropdownAction('editProfile', user)}
+            >
+              <Text style={styles.dropdownIcon}>✏️</Text>
+              <Text style={styles.dropdownText}>Edit Profile</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -345,28 +373,25 @@ const UserView = () => {
       </View>
 
       {/* User List */}
-      <TouchableOpacity 
-        style={styles.overlay} 
-        activeOpacity={1}
-        onPress={() => setActiveDropdown(null)}
-      >
-        <FlatList
-          data={filteredUsers}
-          renderItem={({ item }) => <UserCard user={item} />}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.listContainer}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-          ListEmptyComponent={() => (
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>No users found</Text>
-              <Text style={styles.emptySubtext}>
-                Try adjusting your search or filter criteria
-              </Text>
-            </View>
-          )}
-        />
-      </TouchableOpacity>
+      <FlatList
+        data={filteredUsers}
+        renderItem={({ item }) => <UserCard user={item} />}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        onScrollBeginDrag={() => setActiveDropdown(null)}
+        ListEmptyComponent={() => (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No users found</Text>
+            <Text style={styles.emptySubtext}>
+              Try adjusting your search or filter criteria
+            </Text>
+          </View>
+        )}
+      />
+
+      <DropdownMenu />
     </View>
   );
 };
@@ -555,23 +580,24 @@ const styles = StyleSheet.create({
     color: '#6b7280',
   },
   moreButton: {
-    padding: 4,
-    position: 'relative',
+    padding: 8,
+    borderRadius: 8,
   },
   moreText: {
     fontSize: 20,
     color: '#9ca3af',
   },
-  dropdownContainer: {
-    position: 'relative',
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dropdown: {
-    position: 'absolute',
-    top: 30,
-    right: 0,
     backgroundColor: '#ffffff',
     borderRadius: 12,
     minWidth: 200,
+    maxWidth: 280,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -583,7 +609,6 @@ const styles = StyleSheet.create({
         elevation: 8,
       },
     }),
-    zIndex: 1000,
   },
   dropdownItem: {
     flexDirection: 'row',
@@ -605,9 +630,6 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#f3f4f6',
     marginVertical: 4,
-  },
-  overlay: {
-    flex: 1,
   },
   cardBody: {
     marginBottom: 16,

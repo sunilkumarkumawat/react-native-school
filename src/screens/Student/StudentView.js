@@ -11,6 +11,7 @@ import {
   TextInput,
   FlatList,
   Platform,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -265,6 +266,12 @@ const StudentView = () => {
     }
   };
 
+  const closeAllDropdowns = () => {
+    setActiveDropdown(null);
+    setShowClassDropdown(false);
+    setShowSectionDropdown(false);
+  };
+
   const getAttendanceColor = attendance => {
     if (attendance >= 95) return '#10b981';
     if (attendance >= 90) return '#f59e0b';
@@ -462,6 +469,13 @@ const StudentView = () => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
+      {/* Backdrop overlay for closing dropdowns */}
+      {(activeDropdown || showClassDropdown || showSectionDropdown) && (
+        <TouchableWithoutFeedback onPress={closeAllDropdowns}>
+          <View style={styles.backdrop} />
+        </TouchableWithoutFeedback>
+      )}
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Student Directory</Text>
@@ -503,6 +517,7 @@ const StudentView = () => {
               onPress={() => {
                 setShowClassDropdown(!showClassDropdown);
                 setShowSectionDropdown(false);
+                setActiveDropdown(null);
               }}
             >
               <Text style={styles.dropdownButtonText}>{selectedClass}</Text>
@@ -552,6 +567,7 @@ const StudentView = () => {
               onPress={() => {
                 setShowSectionDropdown(!showSectionDropdown);
                 setShowClassDropdown(false);
+                setActiveDropdown(null);
               }}
             >
               <Text style={styles.dropdownButtonText}>{selectedSection}</Text>
@@ -596,32 +612,32 @@ const StudentView = () => {
       </View>
 
       {/* Student List */}
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={() => {
-          setActiveDropdown(null);
-          setShowClassDropdown(false);
-          setShowSectionDropdown(false);
-        }}
-      >
-        <FlatList
-          data={filteredStudents}
-          renderItem={({ item }) => <StudentCard student={item} />}
-          keyExtractor={item => item.id.toString()}
-          contentContainerStyle={styles.listContainer}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-          ListEmptyComponent={() => (
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>No students found</Text>
-              <Text style={styles.emptySubtext}>
-                Try adjusting your search or filter criteria
-              </Text>
-            </View>
-          )}
-        />
-      </TouchableOpacity>
+      <FlatList
+        data={filteredStudents}
+        renderItem={({ item }) => <StudentCard student={item} />}
+        keyExtractor={item => item.id.toString()}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListEmptyComponent={() => (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No students found</Text>
+            <Text style={styles.emptySubtext}>
+              Try adjusting your search or filter criteria
+            </Text>
+          </View>
+        )}
+        keyboardShouldPersistTaps="handled"
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        initialNumToRender={8}
+        getItemLayout={(data, index) => ({
+          length: 250, // Approximate height of each card
+          offset: 250 * index,
+          index,
+        })}
+      />
     </View>
   );
 };

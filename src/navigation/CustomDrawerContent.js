@@ -13,7 +13,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/authSlice';
 import { removeUser } from '../utils/storage';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
 const menuItems = [
   {
     id: 1,
@@ -34,7 +34,7 @@ const menuItems = [
         id: 22,
         title: 'Current Balance Report',
         screen: 'AddProduct',
-        icon: '➕',
+        
       },
       {
         id: 23,
@@ -86,20 +86,20 @@ const menuItems = [
     icon: 'exam',
     color: '#43e97b',
     submenus: [
-      { id: 41, title: 'Exam Marks', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
-      { id: 42, title: 'Exam Schedule', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
-      { id: 43, title: 'Teacher Comment', screen: 'AllCustomers', icon: '👨‍👩‍👧‍👦' },
+      { id: 41, title: 'Exam Marks', screen: 'AllCustomers',  },
+      { id: 42, title: 'Exam Schedule', screen: 'ExamSchedule',  },
+      { id: 43, title: 'Teacher Comment', screen: 'AllCustomers',  },
       {
         id: 44,
         title: 'Co-Curricular Grade',
         screen: 'AllCustomers',
-        icon: '👨‍👩‍👧‍👦',
+        
       },
       {
         id: 45,
         title: 'Primary Evaluation',
         screen: 'AddCustomer',
-        icon: '👤',
+        
       },
     ],
   },
@@ -113,7 +113,7 @@ const menuItems = [
         id: 51,
         title: 'Disciplinary Report',
         screen: 'SalesReport',
-        icon: '📊',
+        
       },
     ],
   },
@@ -123,30 +123,30 @@ const menuItems = [
     icon: 'desk',
     color: '#fa709a',
     submenus: [
-      { id: 61, title: 'Staff Directory', screen: 'SalesReport', icon: '📊' },
-      { id: 62, title: 'Recruitment', screen: 'SalesReport', icon: '📊' },
+      { id: 61, title: 'Staff Directory', screen: 'SalesReport',  },
+      { id: 62, title: 'Recruitment', screen: 'SalesReport',  },
       {
         id: 63,
         title: 'Staff Attendence Report',
         screen: 'SalesReport',
-        icon: '📊',
+        
       },
       {
         id: 64,
         title: 'Staff Monthly Attendence Report',
         screen: 'SalesReport',
-        icon: '📊',
+        
       },
-      { id: 65, title: 'Apply Leave', screen: 'SalesReport', icon: '📊' },
+      { id: 65, title: 'Apply Leave', screen: 'SalesReport', },
       {
         id: 66,
         title: 'Approve Leave Request',
         screen: 'SalesReport',
-        icon: '📊',
+        
       },
-      { id: 67, title: 'Payroll', screen: 'SalesReport', icon: '📊' },
-      { id: 68, title: 'Task', screen: 'SalesReport', icon: '📊' },
-      { id: 69, title: 'Employee', screen: 'SalesReport', icon: '📊' },
+      { id: 67, title: 'Payroll', screen: 'SalesReport',  },
+      { id: 68, title: 'Task', screen: 'SalesReport', },
+      { id: 69, title: 'Employee', screen: 'SalesReport',  },
     ],
   },
   {
@@ -155,12 +155,12 @@ const menuItems = [
     icon: 'graduate',
     color: '#fa709a',
     submenus: [
-      { id: 71, title: 'Teacher Timetable', screen: 'SalesReport', icon: '📊' },
+      { id: 71, title: 'Teacher Timetable', screen: 'SalesReport',  },
       {
         id: 72,
         title: 'Daily Class Timetable',
         screen: 'SalesReport',
-        icon: '📊',
+        
       },
     ],
   },
@@ -170,8 +170,8 @@ const menuItems = [
     icon: 'salary',
     color: '#fa709a',
     submenus: [
-      { id: 81, title: 'Income', screen: 'SalesReport', icon: '📊' },
-      { id: 82, title: 'Expense', screen: 'SalesReport', icon: '📊' },
+      { id: 81, title: 'Income', screen: 'SalesReport',  },
+      { id: 82, title: 'Expense', screen: 'SalesReport', },
     ],
   },
   {
@@ -180,10 +180,10 @@ const menuItems = [
     icon: 'receptionist',
     color: '#fa709a',
     submenus: [
-      { id: 91, title: 'Admission Enquiry', screen: 'SalesReport', icon: '📊' },
-      { id: 92, title: 'Visitor Book', screen: 'SalesReport', icon: '📊' },
-      { id: 93, title: 'Complain', screen: 'SalesReport', icon: '📊' },
-      { id: 94, title: 'Gate Pass', screen: 'SalesReport', icon: '📊' },
+      { id: 91, title: 'Admission Enquiry', screen: 'SalesReport',  },
+      { id: 92, title: 'Visitor Book', screen: 'SalesReport',  },
+      { id: 93, title: 'Complain', screen: 'SalesReport',  },
+      { id: 94, title: 'Gate Pass', screen: 'SalesReport',  },
     ],
   },
   {
@@ -192,24 +192,33 @@ const menuItems = [
     icon: 'write',
     color: '#fa709a',
     submenus: [
-      { id: 101, title: 'Homework', screen: 'SalesReport', icon: '📊' },
-      { id: 102, title: 'Classwork', screen: 'SalesReport', icon: '📊' },
+      { id: 101, title: 'Homework', screen: 'SalesReport',  },
+      { id: 102, title: 'Classwork', screen: 'SalesReport',  },
       {
         id: 103,
         title: 'Homework Evaluation',
         screen: 'SalesReport',
-        icon: '📊',
+        
       },
       {
         id: 104,
         title: 'Classwork Evaluation',
         screen: 'SalesReport',
-        icon: '📊',
+        
       },
     ],
   },
   {
     id: 11,
+    title: 'User',
+    icon: 'write',
+    color: '#fa709a',
+    submenus: [
+      { id: 101, title: 'User Profile', screen: 'UserView',  },
+    ],
+  },
+  {
+    id: 12,
     title: 'Settings',
     icon: 'settings',
     color: '#a8edea',

@@ -19,7 +19,7 @@ const Footer = () => {
       icon: 'clipboard-text-outline',
       screen: 'NoticeBoard',
     },
-    { label: 'Menu', icon: 'menu', screen: 'Menu' },
+    { label: 'Profile View', icon: 'account', screen: 'ProfileView' },
   ];
   return (
     <View style={[styles.footer, { paddingBottom: insets.bottom }]}>

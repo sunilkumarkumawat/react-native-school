@@ -1,5 +1,5 @@
 "use client"
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState, useEffect } from "react"
 import {
   View,
@@ -32,7 +32,7 @@ const ExamSchedule = () => {
   const classes = ["9th", "10th", "11th", "12th"]
   const sections = ["A", "B", "C", "D"]
 
-  // Sample exam schedule data
+  // Sample exam schedule data with additional marks fields
   const examScheduleData = {
     "First Term-Unit Test 1-10th-A": [
       {
@@ -45,6 +45,9 @@ const ExamSchedule = () => {
         room: "Room 101",
         invigilator: "Mr. Sharma",
         maxMarks: 100,
+        // fullMarks: 100,
+        passingMarks: 35,
+        weightMarks: 20,
         instructions: "Bring calculator and geometry box",
       },
       {
@@ -57,6 +60,9 @@ const ExamSchedule = () => {
         room: "Room 102",
         invigilator: "Ms. Patel",
         maxMarks: 100,
+        fullMarks: 100,
+        passingMarks: 35,
+        weightMarks: 20,
         instructions: "Practical exam will be conducted separately",
       },
       {
@@ -69,6 +75,9 @@ const ExamSchedule = () => {
         room: "Room 103",
         invigilator: "Mrs. Singh",
         maxMarks: 100,
+        fullMarks: 100,
+        passingMarks: 35,
+        weightMarks: 20,
         instructions: "Dictionary not allowed",
       },
       {
@@ -81,18 +90,24 @@ const ExamSchedule = () => {
         room: "Room 104",
         invigilator: "Mr. Kumar",
         maxMarks: 100,
+        fullMarks: 100,
+        passingMarks: 35,
+        weightMarks: 20,
         instructions: "Write in blue or black pen only",
       },
       {
         id: 5,
         date: "2024-02-19",
         day: "Friday",
-        time: "09:00 AM - 12:00 PM",
+        time: "09:00 AM - 12:00 PM " ,
         subject: "Social Studies",
         duration: "3 Hours",
         room: "Room 105",
         invigilator: "Ms. Gupta",
         maxMarks: 100,
+        fullMarks: 100,
+        passingMarks: 35,
+        weightMarks: 20,
         instructions: "Maps and atlas will be provided",
       },
     ],
@@ -154,14 +169,14 @@ const ExamSchedule = () => {
       <View style={styles.examDetails}>
         <View style={styles.detailRow}>
           <View style={styles.detailItem}>
-            <Text style={styles.detailIcon}>🕒</Text>
+            <Icon name="clock-time-three-outline" size={24}  />
             <View>
               <Text style={styles.detailLabel}>Time</Text>
               <Text style={styles.detailValue}>{exam.time}</Text>
             </View>
           </View>
           <View style={styles.detailItem}>
-            <Text style={styles.detailIcon}>⏱️</Text>
+            <Icon name="timer-outline" size={24}  />
             <View>
               <Text style={styles.detailLabel}>Duration</Text>
               <Text style={styles.detailValue}>{exam.duration}</Text>
@@ -171,14 +186,14 @@ const ExamSchedule = () => {
 
         <View style={styles.detailRow}>
           <View style={styles.detailItem}>
-            <Text style={styles.detailIcon}>🏫</Text>
+             <Icon name="sofa-single-outline" size={24}  />
             <View>
               <Text style={styles.detailLabel}>Room</Text>
               <Text style={styles.detailValue}>{exam.room}</Text>
             </View>
           </View>
           <View style={styles.detailItem}>
-            <Text style={styles.detailIcon}>👨‍🏫</Text>
+           <Icon name="account" size={24}  />
             <View>
               <Text style={styles.detailLabel}>Invigilator</Text>
               <Text style={styles.detailValue}>{exam.invigilator}</Text>
@@ -186,12 +201,25 @@ const ExamSchedule = () => {
           </View>
         </View>
 
-        <View style={styles.detailRow}>
-          <View style={styles.detailItem}>
-            <Text style={styles.detailIcon}>📊</Text>
-            <View>
-              <Text style={styles.detailLabel}>Max Marks</Text>
-              <Text style={styles.detailValue}>{exam.maxMarks}</Text>
+        {/* Marks Information Section */}
+        <View style={styles.marksSection}>
+          <Text style={styles.marksSectionTitle}>📊 Marks Information</Text>
+          <View style={styles.marksGrid}>
+            {/* <View style={styles.marksCard}>
+              <Text style={styles.marksLabel}>Full Marks</Text>
+              <Text style={styles.marksValue}>{exam.fullMarks}</Text>
+            </View> */}
+            <View style={styles.marksCard}>
+              <Text style={styles.marksLabel}>Max Marks</Text>
+              <Text style={styles.marksValue}>{exam.maxMarks}</Text>
+            </View>
+            <View style={styles.marksCard}>
+              <Text style={styles.marksLabel}>Passing Marks</Text>
+              <Text style={styles.marksValue}>{exam.passingMarks}</Text>
+            </View>
+            <View style={styles.marksCard}>
+              <Text style={styles.marksLabel}>Weight Marks</Text>
+              <Text style={styles.marksValue}>{exam.weightMarks}</Text>
             </View>
           </View>
         </View>
@@ -324,7 +352,7 @@ const ExamSchedule = () => {
         </View>
 
         {/* Selection Summary */}
-        {(selectedTerm || selectedExam || selectedClass || selectedSection) && (
+        {/* {(selectedTerm || selectedExam || selectedClass || selectedSection) && (
           <View style={styles.selectionSummary}>
             <Text style={styles.summaryTitle}>Selected Filters:</Text>
             <View style={styles.summaryTags}>
@@ -350,7 +378,7 @@ const ExamSchedule = () => {
               )}
             </View>
           </View>
-        )}
+        )} */}
 
         {/* Exam Schedule */}
         <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={closeAllDropdowns}>
@@ -788,11 +816,70 @@ const styles = StyleSheet.create({
     color: "#6b7280",
     fontWeight: "500",
     textTransform: "uppercase",
+    
+    
   },
   detailValue: {
     fontSize: 14,
     color: "#374151",
     fontWeight: "600",
+  },
+  // New styles for marks section
+  marksSection: {
+    backgroundColor: "#f8fafc",
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+  },
+  marksSectionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1e293b",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  marksGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 8,
+  },
+  marksCard: {
+    backgroundColor: "#ffffff",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    minWidth: "22%",
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 1,
+      },
+    }),
+  },
+  marksLabel: {
+    fontSize: 11,
+    color: "#64748b",
+    fontWeight: "500",
+    textAlign: "center",
+    marginBottom: 4,
+    textTransform: "uppercase",
+  },
+  marksValue: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1e293b",
+    textAlign: "center",
   },
   instructionsSection: {
     backgroundColor: "#f9fafb",

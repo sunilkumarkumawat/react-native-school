@@ -7,6 +7,10 @@ import Test from '../Test/Test';
 import CustomDrawerContent from './CustomDrawerContent'; // ✅ Make sure this path is correct
 import StudentAttendence from '../screens/Student/StudentAttendence';
 import StudentView from '../screens/Student/StudentView';
+import ExamSchedule from '../screens/Exam/ExamSchedule';
+import UserView from '../screens/User/UserView';
+import NoticeBoard from '../screens/Communicate/NoticeBoard';
+import ProfileView from '../screens/Profile/ProfileView';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -53,6 +57,10 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="Test" component={Test} />
     <Drawer.Screen name="StudentAttendence" component={StudentAttendence} />
     <Drawer.Screen name="StudentView" component={StudentView} />
+    <Drawer.Screen name="UserView" component={UserView} />
+    <Drawer.Screen name="ExamSchedule" component={ExamSchedule} />
+    <Drawer.Screen name="NoticeBoard" component={NoticeBoard} />
+    <Drawer.Screen name="ProfileView" component={ProfileView} />
   </Drawer.Navigator>
 );
 

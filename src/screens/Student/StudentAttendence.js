@@ -19,7 +19,7 @@ import {
 
 const { width } = Dimensions.get("window")
 
-const StudentAttendence = () => {
+const StudentAttendance = () => {
   const [searchKeyword, setSearchKeyword] = useState("")
   const [selectedClass, setSelectedClass] = useState("All")
   const [selectedSection, setSelectedSection] = useState("All")
@@ -206,7 +206,6 @@ const StudentAttendence = () => {
       {
         text: "Save",
         onPress: () => {
-          // Here you would typically save to your backend
           Alert.alert("Success", "Attendance saved successfully!")
         },
       },
@@ -260,6 +259,11 @@ const StudentAttendence = () => {
   const showStudentReport = (student) => {
     setSelectedStudentReport(student)
     setReportModalVisible(true)
+  }
+
+  const closeDropdowns = () => {
+    setShowClassDropdown(false)
+    setShowSectionDropdown(false)
   }
 
   const AttendanceCard = ({ student }) => (
@@ -316,9 +320,8 @@ const StudentAttendence = () => {
               <Text style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
           </View>
-
           {selectedStudentReport && (
-            <ScrollView style={styles.modalBody}>
+            <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
               <View style={styles.reportStudentInfo}>
                 <Image source={{ uri: selectedStudentReport.avatar }} style={styles.reportAvatar} />
                 <View>
@@ -366,7 +369,7 @@ const StudentAttendence = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-
+      
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Attendance Report</Text>
@@ -375,142 +378,146 @@ const StudentAttendence = () => {
         </Text>
       </View>
 
-      {/* Date Selector */}
-      <View style={styles.dateContainer}>
-        <Text style={styles.dateLabel}>Select Date:</Text>
-        <TouchableOpacity style={styles.dateButton}>
-          <Text style={styles.dateButtonText}>{selectedDate}</Text>
-          <Text style={styles.dateArrow}>📅</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Search and Filters */}
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInputContainer}>
-          <Text style={styles.searchIcon}>🔍</Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search students..."
-            value={searchKeyword}
-            onChangeText={setSearchKeyword}
-            placeholderTextColor="#9ca3af"
-          />
-          {searchKeyword.length > 0 && (
-            <TouchableOpacity onPress={() => setSearchKeyword("")} style={styles.clearButton}>
-              <Text style={styles.clearButtonText}>✕</Text>
-            </TouchableOpacity>
-          )}
+      {/* Main Content - Single ScrollView */}
+      <ScrollView 
+        style={styles.mainScrollView}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        onScrollBeginDrag={closeDropdowns}
+      >
+        {/* Date Selector */}
+        <View style={styles.dateContainer}>
+          <Text style={styles.dateLabel}>Select Date:</Text>
+          <TouchableOpacity style={styles.dateButton}>
+            <Text style={styles.dateButtonText}>{selectedDate}</Text>
+            <Text style={styles.dateArrow}>📅</Text>
+          </TouchableOpacity>
         </View>
-      </View>
 
-      {/* Class and Section Filters */}
-      <View style={styles.filtersContainer}>
-        <View style={styles.dropdownRow}>
-          <View style={styles.dropdownWrapper}>
-            <Text style={styles.filterLabel}>Class:</Text>
-            <TouchableOpacity
-              style={styles.dropdownButton}
-              onPress={() => {
-                setShowClassDropdown(!showClassDropdown)
-                setShowSectionDropdown(false)
-              }}
-            >
-              <Text style={styles.dropdownButtonText}>{selectedClass}</Text>
-              <Text style={styles.dropdownArrow}>{showClassDropdown ? "▲" : "▼"}</Text>
-            </TouchableOpacity>
-
-            {showClassDropdown && (
-              <View style={styles.dropdownMenu}>
-                {classes.map((classItem) => (
-                  <TouchableOpacity
-                    key={classItem}
-                    style={[styles.dropdownMenuItem, selectedClass === classItem && styles.dropdownMenuItemActive]}
-                    onPress={() => {
-                      setSelectedClass(classItem)
-                      setShowClassDropdown(false)
-                    }}
-                  >
-                    <Text
-                      style={[styles.dropdownMenuText, selectedClass === classItem && styles.dropdownMenuTextActive]}
-                    >
-                      {classItem}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </View>
-
-          <View style={styles.dropdownWrapper}>
-            <Text style={styles.filterLabel}>Section:</Text>
-            <TouchableOpacity
-              style={styles.dropdownButton}
-              onPress={() => {
-                setShowSectionDropdown(!showSectionDropdown)
-                setShowClassDropdown(false)
-              }}
-            >
-              <Text style={styles.dropdownButtonText}>{selectedSection}</Text>
-              <Text style={styles.dropdownArrow}>{showSectionDropdown ? "▲" : "▼"}</Text>
-            </TouchableOpacity>
-
-            {showSectionDropdown && (
-              <View style={styles.dropdownMenu}>
-                {sections.map((section) => (
-                  <TouchableOpacity
-                    key={section}
-                    style={[styles.dropdownMenuItem, selectedSection === section && styles.dropdownMenuItemActive]}
-                    onPress={() => {
-                      setSelectedSection(section)
-                      setShowSectionDropdown(false)
-                    }}
-                  >
-                    <Text
-                      style={[styles.dropdownMenuText, selectedSection === section && styles.dropdownMenuTextActive]}
-                    >
-                      {section}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+        {/* Search and Filters */}
+        <View style={styles.searchContainer}>
+          <View style={styles.searchInputContainer}>
+            <Text style={styles.searchIcon}>🔍</Text>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search students..."
+              value={searchKeyword}
+              onChangeText={setSearchKeyword}
+              placeholderTextColor="#9ca3af"
+            />
+            {searchKeyword.length > 0 && (
+              <TouchableOpacity onPress={() => setSearchKeyword("")} style={styles.clearButton}>
+                <Text style={styles.clearButtonText}>✕</Text>
+              </TouchableOpacity>
             )}
           </View>
         </View>
-      </View>
 
-      {/* Attendance Summary */}
-      <View style={styles.summaryContainer}>
-        <Text style={styles.summaryTitle}>Today's Summary</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.summaryScrollView}>
-          {Object.entries(calculateAttendanceTotals()).map(([status, count]) => (
-            <View key={status} style={[styles.summaryCard, { borderLeftColor: getAttendanceColor(status) }]}>
-              <Text style={[styles.summaryCount, { color: getAttendanceColor(status) }]}>{count}</Text>
-              <Text style={styles.summaryLabel}>{status}</Text>
+        {/* Class and Section Filters */}
+        <View style={styles.filtersContainer}>
+          <View style={styles.dropdownRow}>
+            <View style={styles.dropdownWrapper}>
+              <Text style={styles.filterLabel}>Class:</Text>
+              <TouchableOpacity
+                style={styles.dropdownButton}
+                onPress={() => {
+                  setShowClassDropdown(!showClassDropdown)
+                  setShowSectionDropdown(false)
+                }}
+              >
+                <Text style={styles.dropdownButtonText}>{selectedClass}</Text>
+                <Text style={styles.dropdownArrow}>{showClassDropdown ? "▲" : "▼"}</Text>
+              </TouchableOpacity>
+              {showClassDropdown && (
+                <View style={styles.dropdownMenu}>
+                  <ScrollView style={styles.dropdownScrollView} nestedScrollEnabled={true}>
+                    {classes.map((classItem) => (
+                      <TouchableOpacity
+                        key={classItem}
+                        style={[styles.dropdownMenuItem, selectedClass === classItem && styles.dropdownMenuItemActive]}
+                        onPress={() => {
+                          setSelectedClass(classItem)
+                          setShowClassDropdown(false)
+                        }}
+                      >
+                        <Text
+                          style={[styles.dropdownMenuText, selectedClass === classItem && styles.dropdownMenuTextActive]}
+                        >
+                          {classItem}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+            </View>
+
+            <View style={styles.dropdownWrapper}>
+              <Text style={styles.filterLabel}>Section:</Text>
+              <TouchableOpacity
+                style={styles.dropdownButton}
+                onPress={() => {
+                  setShowSectionDropdown(!showSectionDropdown)
+                  setShowClassDropdown(false)
+                }}
+              >
+                <Text style={styles.dropdownButtonText}>{selectedSection}</Text>
+                <Text style={styles.dropdownArrow}>{showSectionDropdown ? "▲" : "▼"}</Text>
+              </TouchableOpacity>
+              {showSectionDropdown && (
+                <View style={styles.dropdownMenu}>
+                  <ScrollView style={styles.dropdownScrollView} nestedScrollEnabled={true}>
+                    {sections.map((section) => (
+                      <TouchableOpacity
+                        key={section}
+                        style={[styles.dropdownMenuItem, selectedSection === section && styles.dropdownMenuItemActive]}
+                        onPress={() => {
+                          setSelectedSection(section)
+                          setShowSectionDropdown(false)
+                        }}
+                      >
+                        <Text
+                          style={[styles.dropdownMenuText, selectedSection === section && styles.dropdownMenuTextActive]}
+                        >
+                          {section}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+            </View>
+          </View>
+        </View>
+
+        {/* Attendance Summary */}
+        <View style={styles.summaryContainer}>
+          <Text style={styles.summaryTitle}>Today's Summary</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.summaryScrollView}>
+            {Object.entries(calculateAttendanceTotals()).map(([status, count]) => (
+              <View key={status} style={[styles.summaryCard, { borderLeftColor: getAttendanceColor(status) }]}>
+                <Text style={[styles.summaryCount, { color: getAttendanceColor(status) }]}>{count}</Text>
+                <Text style={styles.summaryLabel}>{status}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Student List */}
+        <View style={styles.listContainer}>
+          {filteredStudents.map((student, index) => (
+            <View key={student.id}>
+              <AttendanceCard student={student} />
+              {index < filteredStudents.length - 1 && <View style={styles.separator} />}
             </View>
           ))}
-        </ScrollView>
-      </View>
+        </View>
 
-      {/* Student List */}
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={() => {
-          setShowClassDropdown(false)
-          setShowSectionDropdown(false)
-        }}
-      >
-        <FlatList
-          data={filteredStudents}
-          renderItem={({ item }) => <AttendanceCard student={item} />}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.listContainer}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-        />
-      </TouchableOpacity>
+        {/* Bottom padding for save button */}
+        <View style={styles.bottomPadding} />
+      </ScrollView>
 
-      {/* Save Button */}
+      {/* Save Button - Fixed at bottom */}
       <View style={styles.saveContainer}>
         <TouchableOpacity style={styles.saveButton} onPress={saveAttendance}>
           <Text style={styles.saveButtonText}>Save Attendance</Text>
@@ -553,6 +560,9 @@ const styles = StyleSheet.create({
   headerSubtitle: {
     fontSize: 16,
     color: "#6b7280",
+  },
+  mainScrollView: {
+    flex: 1,
   },
   dateContainer: {
     flexDirection: "row",
@@ -671,7 +681,7 @@ const styles = StyleSheet.create({
     borderColor: "#d1d5db",
     borderRadius: 8,
     marginTop: 4,
-    maxHeight: 200,
+    maxHeight: 150,
     zIndex: 1000,
     ...Platform.select({
       ios: {
@@ -684,6 +694,9 @@ const styles = StyleSheet.create({
         elevation: 8,
       },
     }),
+  },
+  dropdownScrollView: {
+    maxHeight: 150,
   },
   dropdownMenuItem: {
     paddingHorizontal: 16,
@@ -702,15 +715,14 @@ const styles = StyleSheet.create({
     color: "#2563eb",
     fontWeight: "600",
   },
-  overlay: {
-    flex: 1,
-  },
   listContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 100,
   },
   separator: {
     height: 16,
+  },
+  bottomPadding: {
+    height: 100,
   },
   attendanceCard: {
     backgroundColor: "#ffffff",
@@ -1022,4 +1034,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default StudentAttendence;
+export default StudentAttendance
