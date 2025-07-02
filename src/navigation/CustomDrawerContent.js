@@ -192,8 +192,8 @@ const menuItems = [
     icon: 'write',
     color: '#fa709a',
     submenus: [
-      { id: 101, title: 'Homework', screen: 'SalesReport',  },
-      { id: 102, title: 'Classwork', screen: 'SalesReport',  },
+      { id: 101, title: 'Homework', screen: 'Homework',  },
+      { id: 102, title: 'Classwork', screen: 'Classwork',  },
       {
         id: 103,
         title: 'Homework Evaluation',
@@ -214,9 +214,10 @@ const menuItems = [
     icon: 'write',
     color: '#fa709a',
     submenus: [
-      { id: 101, title: 'User Profile', screen: 'UserView',  },
+      { id: 105, title: 'User Profile', screen: 'UserView',  },
     ],
   },
+  
   {
     id: 12,
     title: 'Settings',

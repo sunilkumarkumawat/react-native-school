@@ -11,6 +11,8 @@ import ExamSchedule from '../screens/Exam/ExamSchedule';
 import UserView from '../screens/User/UserView';
 import NoticeBoard from '../screens/Communicate/NoticeBoard';
 import ProfileView from '../screens/Profile/ProfileView';
+import Homework from '../screens/HomeworkClasswork/Homework';
+import ClassWork from '../screens/HomeworkClasswork/Classwork';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -61,6 +63,8 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="ExamSchedule" component={ExamSchedule} />
     <Drawer.Screen name="NoticeBoard" component={NoticeBoard} />
     <Drawer.Screen name="ProfileView" component={ProfileView} />
+    <Drawer.Screen name="Homework" component={Homework} />
+    <Drawer.Screen name="Classwork" component={ClassWork} />
   </Drawer.Navigator>
 );
 
