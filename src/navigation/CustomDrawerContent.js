@@ -29,11 +29,11 @@ const menuItems = [
     icon: 'money',
     color: '#f093fb',
     submenus: [
-      { id: 21, title: 'Fee Statment', screen: 'Test', icon: '📋' },
+      { id: 21, title: 'Fee Statment', screen: 'FeeStatement', icon: '📋' },
       {
         id: 22,
         title: 'Current Balance Report',
-        screen: 'AddProduct',
+        screen: 'CurrentBalance',
         
       },
       {

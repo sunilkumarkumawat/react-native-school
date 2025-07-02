@@ -13,6 +13,8 @@ import NoticeBoard from '../screens/Communicate/NoticeBoard';
 import ProfileView from '../screens/Profile/ProfileView';
 import Homework from '../screens/HomeworkClasswork/Homework';
 import ClassWork from '../screens/HomeworkClasswork/Classwork';
+import FeeStatement from '../screens/FeeReport/FeeStatement';
+import CurrentBalance from '../screens/FeeReport/CurrentBalance';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -65,6 +67,8 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="ProfileView" component={ProfileView} />
     <Drawer.Screen name="Homework" component={Homework} />
     <Drawer.Screen name="Classwork" component={ClassWork} />
+    <Drawer.Screen name="FeeStatement" component={FeeStatement} />
+    <Drawer.Screen name="CurrentBalance" component={CurrentBalance} />
   </Drawer.Navigator>
 );
 

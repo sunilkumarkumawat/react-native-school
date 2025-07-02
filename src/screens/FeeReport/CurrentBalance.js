@@ -1,0 +1,896 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  StatusBar,
+  SafeAreaView,
+  TextInput,
+  Modal,
+  FlatList,
+  Alert,
+  BackHandler,
+} from "react-native"
+
+const CurrentBalance = () => {
+  const [selectedClass, setSelectedClass] = useState("")
+  const [selectedSection, setSelectedSection] = useState("")
+  const [currentStep, setCurrentStep] = useState(1)
+  const [searchText, setSearchText] = useState("")
+  const [selectedStudent, setSelectedStudent] = useState(null)
+
+  // Handle hardware back button
+  useEffect(() => {
+    const backAction = () => {
+      if (currentStep === 3) {
+        setCurrentStep(2)
+        setSelectedStudent(null)
+        return true
+      } else if (currentStep === 2) {
+        setCurrentStep(1)
+        return true
+      } else if (currentStep === 1) {
+        Alert.alert("Exit App", "Are you sure you want to exit?", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          { text: "YES", onPress: () => BackHandler.exitApp() },
+        ])
+        return true
+      }
+      return false
+    }
+
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction)
+    return () => backHandler.remove()
+  }, [currentStep])
+
+  // Sample data
+  const classes = ["1st", "2nd", "3rd", "4th", "5th"]
+  const sections = ["A", "B", "C", "D"]
+
+  const balanceData = [
+    {
+      label: "Total Balance",
+      value: 104203,
+    },
+    {
+      label: "Paid Fees",
+      value: 0,
+    },
+    {
+      label: "Net Payable Fees",
+      value: 104203,
+    },
+    {
+      label: "Assigned Fees",
+      value: 104203,
+    },
+  ]
+
+  const students = [
+    {
+      id: 1,
+      admissionNumber: "NLET/2322211992",
+      rollNumber: "3",
+      name: "New Student",
+      class: "1st",
+      section: "A",
+      fatherName: "Test",
+      guardianPhone: "1234567890",
+      fatherPhone: "1234567890",
+      motherPhone: "",
+      balanceFee: 17000,
+      assignedFees: 17000,
+      discountAssigned: 0,
+      netPayableFees: 17000,
+      paidFees: 0,
+      paidDiscount: 0,
+      additionalDiscount: 0,
+      fine: 0,
+    },
+    {
+      id: 2,
+      admissionNumber: "NLET/2322211993",
+      rollNumber: "4",
+      name: "Test",
+      class: "1st",
+      section: "A",
+      fatherName: "n/a",
+      guardianPhone: "1234567890",
+      fatherPhone: "1234567890",
+      motherPhone: "",
+      balanceFee: 13000,
+      assignedFees: 13000,
+      discountAssigned: 0,
+      netPayableFees: 13000,
+      paidFees: 0,
+      paidDiscount: 0,
+      additionalDiscount: 0,
+      fine: 0,
+    },
+    {
+      id: 3,
+      admissionNumber: "NLET/2322211994",
+      rollNumber: "5",
+      name: "Test Student",
+      class: "1st",
+      section: "A",
+      fatherName: "n/a",
+      guardianPhone: "1234567890",
+      fatherPhone: "1234567890",
+      motherPhone: "",
+      balanceFee: 17000,
+      assignedFees: 17000,
+      discountAssigned: 0,
+      netPayableFees: 17000,
+      paidFees: 0,
+      paidDiscount: 0,
+      additionalDiscount: 0,
+      fine: 0,
+    },
+  ]
+
+  const DropdownModal = ({ visible, onClose, data, onSelect, title }) => (
+    <Modal visible={visible} transparent animationType="slide">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>{title}</Text>
+          <FlatList
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.modalItem}
+                onPress={() => {
+                  onSelect(item)
+                  onClose()
+                }}
+              >
+                <Text style={styles.modalItemText}>{item}</Text>
+              </TouchableOpacity>
+            )}
+          />
+          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  )
+
+  const [showClassModal, setShowClassModal] = useState(false)
+  const [showSectionModal, setShowSectionModal] = useState(false)
+
+  const handleNext = () => {
+    if (selectedClass && selectedSection) {
+      setCurrentStep(2)
+    } else {
+      Alert.alert("Error", "Please select class and section")
+    }
+  }
+
+  const handleStudentClick = (student) => {
+    setSelectedStudent(student)
+    setCurrentStep(3)
+  }
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-IN").format(amount)
+  }
+
+  // Filter students based on search text
+  const filteredStudents = students.filter((student) => {
+    if (!searchText) return true
+    const searchLower = searchText.toLowerCase()
+    return (
+      student.name.toLowerCase().includes(searchLower) ||
+      student.admissionNumber.toLowerCase().includes(searchLower) ||
+      student.fatherName.toLowerCase().includes(searchLower) ||
+      student.rollNumber.toLowerCase().includes(searchLower)
+    )
+  })
+
+  const renderStep1 = () => (
+    <View style={styles.container}>
+      <View style={styles.row}>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Class</Text>
+          <TouchableOpacity style={styles.smallDropdown} onPress={() => setShowClassModal(true)}>
+            <Text style={[styles.dropdownText, !selectedClass && styles.placeholder]}>{selectedClass || "Select"}</Text>
+            <Text style={styles.dropdownArrow}>▼</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Section</Text>
+          <TouchableOpacity style={styles.smallDropdown} onPress={() => setShowSectionModal(true)}>
+            <Text style={[styles.dropdownText, !selectedSection && styles.placeholder]}>
+              {selectedSection || "Select"}
+            </Text>
+            <Text style={styles.dropdownArrow}>▼</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {selectedClass && selectedSection ? (
+        <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+          <Text style={styles.nextButtonText}>Next</Text>
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.noData}>
+          <Text style={styles.noDataText}>No data found</Text>
+        </View>
+      )}
+
+      <DropdownModal
+        visible={showClassModal}
+        onClose={() => setShowClassModal(false)}
+        data={classes}
+        onSelect={setSelectedClass}
+        title="Select Class"
+      />
+      <DropdownModal
+        visible={showSectionModal}
+        onClose={() => setShowSectionModal(false)}
+        data={sections}
+        onSelect={setSelectedSection}
+        title="Select Section"
+      />
+    </View>
+  )
+
+  const renderStep2 = () => (
+    <View style={styles.container}>
+      <View style={styles.row}>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Class</Text>
+          <TouchableOpacity style={styles.smallDropdown}>
+            <Text style={styles.dropdownText}>{selectedClass}</Text>
+            <Text style={styles.dropdownArrow}>▼</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Section</Text>
+          <TouchableOpacity style={styles.smallDropdown}>
+            <Text style={styles.dropdownText}>{selectedSection}</Text>
+            <Text style={styles.dropdownArrow}>▼</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <Text style={styles.label}>Search</Text>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search by name, admission no, class(..."
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+        <Text style={styles.searchIcon}>🔍</Text>
+      </View>
+
+      {/* Horizontal Scrollable Summary Cards */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.summaryScrollView}
+        contentContainerStyle={styles.summaryScrollContent}
+      >
+        {balanceData.map((item, index) => (
+          <View key={index} style={styles.summaryCard}>
+            <Text style={styles.summaryLabel}>{item.label}</Text>
+            <Text style={styles.summaryValue}>INR {formatCurrency(item.value)}</Text>
+          </View>
+        ))}
+      </ScrollView>
+
+      {/* Students List */}
+      <ScrollView style={styles.studentsList}>
+        {filteredStudents.map((student) => (
+          <TouchableOpacity key={student.id} style={styles.studentCard} onPress={() => handleStudentClick(student)}>
+            <View style={styles.studentHeader}>
+              <View style={styles.admissionNumberBadge}>
+                <Text style={styles.admissionNumberText}>Admission Number - {student.admissionNumber}</Text>
+              </View>
+              <Text style={styles.moreIcon}>⋯</Text>
+            </View>
+
+            <View style={styles.studentInfo}>
+              <View style={styles.studentDetails}>
+                <Text style={styles.studentName}>{student.name}</Text>
+                <Text style={styles.studentClass}>
+                  Class - {student.class} ({student.section})
+                </Text>
+                <Text style={styles.fatherName}>Father Name - {student.fatherName}</Text>
+              </View>
+              <View style={styles.balanceSection}>
+                <Text style={styles.balanceLabel}>Balance Fee</Text>
+                <View style={styles.balanceBadge}>
+                  <Text style={styles.balanceAmount}>INR {formatCurrency(student.balanceFee)}</Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+        {filteredStudents.length === 0 && (
+          <View style={styles.noData}>
+            <Text style={styles.noDataText}>No students found</Text>
+          </View>
+        )}
+      </ScrollView>
+    </View>
+  )
+
+  const renderStep3 = () => (
+    <View style={styles.container}>
+      <View style={styles.feeReportHeader}>
+        <TouchableOpacity onPress={() => setCurrentStep(2)} style={styles.backButton}>
+          <Text style={styles.backButtonText}>← Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.feeReportTitle}>Fee Report</Text>
+      </View>
+
+      <ScrollView style={styles.feeReportContent}>
+        {/* Student Info Section */}
+        <View style={styles.studentInfoCard}>
+          <View style={styles.studentAvatar}>
+            <Text style={styles.avatarText}>{selectedStudent?.name?.charAt(0)?.toUpperCase()}</Text>
+          </View>
+          <View style={styles.studentInfo}>
+            <Text style={styles.studentName}>{selectedStudent?.name}</Text>
+            <Text style={styles.studentClass}>
+              Class - {selectedStudent?.class} ({selectedStudent?.section})
+            </Text>
+          </View>
+        </View>
+
+        {/* Student Details Grid */}
+        <View style={styles.detailsGrid}>
+          <View style={styles.detailRow}>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>ADMISSION NUMBER</Text>
+              <Text style={styles.detailValue}>{selectedStudent?.admissionNumber}</Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>ROLL NUMBER</Text>
+              <Text style={styles.detailValue}>{selectedStudent?.rollNumber}</Text>
+            </View>
+          </View>
+
+          <View style={styles.detailRow}>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>FATHER NAME</Text>
+              <Text style={styles.detailValue}>{selectedStudent?.fatherName}</Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>GUARDIAN PHONE</Text>
+              <Text style={styles.detailValue}>{selectedStudent?.guardianPhone}</Text>
+            </View>
+          </View>
+
+          <View style={styles.detailRow}>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>FATHER PHONE</Text>
+              <Text style={styles.detailValue}>{selectedStudent?.fatherPhone}</Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>MOTHER PHONE</Text>
+              <Text style={styles.detailValue}>{selectedStudent?.motherPhone || "-"}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Fee Breakdown */}
+        <View style={styles.feeBreakdownCard}>
+          <View style={styles.feeRow}>
+            <Text style={styles.feeLabel}>ASSIGNED FEES TILL TODAY(+)</Text>
+            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.assignedFees || 0)}</Text>
+          </View>
+          <View style={styles.feeRow}>
+            <Text style={styles.feeLabel}>DISCOUNT ASSIGNED(-)</Text>
+            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.discountAssigned || 0)}</Text>
+          </View>
+          <View style={styles.feeRow}>
+            <Text style={styles.feeLabelBold}>NET PAYABLE FEES</Text>
+            <Text style={styles.feeValueBold}>INR {formatCurrency(selectedStudent?.netPayableFees || 0)}</Text>
+          </View>
+          <View style={styles.feeRow}>
+            <Text style={styles.feeLabel}>PAID FEES(-)</Text>
+            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.paidFees || 0)}</Text>
+          </View>
+          <View style={styles.feeRow}>
+            <Text style={styles.feeLabel}>PAID DISCOUNT(-)</Text>
+            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.paidDiscount || 0)}</Text>
+          </View>
+          <View style={styles.feeRow}>
+            <Text style={styles.feeLabel}>ADDITIONAL DISCOUNT(-)</Text>
+            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.additionalDiscount || 0)}</Text>
+          </View>
+          <View style={styles.feeRow}>
+            <Text style={styles.feeLabel}>FINE(+)</Text>
+            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.fine || 0)}</Text>
+          </View>
+          <View style={styles.feeRowFinal}>
+            <Text style={styles.feeLabelFinal}>BALANCE</Text>
+            <Text style={styles.feeValueFinal}>INR {formatCurrency(selectedStudent?.balanceFee || 0)}</Text>
+          </View>
+        </View>
+
+        {/* Contact Button */}
+        <TouchableOpacity style={styles.contactButton}>
+          <Text style={styles.contactButtonText}>CONTACT WITH GUARDIAN 📞</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  )
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar backgroundColor="#2c5282" barStyle="light-content" />
+      <ScrollView style={styles.content}>
+        {currentStep === 1 && renderStep1()}
+        {currentStep === 2 && renderStep2()}
+        {currentStep === 3 && renderStep3()}
+      </ScrollView>
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f8f9fb",
+  },
+  content: {
+    flex: 1,
+  },
+  container: {
+    padding: 12,
+    paddingTop: 16,
+    paddingBottom: 100,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#374151",
+    marginBottom: 6,
+    marginTop: 12,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  smallDropdown: {
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
+    borderRadius: 8,
+    padding: 12,
+    backgroundColor: "white",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+  },
+  dropdownText: {
+    fontSize: 15,
+    color: "#374151",
+    fontWeight: "500",
+  },
+  placeholder: {
+    color: "#9ca3af",
+    fontStyle: "italic",
+  },
+  dropdownArrow: {
+    fontSize: 12,
+    color: "#6b7280",
+    fontWeight: "bold",
+  },
+  noData: {
+    alignItems: "center",
+    marginTop: 60,
+    backgroundColor: "white",
+    marginHorizontal: 12,
+    paddingVertical: 24,
+    borderRadius: 12,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+  },
+  noDataText: {
+    fontSize: 16,
+    color: "#6b7280",
+    fontWeight: "500",
+  },
+  nextButton: {
+    backgroundColor: "#6366f1",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 24,
+    elevation: 2,
+    shadowColor: "#6366f1",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  nextButtonText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  searchContainer: {
+    position: "relative",
+    marginBottom: 12,
+  },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
+    borderRadius: 8,
+    padding: 12,
+    backgroundColor: "white",
+    paddingRight: 40,
+    fontSize: 14,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+  },
+  searchIcon: {
+    position: "absolute",
+    right: 12,
+    top: 12,
+    fontSize: 16,
+  },
+  summaryScrollView: {
+    marginBottom: 12,
+  },
+  summaryScrollContent: {
+    paddingRight: 12,
+  },
+  summaryCard: {
+    backgroundColor: "#e5e7eb",
+    borderRadius: 10,
+    padding: 12,
+    marginRight: 10,
+    minWidth: 120,
+    alignItems: "center",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+  },
+  summaryLabel: {
+    fontSize: 11,
+    color: "#374151",
+    fontWeight: "600",
+    textAlign: "center",
+    marginBottom: 4,
+    lineHeight: 14,
+  },
+  summaryValue: {
+    fontSize: 13,
+    color: "#111827",
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  studentsList: {
+    flex: 1,
+  },
+  studentCard: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 10,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+  },
+  studentHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  admissionNumberBadge: {
+    backgroundColor: "#f0f9ff",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#e0e7ff",
+  },
+  admissionNumberText: {
+    fontSize: 11,
+    color: "#0369a1",
+    fontWeight: "600",
+  },
+  moreIcon: {
+    fontSize: 18,
+    color: "#666",
+  },
+  studentInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  studentDetails: {
+    flex: 1,
+  },
+  studentName: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#111827",
+    marginBottom: 4,
+  },
+  studentClass: {
+    fontSize: 13,
+    color: "#6b7280",
+    fontWeight: "500",
+    marginBottom: 2,
+  },
+  fatherName: {
+    fontSize: 13,
+    color: "#6b7280",
+    fontWeight: "500",
+  },
+  balanceSection: {
+    alignItems: "flex-end",
+  },
+  balanceLabel: {
+    fontSize: 11,
+    color: "#6b7280",
+    fontWeight: "500",
+    marginBottom: 4,
+  },
+  balanceBadge: {
+    backgroundColor: "#dc2626",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+    elevation: 1,
+    shadowColor: "#dc2626",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  balanceAmount: {
+    color: "white",
+    fontSize: 11,
+    fontWeight: "700",
+  },
+  // Fee Report Styles
+  feeReportHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e7eb",
+  },
+  backButton: {
+    marginRight: 15,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: "#6366f1",
+    fontWeight: "600",
+  },
+  feeReportTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#111827",
+    textAlign: "center",
+    flex: 1,
+  },
+  feeReportContent: {
+    flex: 1,
+  },
+  studentInfoCard: {
+    backgroundColor: "#e0e7ff",
+    borderRadius: 12,
+    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  studentAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#f97316",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 15,
+  },
+  avatarText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "700",
+  },
+  detailsGrid: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+  },
+  detailRow: {
+    flexDirection: "row",
+    marginBottom: 16,
+  },
+  detailItem: {
+    flex: 1,
+    marginHorizontal: 4,
+  },
+  detailLabel: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#6b7280",
+    marginBottom: 4,
+    textTransform: "uppercase",
+  },
+  detailValue: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#111827",
+  },
+  feeBreakdownCard: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+  },
+  feeRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f3f4f6",
+  },
+  feeRowFinal: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 12,
+    backgroundColor: "#f8f9fa",
+    marginHorizontal: -16,
+    paddingHorizontal: 16,
+    marginTop: 8,
+  },
+  feeLabel: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#6b7280",
+  },
+  feeLabelBold: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#111827",
+  },
+  feeLabelFinal: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#111827",
+  },
+  feeValue: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#374151",
+    textAlign: "right",
+  },
+  feeValueBold: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#111827",
+    textAlign: "right",
+  },
+  feeValueFinal: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#dc2626",
+    textAlign: "right",
+  },
+  contactButton: {
+    backgroundColor: "#1e3a8a",
+    padding: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    marginBottom: 20,
+    elevation: 2,
+    shadowColor: "#1e3a8a",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  contactButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    width: "80%",
+    maxHeight: "60%",
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginBottom: 16,
+    textAlign: "center",
+    color: "#111827",
+  },
+  modalItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f3f4f6",
+    borderRadius: 6,
+    marginBottom: 2,
+  },
+  modalItemText: {
+    fontSize: 15,
+    color: "#374151",
+    fontWeight: "500",
+  },
+  closeButton: {
+    backgroundColor: "#6366f1",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 16,
+    elevation: 2,
+    shadowColor: "#6366f1",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  closeButtonText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  inputGroup: {
+    flex: 1,
+    marginHorizontal: 3,
+  },
+})
+
+export default CurrentBalance;

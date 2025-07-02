@@ -39,7 +39,7 @@ const ClassWork = () => {
       section: 'A',
       teacher: 'Mr. David Smith',
       classDate: '02-Jul-2025',
-      duration: '45 mins',
+    //   duration: '45 mins',
       status: 'Running',
       description: 'Introduction to Quadratic Equations - Theory and practical examples',
       topic: 'Quadratic Equations',
@@ -54,7 +54,7 @@ const ClassWork = () => {
       section: 'A',
       teacher: 'Dr. Michael Brown',
       classDate: '02-Jul-2025',
-      duration: '60 mins',
+    //   duration: '60 mins',
       status: 'Running',
       description: 'Laboratory session on Chemical Reactions - Hands-on experiments',
       topic: 'Chemical Reactions',
@@ -69,7 +69,7 @@ const ClassWork = () => {
       section: 'B',
       teacher: 'Mrs. Emily Davis',
       classDate: '02-Jul-2025',
-      duration: '40 mins',
+    //   duration: '40 mins',
       status: 'Completed',
       description: 'Grammar session focusing on tenses and sentence structure',
       topic: 'Grammar - Tenses',
@@ -84,7 +84,7 @@ const ClassWork = () => {
       section: 'A',
       teacher: 'Ms. Sarah Johnson',
       classDate: '01-Jul-2025',
-      duration: '50 mins',
+    //   duration: '50 mins',
       status: 'Completed',
       description: 'Balance Sheet preparation and financial statement analysis',
       topic: 'Balance Sheet',
@@ -99,7 +99,7 @@ const ClassWork = () => {
       section: 'B',
       teacher: 'Mrs. Priya Sharma',
       classDate: '01-Jul-2025',
-      duration: '35 mins',
+    //   duration: '35 mins',
       status: 'Scheduled',
       description: 'Poetry analysis and literary devices discussion',
       topic: 'Poetry Analysis',
@@ -114,7 +114,7 @@ const ClassWork = () => {
       section: 'C',
       teacher: 'Mr. Raj Kumar',
       classDate: '02-Jul-2025',
-      duration: '45 mins',
+    //   duration: '45 mins',
       status: 'Running',
       description: 'Indian Independence Movement - Key events and personalities',
       topic: 'Independence Movement',
@@ -366,10 +366,10 @@ const ClassWork = () => {
                   <Text style={styles.infoLabel}>Class Date</Text>
                   <Text style={styles.infoValue}>{classwork.classDate}</Text>
                 </View>
-                <View style={styles.infoItem}>
+                {/* <View style={styles.infoItem}>
                   <Text style={styles.infoLabel}>Duration</Text>
                   <Text style={styles.infoValue}>{classwork.duration}</Text>
-                </View>
+                </View> */}
                 <View style={styles.infoItem}>
                   <Text style={styles.infoLabel}>Status</Text>
                   <View style={[styles.statusBadge, { backgroundColor: getStatusColor(classwork.status) }]}>
@@ -499,10 +499,10 @@ const ClassWork = () => {
                 <Text style={styles.detailLabel}>Class Date:</Text>
                 <Text style={styles.detailValue}>{selectedClassWork.classDate}</Text>
               </View>
-              <View style={styles.detailItem}>
+              {/* <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Duration:</Text>
                 <Text style={styles.detailValue}>{selectedClassWork.duration}</Text>
-              </View>
+              </View> */}
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Class Type:</Text>
                 <View style={[styles.typeBadge, { backgroundColor: getClassTypeColor(selectedClassWork.classType) }]}>
@@ -589,7 +589,7 @@ const ClassWork = () => {
                 />
               </View>
               
-              <View style={styles.editInputGroup}>
+              {/* <View style={styles.editInputGroup}>
                 <Text style={styles.editLabel}>Duration:</Text>
                 <TextInput
                   style={styles.editInput}
@@ -597,7 +597,7 @@ const ClassWork = () => {
                   onChangeText={(text) => setEditClassWork({...editClassWork, duration: text})}
                   placeholder="e.g., 45 mins"
                 />
-              </View>
+              </View> */}
               
               <View style={styles.editInputGroup}>
                 <Text style={styles.editLabel}>Materials:</Text>
