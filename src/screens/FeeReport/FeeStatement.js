@@ -131,7 +131,9 @@ const FeeStatement = () => {
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>{title}</Text>
+          <Text style={styles.modalTitle} allowFontScaling={false}>
+            {title}
+          </Text>
           <FlatList
             data={data}
             keyExtractor={(item, index) => index.toString()}
@@ -143,12 +145,16 @@ const FeeStatement = () => {
                   onClose()
                 }}
               >
-                <Text style={styles.modalItemText}>{item}</Text>
+                <Text style={styles.modalItemText} allowFontScaling={false}>
+                  {item}
+                </Text>
               </TouchableOpacity>
             )}
           />
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text style={styles.closeButtonText} allowFontScaling={false}>
+              Close
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -183,36 +189,56 @@ const FeeStatement = () => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Class</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Class
+          </Text>
           <TouchableOpacity style={styles.smallDropdown} onPress={() => setShowClassModal(true)}>
-            <Text style={[styles.dropdownText, !selectedClass && styles.placeholder]}>{selectedClass || "Select"}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={[styles.dropdownText, !selectedClass && styles.placeholder]} allowFontScaling={false}>
+              {selectedClass || "Select"}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Section</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Section
+          </Text>
           <TouchableOpacity style={styles.smallDropdown} onPress={() => setShowSectionModal(true)}>
-            <Text style={[styles.dropdownText, !selectedSection && styles.placeholder]}>
+            <Text style={[styles.dropdownText, !selectedSection && styles.placeholder]} allowFontScaling={false}>
               {selectedSection || "Select"}
             </Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <Text style={styles.label}>Student</Text>
+      <Text style={styles.label} allowFontScaling={false}>
+        Student
+      </Text>
       <TouchableOpacity style={styles.dropdown} onPress={() => setShowStudentModal(true)}>
-        <Text style={[styles.dropdownText, !selectedStudent && styles.placeholder]}>{selectedStudent || "Select"}</Text>
-        <Text style={styles.dropdownArrow}>▼</Text>
+        <Text style={[styles.dropdownText, !selectedStudent && styles.placeholder]} allowFontScaling={false}>
+          {selectedStudent || "Select"}
+        </Text>
+        <Text style={styles.dropdownArrow} allowFontScaling={false}>
+          ▼
+        </Text>
       </TouchableOpacity>
 
       {selectedClass && selectedSection && selectedStudent ? (
         <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-          <Text style={styles.nextButtonText}>Next</Text>
+          <Text style={styles.nextButtonText} allowFontScaling={false}>
+            Next
+          </Text>
         </TouchableOpacity>
       ) : (
         <View style={styles.noData}>
-          <Text style={styles.noDataText}>No data found</Text>
+          <Text style={styles.noDataText} allowFontScaling={false}>
+            No data found
+          </Text>
         </View>
       )}
 
@@ -244,25 +270,43 @@ const FeeStatement = () => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Class</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Class
+          </Text>
           <TouchableOpacity style={styles.smallDropdown}>
-            <Text style={styles.dropdownText}>{selectedClass}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownText} allowFontScaling={false}>
+              {selectedClass}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Section</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Section
+          </Text>
           <TouchableOpacity style={styles.smallDropdown}>
-            <Text style={styles.dropdownText}>{selectedSection}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownText} allowFontScaling={false}>
+              {selectedSection}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <Text style={styles.label}>Student</Text>
+      <Text style={styles.label} allowFontScaling={false}>
+        Student
+      </Text>
       <TouchableOpacity style={styles.dropdown}>
-        <Text style={styles.dropdownText}>{selectedStudent}</Text>
-        <Text style={styles.dropdownArrow}>▼</Text>
+        <Text style={styles.dropdownText} allowFontScaling={false}>
+          {selectedStudent}
+        </Text>
+        <Text style={styles.dropdownArrow} allowFontScaling={false}>
+          ▼
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.tabContainer}>
@@ -270,13 +314,17 @@ const FeeStatement = () => {
           style={[styles.tab, selectedTab === "paid" && styles.activeTab]}
           onPress={() => setSelectedTab("paid")}
         >
-          <Text style={[styles.tabText, selectedTab === "paid" && styles.activeTabText]}>Paid</Text>
+          <Text style={[styles.tabText, selectedTab === "paid" && styles.activeTabText]} allowFontScaling={false}>
+            Paid
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tab, selectedTab === "unpaid" && styles.activeTab]}
           onPress={() => setSelectedTab("unpaid")}
         >
-          <Text style={[styles.tabText, selectedTab === "unpaid" && styles.activeTabText]}>Unpaid</Text>
+          <Text style={[styles.tabText, selectedTab === "unpaid" && styles.activeTabText]} allowFontScaling={false}>
+            Unpaid
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -288,8 +336,11 @@ const FeeStatement = () => {
               placeholder="Search by month name, receipt no."
               value={searchText}
               onChangeText={setSearchText}
+              allowFontScaling={false}
             />
-            <Text style={styles.searchIcon}>🔍</Text>
+            <Text style={styles.searchIcon} allowFontScaling={false}>
+              🔍
+            </Text>
           </View>
 
           <ScrollView style={styles.recordsList}>
@@ -305,15 +356,27 @@ const FeeStatement = () => {
               .map((record) => (
                 <TouchableOpacity key={record.id} style={styles.recordCard} onPress={() => handleRecordClick(record)}>
                   <View style={styles.recordHeader}>
-                    <Text style={styles.receiptNo}>Receipt No - {record.receiptNo}</Text>
-                    <Text style={styles.moreIcon}>⋯</Text>
+                    <Text style={styles.receiptNo} allowFontScaling={false}>
+                      Receipt No - {record.receiptNo}
+                    </Text>
+                    <Text style={styles.moreIcon} allowFontScaling={false}>
+                      ⋯
+                    </Text>
                   </View>
-                  <Text style={styles.recordPeriod}>{record.period}</Text>
-                  <Text style={styles.recordDate}>Date - {record.date}</Text>
+                  <Text style={styles.recordPeriod} allowFontScaling={false}>
+                    {record.period}
+                  </Text>
+                  <Text style={styles.recordDate} allowFontScaling={false}>
+                    Date - {record.date}
+                  </Text>
                   <View style={styles.recordFooter}>
-                    <Text style={styles.recordAmount}>Paid Amount - INR {record.amount}</Text>
+                    <Text style={styles.recordAmount} allowFontScaling={false}>
+                      Paid Amount - INR {record.amount}
+                    </Text>
                     <View style={styles.statusBadge}>
-                      <Text style={styles.statusText}>Paid</Text>
+                      <Text style={styles.statusText} allowFontScaling={false}>
+                        Paid
+                      </Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -328,25 +391,43 @@ const FeeStatement = () => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Class</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Class
+          </Text>
           <TouchableOpacity style={styles.smallDropdown}>
-            <Text style={styles.dropdownText}>{selectedClass}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownText} allowFontScaling={false}>
+              {selectedClass}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Section</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Section
+          </Text>
           <TouchableOpacity style={styles.smallDropdown}>
-            <Text style={styles.dropdownText}>{selectedSection}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownText} allowFontScaling={false}>
+              {selectedSection}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <Text style={styles.label}>Student</Text>
+      <Text style={styles.label} allowFontScaling={false}>
+        Student
+      </Text>
       <TouchableOpacity style={styles.dropdown}>
-        <Text style={styles.dropdownText}>{selectedStudent}</Text>
-        <Text style={styles.dropdownArrow}>▼</Text>
+        <Text style={styles.dropdownText} allowFontScaling={false}>
+          {selectedStudent}
+        </Text>
+        <Text style={styles.dropdownArrow} allowFontScaling={false}>
+          ▼
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.tabContainer}>
@@ -354,65 +435,103 @@ const FeeStatement = () => {
           style={[styles.tab, selectedTab === "paid" && styles.activeTab]}
           onPress={() => setSelectedTab("paid")}
         >
-          <Text style={[styles.tabText, selectedTab === "paid" && styles.activeTabText]}>Paid</Text>
+          <Text style={[styles.tabText, selectedTab === "paid" && styles.activeTabText]} allowFontScaling={false}>
+            Paid
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tab, selectedTab === "unpaid" && styles.activeTab]}
           onPress={() => setSelectedTab("unpaid")}
         >
-          <Text style={[styles.tabText, selectedTab === "unpaid" && styles.activeTabText]}>Unpaid</Text>
+          <Text style={[styles.tabText, selectedTab === "unpaid" && styles.activeTabText]} allowFontScaling={false}>
+            Unpaid
+          </Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.unpaidContent}>
         <View style={styles.totalCard}>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.whatsappIcon}>💬</Text>
+            <Text style={styles.totalLabel} allowFontScaling={false}>
+              Total
+            </Text>
+            <Text style={styles.whatsappIcon} allowFontScaling={false}>
+              💬
+            </Text>
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Unpaid</Text>
-            <Text style={styles.totalValue}>{unpaidData.totalUnpaid}</Text>
+            <Text style={styles.totalLabel} allowFontScaling={false}>
+              Unpaid
+            </Text>
+            <Text style={styles.totalValue} allowFontScaling={false}>
+              {unpaidData.totalUnpaid}
+            </Text>
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Due Fees</Text>
-            <Text style={styles.totalValue}>{unpaidData.dueFees}</Text>
+            <Text style={styles.totalLabel} allowFontScaling={false}>
+              Due Fees
+            </Text>
+            <Text style={styles.totalValue} allowFontScaling={false}>
+              {unpaidData.dueFees}
+            </Text>
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabelBold}>Amount to be Paid</Text>
-            <Text style={styles.totalValueBold}>INR {unpaidData.totalAmount}</Text>
+            <Text style={styles.totalLabelBold} allowFontScaling={false}>
+              Amount to be Paid
+            </Text>
+            <Text style={styles.totalValueBold} allowFontScaling={false}>
+              INR {unpaidData.totalAmount}
+            </Text>
           </View>
         </View>
 
         <View style={styles.sectionCard}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Due Fees</Text>
+            <Text style={styles.sectionTitle} allowFontScaling={false}>
+              Due Fees
+            </Text>
           </View>
           {unpaidData.dueFeeBreakdown.map((item, index) => (
             <View key={index} style={styles.feeRow}>
-              <Text style={styles.feeLabel}>{item.name}</Text>
-              <Text style={styles.feeAmount}>{item.amount}</Text>
+              <Text style={styles.feeLabel} allowFontScaling={false}>
+                {item.name}
+              </Text>
+              <Text style={styles.feeAmount} allowFontScaling={false}>
+                {item.amount}
+              </Text>
             </View>
           ))}
           <View style={styles.totalFeeRow}>
-            <Text style={styles.totalFeeLabel}>Total</Text>
-            <Text style={styles.totalFeeAmount}>INR {unpaidData.dueFees}</Text>
+            <Text style={styles.totalFeeLabel} allowFontScaling={false}>
+              Total
+            </Text>
+            <Text style={styles.totalFeeAmount} allowFontScaling={false}>
+              INR {unpaidData.dueFees}
+            </Text>
           </View>
         </View>
 
         <View style={styles.sectionCard}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>December</Text>
+            <Text style={styles.sectionTitle} allowFontScaling={false}>
+              December
+            </Text>
           </View>
           {unpaidData.decemberFees.map((item, index) => (
             <View key={index} style={styles.feeRow}>
-              <Text style={styles.feeLabel}>{item.name}</Text>
-              <Text style={styles.feeAmount}>{item.amount}</Text>
+              <Text style={styles.feeLabel} allowFontScaling={false}>
+                {item.name}
+              </Text>
+              <Text style={styles.feeAmount} allowFontScaling={false}>
+                {item.amount}
+              </Text>
             </View>
           ))}
           <View style={styles.totalFeeRow}>
-            <Text style={styles.totalFeeLabel}>Total</Text>
-            <Text style={styles.totalFeeAmount}>
+            <Text style={styles.totalFeeLabel} allowFontScaling={false}>
+              Total
+            </Text>
+            <Text style={styles.totalFeeAmount} allowFontScaling={false}>
               INR {unpaidData.decemberFees.reduce((sum, item) => sum + item.amount, 0)}
             </Text>
           </View>
@@ -426,58 +545,93 @@ const FeeStatement = () => {
     <View style={styles.container}>
       <View style={styles.detailHeader}>
         <TouchableOpacity onPress={handleBackFromDetail} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Back</Text>
+          <Text style={styles.backButtonText} allowFontScaling={false}>
+            ←
+          </Text>
         </TouchableOpacity>
-        <Text style={styles.detailTitle}>FEE STATEMENT</Text>
+        <Text style={styles.detailTitle} allowFontScaling={false}>
+          FEE STATEMENT
+        </Text>
       </View>
 
       <ScrollView style={styles.detailContent}>
         {/* Student Info Section */}
         <View style={styles.studentInfoCard}>
           <View style={styles.studentAvatar}>
-            <Text style={styles.avatarText}>{selectedStudent?.charAt(0)?.toUpperCase()}</Text>
+            <Text style={styles.avatarText} allowFontScaling={false}>
+              {selectedStudent?.charAt(0)?.toUpperCase()}
+            </Text>
           </View>
           <View style={styles.studentInfo}>
-            <Text style={styles.studentName}>{selectedStudent}</Text>
-            <Text style={styles.studentClass}>
+            <Text style={styles.studentName} allowFontScaling={false}>
+              {selectedStudent}
+            </Text>
+            <Text style={styles.studentClass} allowFontScaling={false}>
               Class - {selectedClass} ({selectedSection})
             </Text>
           </View>
+          <Text style={styles.callIcon} allowFontScaling={false}>
+            📞
+          </Text>
         </View>
 
         {/* Details Grid */}
         <View style={styles.detailsGrid}>
           <View style={styles.detailRow}>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>ADMISSION NUMBER</Text>
-              <Text style={styles.detailValue}>{selectedRecord?.admissionNumber}</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                ADMISSION NUMBER
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedRecord?.admissionNumber}
+              </Text>
             </View>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>MOBILE NUMBER</Text>
-              <Text style={styles.detailValue}>{selectedRecord?.mobileNumber}</Text>
-            </View>
-          </View>
-
-          <View style={styles.detailRow}>
-            <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>GUARDIAN NAME</Text>
-              <Text style={styles.detailValue}>{selectedRecord?.guardianName}</Text>
-            </View>
-            <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>GUARDIAN PHONE</Text>
-              <Text style={styles.detailValue}>{selectedRecord?.guardianPhone}</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                MOBILE NUMBER
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedRecord?.mobileNumber}
+              </Text>
             </View>
           </View>
 
           <View style={styles.detailRow}>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>STATUS</Text>
-              <Text style={styles.detailValue}>{selectedRecord?.status}</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                GUARDIAN NAME
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedRecord?.guardianName}
+              </Text>
             </View>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>DOWNLOAD RECEIPT</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                GUARDIAN PHONE
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedRecord?.guardianPhone}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.detailRow}>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                STATUS
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedRecord?.status}
+              </Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                DOWNLOAD RECEIPT
+              </Text>
               <TouchableOpacity style={styles.downloadButton}>
-                <Text style={styles.downloadButtonText}>Download ↓</Text>
+                <Text style={styles.downloadButtonText} allowFontScaling={false}>
+                  Download ↓
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -486,39 +640,62 @@ const FeeStatement = () => {
         {/* Payment Details */}
         <View style={styles.paymentDetailsCard}>
           <View style={styles.paymentDetailRow}>
-            <Text style={styles.paymentDetailLabel}>DATE</Text>
-            <Text style={styles.paymentDetailValue}>{selectedRecord?.date}</Text>
+            <Text style={styles.paymentDetailLabel} allowFontScaling={false}>
+              DATE
+            </Text>
+            <Text style={styles.paymentDetailValue} allowFontScaling={false}>
+              {selectedRecord?.date}
+            </Text>
           </View>
           <View style={styles.paymentDetailRow}>
-            <Text style={styles.paymentDetailLabel}>RECEIPT NO</Text>
-            <Text style={styles.paymentDetailValue}>{selectedRecord?.receiptNo}</Text>
+            <Text style={styles.paymentDetailLabel} allowFontScaling={false}>
+              RECEIPT NO
+            </Text>
+            <Text style={styles.paymentDetailValue} allowFontScaling={false}>
+              {selectedRecord?.receiptNo}
+            </Text>
           </View>
           <View style={styles.paymentDetailRow}>
-            <Text style={styles.paymentDetailLabel}>PAYMENT MODE</Text>
-            <Text style={styles.paymentDetailValue}>{selectedRecord?.paymentMode}</Text>
+            <Text style={styles.paymentDetailLabel} allowFontScaling={false}>
+              PAYMENT MODE
+            </Text>
+            <Text style={styles.paymentDetailValue} allowFontScaling={false}>
+              {selectedRecord?.paymentMode}
+            </Text>
           </View>
           <View style={styles.paymentDetailRow}>
-            <Text style={styles.paymentDetailLabel}>FEE GROUP</Text>
-            <Text style={styles.paymentDetailValue}>{selectedRecord?.feeGroup}</Text>
+            <Text style={styles.paymentDetailLabel} allowFontScaling={false}>
+              FEE GROUP
+            </Text>
+            <Text style={styles.paymentDetailValue} allowFontScaling={false}>
+              {selectedRecord?.feeGroup}
+            </Text>
           </View>
           <View style={styles.paymentDetailRow}>
-            <Text style={styles.paymentDetailLabel}>FEE CODE</Text>
-            <Text style={styles.paymentDetailValue}>{selectedRecord?.feeCode}</Text>
+            <Text style={styles.paymentDetailLabel} allowFontScaling={false}>
+              FEE CODE
+            </Text>
+            <Text style={styles.paymentDetailValue} allowFontScaling={false}>
+              {selectedRecord?.feeCode}
+            </Text>
           </View>
           <View style={styles.paymentDetailRow}>
-            <Text style={styles.paymentDetailLabel}>DESCRIPTION</Text>
-            <Text style={styles.paymentDetailValue}>{selectedRecord?.description}</Text>
+            <Text style={styles.paymentDetailLabel} allowFontScaling={false}>
+              DESCRIPTION
+            </Text>
+            <Text style={styles.paymentDetailValue} allowFontScaling={false}>
+              {selectedRecord?.description}
+            </Text>
           </View>
           <View style={styles.paymentDetailRow}>
-            <Text style={styles.paymentDetailLabelBold}>PAID AMOUNT</Text>
-            <Text style={styles.paymentDetailValueBold}>INR {selectedRecord?.amount}</Text>
+            <Text style={styles.paymentDetailLabelBold} allowFontScaling={false}>
+              PAID AMOUNT
+            </Text>
+            <Text style={styles.paymentDetailValueBold} allowFontScaling={false}>
+              INR {selectedRecord?.amount}
+            </Text>
           </View>
         </View>
-
-        {/* Contact Button */}
-        <TouchableOpacity style={styles.contactButton}>
-          <Text style={styles.contactButtonText}>CONTACT WITH GUARDIAN 📞</Text>
-        </TouchableOpacity>
       </ScrollView>
     </View>
   )
@@ -547,14 +724,14 @@ const styles = StyleSheet.create({
   container: {
     padding: 12,
     paddingTop: 16,
-    paddingBottom: 100, // Add bottom padding to ensure content is not cut off
+    paddingBottom: 80,
   },
   label: {
     fontSize: 14,
     fontWeight: "600",
     color: "#374151",
-    marginBottom: 6,
-    marginTop: 12,
+    marginBottom: 5,
+    marginTop: 10,
   },
   dropdown: {
     borderWidth: 1,
@@ -574,7 +751,7 @@ const styles = StyleSheet.create({
   smallDropdown: {
     borderWidth: 1,
     borderColor: "#e5e7eb",
-    borderRadius: 8,
+    borderRadius: 6,
     padding: 12,
     backgroundColor: "white",
     flexDirection: "row",
@@ -589,7 +766,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   dropdownText: {
-    fontSize: 15,
+    fontSize: 14,
     color: "#374151",
     fontWeight: "500",
   },
@@ -611,7 +788,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
     backgroundColor: "white",
     marginHorizontal: 12,
-    paddingVertical: 24,
+    paddingVertical: 16,
     borderRadius: 12,
     elevation: 2,
     shadowColor: "#000",
@@ -620,13 +797,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   noDataText: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#6b7280",
     fontWeight: "500",
   },
   nextButton: {
     backgroundColor: "#6366f1",
-    padding: 12,
+    padding: 10,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 24,
@@ -638,7 +815,7 @@ const styles = StyleSheet.create({
   },
   nextButtonText: {
     color: "white",
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "600",
   },
   tabContainer: {
@@ -656,7 +833,7 @@ const styles = StyleSheet.create({
   },
   tab: {
     flex: 1,
-    padding: 10,
+    padding: 9,
     alignItems: "center",
     borderRadius: 6,
     marginHorizontal: 1,
@@ -670,7 +847,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   tabText: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#6b7280",
     fontWeight: "600",
   },
@@ -688,7 +865,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     backgroundColor: "white",
-    paddingRight: 40,
+    paddingRight: 50,
     fontSize: 14,
     elevation: 1,
     shadowColor: "#000",
@@ -698,25 +875,24 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     position: "absolute",
-    right: 12,
-    top: 12,
+    right: 16,
+    top: 16,
     fontSize: 16,
   },
   recordsList: {
-    // Remove maxHeight: 350, - delete this line completely
     marginBottom: 20, // Add some bottom margin instead
   },
   recordCard: {
     backgroundColor: "white",
-    borderRadius: 10,
-    padding: 14,
-    marginBottom: 10,
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 8,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
-    borderLeftWidth: 3,
+    borderLeftWidth: 2,
     borderLeftColor: "#10b981",
   },
   recordHeader: {
@@ -731,21 +907,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
-    fontSize: 11,
+    fontSize: 8,
     fontWeight: "600",
   },
   moreIcon: {
-    fontSize: 18,
+    fontSize: 13,
     color: "#666",
   },
   recordPeriod: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "700",
     color: "#111827",
     marginBottom: 4,
   },
   recordDate: {
-    fontSize: 13,
+    fontSize: 10,
     color: "#6b7280",
     marginBottom: 8,
     fontWeight: "500",
@@ -756,7 +932,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   recordAmount: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#374151",
     fontWeight: "600",
   },
@@ -773,7 +949,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: "white",
-    fontSize: 11,
+    fontSize: 8,
     fontWeight: "700",
   },
   unpaidContent: {
@@ -782,7 +958,7 @@ const styles = StyleSheet.create({
   totalCard: {
     backgroundColor: "white",
     borderRadius: 10,
-    padding: 14,
+    padding: 10,
     marginBottom: 12,
     elevation: 2,
     shadowColor: "#000",
@@ -799,27 +975,27 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   totalLabel: {
-    fontSize: 14,
+    fontSize: 11,
     color: "#374151",
     fontWeight: "500",
   },
   totalLabelBold: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#111827",
     fontWeight: "700",
   },
   totalValue: {
-    fontSize: 14,
+    fontSize: 11,
     color: "#374151",
     fontWeight: "600",
   },
   totalValueBold: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#ef4444",
     fontWeight: "700",
   },
   whatsappIcon: {
-    fontSize: 18,
+    fontSize: 13,
   },
   sectionCard: {
     backgroundColor: "white",
@@ -834,30 +1010,30 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     backgroundColor: "#6366f1",
-    paddingHorizontal: 14,
+    paddingHorizontal: 10,
     paddingVertical: 12,
   },
   sectionTitle: {
     color: "white",
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: "700",
   },
   feeRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 14,
+    paddingHorizontal: 10,
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#f3f4f6",
   },
   feeLabel: {
-    fontSize: 14,
+    fontSize: 11,
     color: "#374151",
     fontWeight: "500",
   },
   feeAmount: {
-    fontSize: 14,
+    fontSize: 11,
     color: "#111827",
     fontWeight: "600",
   },
@@ -865,17 +1041,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 14,
+    paddingHorizontal: 10,
     paddingVertical: 12,
     backgroundColor: "#f8f9fa",
   },
   totalFeeLabel: {
-    fontSize: 14,
+    fontSize: 11,
     color: "#111827",
     fontWeight: "700",
   },
   totalFeeAmount: {
-    fontSize: 14,
+    fontSize: 11,
     color: "#6366f1",
     fontWeight: "700",
   },
@@ -888,7 +1064,7 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: "white",
     borderRadius: 12,
-    padding: 20,
+    padding: 14,
     width: "80%",
     maxHeight: "60%",
     elevation: 6,
@@ -898,9 +1074,9 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: "700",
-    marginBottom: 16,
+    marginBottom: 12,
     textAlign: "center",
     color: "#111827",
   },
@@ -912,7 +1088,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   modalItemText: {
-    fontSize: 15,
+    fontSize: 12,
     color: "#374151",
     fontWeight: "500",
   },
@@ -930,7 +1106,7 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     color: "white",
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: "600",
   },
   // New styles for detailed view
@@ -941,17 +1117,17 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
+    paddingHorizontal: 4,
   },
   backButton: {
-    marginRight: 15,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: "#6366f1",
-    fontWeight: "600",
+    padding: 8,
+    marginRight: 12,
+    minWidth: 40,
+    alignItems: "center",
+    justifyContent: "center",
   },
   detailTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "700",
     color: "#111827",
     textAlign: "center",
@@ -986,13 +1162,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentName: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: "700",
     color: "#111827",
     marginBottom: 4,
   },
   studentClass: {
-    fontSize: 14,
+    fontSize: 11,
     color: "#6b7280",
     fontWeight: "500",
   },
@@ -1052,7 +1228,7 @@ const styles = StyleSheet.create({
     color: "#374151",
   },
   paymentDetailLabelBold: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "700",
     color: "#111827",
   },
@@ -1062,26 +1238,14 @@ const styles = StyleSheet.create({
     color: "#6b7280",
   },
   paymentDetailValueBold: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "700",
     color: "#111827",
   },
-  contactButton: {
-    backgroundColor: "#1e3a8a",
-    padding: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    marginBottom: 20,
-    elevation: 2,
-    shadowColor: "#1e3a8a",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  contactButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "700",
+  callIcon: {
+    fontSize: 20,
+    color: "#10b981",
+    marginLeft: 12,
   },
   inputGroup: {
     flex: 1,
