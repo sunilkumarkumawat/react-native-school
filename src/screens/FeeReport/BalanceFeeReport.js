@@ -16,7 +16,7 @@ import {
   BackHandler,
 } from "react-native"
 
-const CurrentBalance = () => {
+const BalanceFeeReport = () => {
   const [selectedClass, setSelectedClass] = useState("")
   const [selectedSection, setSelectedSection] = useState("")
   const [currentStep, setCurrentStep] = useState(1)
@@ -55,24 +55,24 @@ const CurrentBalance = () => {
   const classes = ["1st", "2nd", "3rd", "4th", "5th"]
   const sections = ["A", "B", "C", "D"]
 
-  const balanceData = [
-    {
-      label: "Total Balance",
-      value: 104203,
-    },
-    {
-      label: "Paid Fees",
-      value: 0,
-    },
-    {
-      label: "Net Payable Fees",
-      value: 104203,
-    },
-    {
-      label: "Assigned Fees",
-      value: 104203,
-    },
-  ]
+  // const balanceData = [
+  //   {
+  //     label: "Total Balance",
+  //     value: 104203,
+  //   },
+  //   {
+  //     label: "Paid Fees",
+  //     value: 0,
+  //   },
+  //   {
+  //     label: "Net Payable Fees",
+  //     value: 104203,
+  //   },
+  //   {
+  //     label: "Assigned Fees",
+  //     value: 104203,
+  //   },
+  // ]
 
   const students = [
     {
@@ -282,12 +282,12 @@ const CurrentBalance = () => {
         style={styles.summaryScrollView}
         contentContainerStyle={styles.summaryScrollContent}
       >
-        {balanceData.map((item, index) => (
+        {/* {balanceData.map((item, index) => (
           <View key={index} style={styles.summaryCard}>
             <Text style={styles.summaryLabel}>{item.label}</Text>
             <Text style={styles.summaryValue}>INR {formatCurrency(item.value)}</Text>
           </View>
-        ))}
+        ))} */}
       </ScrollView>
 
       {/* Students List */}
@@ -896,4 +896,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CurrentBalance;
+export default BalanceFeeReport;

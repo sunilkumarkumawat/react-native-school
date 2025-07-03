@@ -39,10 +39,10 @@ const menuItems = [
       {
         id: 23,
         title: 'Balance Fees Report',
-        screen: 'Categories',
+        screen: 'BalanceFeeReport',
         icon: '🏷️',
       },
-      { id: 24, title: 'Transaction Report', screen: 'Categories', icon: '🏷️' },
+      { id: 24, title: 'Transaction Report', screen: 'TransactionReport', icon: '🏷️' },
       {
         id: 25,
         title: 'Daily Collection Report',
