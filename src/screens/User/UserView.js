@@ -12,115 +12,117 @@ import {
   FlatList,
   Platform,
   Modal,
+  Alert,
 } from 'react-native';
+import { Strings } from '../../theme/Strings';
 
 const { width } = Dimensions.get('window');
 
 const UserView = () => {
+  const token = '66|swQajga9OvTwvOecV9tRDNyEZsUOTp9MShfQjLzude6dd81f';
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedRole, setSelectedRole] = useState('All');
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 });
 
-  // Sample user data
-  const users = [
-    {
-      id: 1,
-      name: 'Sarah Johnson',
-      role: 'Designer',
-      email: 'sarah.j@company.com',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-      isOnline: true,
-      location: 'New York, USA',
-      attendance: 92,
-      status: 'Present',
-    },
-    {
-      id: 2,
-      name: 'Michael Chen',
-      role: 'Developer',
-      email: 'michael.c@company.com',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
-      isOnline: false,
-      location: 'San Francisco, USA',
-      attendance: 88,
-      status: 'Absent',
-    },
-    {
-      id: 3,
-      name: 'Emily Rodriguez',
-      role: 'Manager',
-      email: 'emily.r@company.com',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
-      isOnline: true,
-      location: 'Los Angeles, USA',
-      attendance: 95,
-      status: 'Present',
-    },
-    {
-      id: 4,
-      name: 'David Kim',
-      role: 'Developer',
-      email: 'david.k@company.com',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
-      isOnline: true,
-      location: 'Seattle, USA',
-      attendance: 90,
-      status: 'Present',
-    },
-    {
-      id: 5,
-      name: 'Lisa Wang',
-      role: 'Analyst',
-      email: 'lisa.w@company.com',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
-      isOnline: false,
-      location: 'Chicago, USA',
-      attendance: 85,
-      status: 'On Leave',
-    },
-    {
-      id: 6,
-      name: 'James Wilson',
-      role: 'Designer',
-      email: 'james.w@company.com',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
-      isOnline: true,
-      location: 'Austin, USA',
-      attendance: 94,
-      status: 'Present',
-    },
-  ];
 
-  const roles = ['All', 'Developer', 'Designer', 'Manager', 'Analyst'];
+  const [userData, setUserData] = useState([]);
+  const [roleData, setRoleData] = useState([]);
 
   useEffect(() => {
     filterUsers();
   }, [searchKeyword, selectedRole]);
 
-  const filterUsers = () => {
-    let filtered = users;
+const filterUsers = (role = selectedRole, keyword = searchKeyword) => {
+  let filtered = userData;
 
-    // Filter by role
-    if (selectedRole !== 'All') {
-      filtered = filtered.filter(user => user.role === selectedRole);
-    }
+  if (role !== 'All') {
+    filtered = filtered.filter(user => user.role_name === role);
+  }
+if (keyword.trim()) {
+  filtered = filtered.filter(user =>
+    (user.name?.toLowerCase().includes(keyword.toLowerCase()) ||
+     user.email?.toLowerCase().includes(keyword.toLowerCase()))
+  );
+}
 
-    // Filter by keyword (name or email)
-    if (searchKeyword.trim()) {
-      filtered = filtered.filter(user =>
-        user.name.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchKeyword.toLowerCase())
+
+  setFilteredUsers(filtered);
+};
+
+  const fetchUser = async () => {
+    const formData = new FormData();
+    formData.append('branch_id', '1'); // send as string
+
+    try {
+      const response = await fetch(
+        `${Strings.APP_BASE_URL}/getUsers`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // ❌ Don't set Content-Type here!
+          },
+          body: formData,
+        },
       );
-    }
 
-    setFilteredUsers(filtered);
+      const result = await response.json();
+
+      console.log('user:', result);
+      //Alert.alert('User Result', JSON.stringify(result)); // Convert to string
+
+      if (result.status) {
+        // Alert.alert('Success', 'User fetched successfully!');
+        setUserData(result.data);
+      }
+    } catch (error) {
+      console.error('Error fetch user:', error);
+      // Alert.alert('Error', error.message);
+    }
   };
+
+  const fetchRole = async () => {
+    try {
+      const response = await fetch(
+        `${Strings.APP_BASE_URL}/getRoles`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // ❌ Don't set Content-Type here!
+          },
+        },
+      );
+
+      const result = await response.json();
+
+      console.log('role:', result);
+      //Alert.alert('Role Result', JSON.stringify(result)); // Convert to string
+
+      if (result.status) {
+        //Alert.alert('Success', 'Role fetched successfully!');
+        setRoleData(result.data);
+      }
+    } catch (error) {
+      console.error('Error fetch role:', error);
+      //Alert.alert('Error', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+    fetchRole();
+  }, []);
+  useEffect(() => {
+    // Assuming userData is fetched or already available
+    setFilteredUsers(userData);
+  }, [userData]);
 
   const handleDropdownAction = (action, user) => {
     setActiveDropdown(null);
-    
+
     switch (action) {
       case 'downloadId':
         console.log(`Downloading ID card for ${user.name}`);
@@ -158,19 +160,21 @@ const UserView = () => {
     }
   };
 
-  const getAttendanceColor = (attendance) => {
+  const getAttendanceColor = attendance => {
     if (attendance >= 95) return '#10b981';
     if (attendance >= 90) return '#f59e0b';
     if (attendance >= 80) return '#f97316';
     return '#ef4444';
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
-      case 'Present': return '#10b981';
-      case 'Absent': return '#ef4444';
-      case 'On Leave': return '#f59e0b';
-      default: return '#6b7280';
+      case '1':
+        return '#10b981';
+      case '0':
+        return '#ef4444';
+      default:
+        return '#6b7280';
     }
   };
 
@@ -178,17 +182,22 @@ const UserView = () => {
     <View style={styles.userCard}>
       <View style={styles.cardHeader}>
         <View style={styles.avatarContainer}>
-          <Image source={{ uri: user.avatar }} style={styles.avatar} />
+          <Image
+            source={{
+              uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+            }}
+            style={styles.avatar}
+          />
           {user.isOnline && <View style={styles.onlineIndicator} />}
         </View>
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{user.name}</Text>
-          <Text style={styles.userRole}>{user.role}</Text>
+          <Text style={styles.userRole}>{user.role_name}</Text>
           <Text style={styles.userEmail}>{user.email}</Text>
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.moreButton}
-          onPress={(event) => handleMorePress(user.id, event)}
+          onPress={event => handleMorePress(user.id, event)}
           activeOpacity={0.7}
         >
           <Text style={styles.moreText}>⋯</Text>
@@ -198,12 +207,17 @@ const UserView = () => {
       <View style={styles.cardBody}>
         <View style={styles.locationContainer}>
           <Text style={styles.locationIcon}>📍</Text>
-          <Text style={styles.locationText}>{user.location}</Text>
+          <Text style={styles.locationText}>{user.address}</Text>
         </View>
 
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: getAttendanceColor(user.attendance) }]}>
+            <Text
+              style={[
+                styles.statValue,
+                { color: getAttendanceColor(user.attendance) },
+              ]}
+            >
               {user.attendance}%
             </Text>
             <Text style={styles.statLabel}>Attendance</Text>
@@ -211,9 +225,19 @@ const UserView = () => {
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
             <View style={styles.statusContainer}>
-              <View style={[styles.statusDot, { backgroundColor: getStatusColor(user.status) }]} />
-              <Text style={[styles.statusText, { color: getStatusColor(user.status) }]}>
-                {user.status}
+              <View
+                style={[
+                  styles.statusDot,
+                  { backgroundColor: getStatusColor(user.status) },
+                ]}
+              />
+              <Text
+                style={[
+                  styles.statusText,
+                  { color: getStatusColor(user.status) },
+                ]}
+              >
+                {user.status === '1' ? 'Active' : 'Inactive'}
               </Text>
             </View>
             <Text style={styles.statLabel}>Status</Text>
@@ -247,55 +271,55 @@ const UserView = () => {
         animationType="fade"
         onRequestClose={() => setActiveDropdown(null)}
       >
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.modalOverlay}
           activeOpacity={1}
           onPress={() => setActiveDropdown(null)}
         >
           <View style={styles.dropdown}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.dropdownItem}
               onPress={() => handleDropdownAction('downloadId', user)}
             >
               <Text style={styles.dropdownIcon}>🆔</Text>
               <Text style={styles.dropdownText}>Download ID Card</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.dropdownItem}
               onPress={() => handleDropdownAction('downloadPayslip', user)}
             >
               <Text style={styles.dropdownIcon}>💰</Text>
               <Text style={styles.dropdownText}>Download Payslip</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.dropdownItem}
               onPress={() => handleDropdownAction('downloadCertificate', user)}
             >
               <Text style={styles.dropdownIcon}>📜</Text>
               <Text style={styles.dropdownText}>Download Certificate</Text>
             </TouchableOpacity>
-            
+
             <View style={styles.dropdownDivider} />
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.dropdownItem}
               onPress={() => handleDropdownAction('viewSchedule', user)}
             >
               <Text style={styles.dropdownIcon}>📅</Text>
               <Text style={styles.dropdownText}>View Schedule</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.dropdownItem}
               onPress={() => handleDropdownAction('attendanceReport', user)}
             >
               <Text style={styles.dropdownIcon}>📊</Text>
               <Text style={styles.dropdownText}>Attendance Report</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.dropdownItem}
               onPress={() => handleDropdownAction('editProfile', user)}
             >
@@ -311,36 +335,45 @@ const UserView = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Team Members</Text>
         <Text style={styles.headerSubtitle}>
-          {filteredUsers.length} members found
+          {userData.length} members found
         </Text>
       </View>
 
       {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInputContainer}>
-          <Text style={styles.searchIcon}>🔍</Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search by name or email..."
-            value={searchKeyword}
-            onChangeText={setSearchKeyword}
-            placeholderTextColor="#9ca3af"
-          />
-          {searchKeyword.length > 0 && (
-            <TouchableOpacity
-              onPress={() => setSearchKeyword('')}
-              style={styles.clearButton}
-            >
-              <Text style={styles.clearButtonText}>✕</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
+     <View style={styles.searchContainer}>
+  <View style={styles.searchInputContainer}>
+    <Text style={styles.searchIcon}>🔍</Text>
+
+    <TextInput
+      style={styles.searchInput}
+      placeholder="Search by name or email..."
+      value={searchKeyword}
+      onChangeText={(text) => {
+        setSearchKeyword(text);
+        filterUsers(selectedRole, text); // 👈 Trigger filter
+      }}
+      placeholderTextColor="#9ca3af"
+    />
+
+    {searchKeyword.length > 0 && (
+      <TouchableOpacity
+        onPress={() => {
+          setSearchKeyword('');
+          filterUsers(selectedRole, ''); // 👈 Reset filter
+        }}
+        style={styles.clearButton}
+      >
+        <Text style={styles.clearButtonText}>✕</Text>
+      </TouchableOpacity>
+    )}
+  </View>
+</View>
+
 
       {/* Role Filter */}
       <View style={styles.filterContainer}>
@@ -350,22 +383,46 @@ const UserView = () => {
           showsHorizontalScrollIndicator={false}
           style={styles.filterScrollView}
         >
-          {roles.map((role) => (
+          {/* "All" Button */}
+          <TouchableOpacity
+            key="all"
+            style={[
+              styles.filterChip,
+              selectedRole === 'All' && styles.filterChipActive,
+            ]}
+            onPress={() => {
+              setSelectedRole('All');
+              filterUsers('All');
+            }}
+          >
+            <Text
+              style={[
+                styles.filterChipText,
+                selectedRole === 'All' && styles.filterChipTextActive,
+              ]}
+            >
+              All
+            </Text>
+          </TouchableOpacity>
+          {roleData.map(role => (
             <TouchableOpacity
-              key={role}
+              key={role.id}
               style={[
                 styles.filterChip,
-                selectedRole === role && styles.filterChipActive,
+                selectedRole === role.name && styles.filterChipActive,
               ]}
-              onPress={() => setSelectedRole(role)}
+              onPress={() => {
+                setSelectedRole(role.name);
+                filterUsers(role.name); // Trigger filter immediately
+              }}
             >
               <Text
                 style={[
                   styles.filterChipText,
-                  selectedRole === role && styles.filterChipTextActive,
+                  selectedRole === role.name && styles.filterChipTextActive,
                 ]}
               >
-                {role}
+                {role.name}
               </Text>
             </TouchableOpacity>
           ))}
@@ -376,7 +433,7 @@ const UserView = () => {
       <FlatList
         data={filteredUsers}
         renderItem={({ item }) => <UserCard user={item} />}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
