@@ -15,6 +15,7 @@ import {
   Alert,
   BackHandler,
 } from "react-native"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CurrentBalance = () => {
   const [selectedClass, setSelectedClass] = useState("")
@@ -411,7 +412,7 @@ const CurrentBalance = () => {
             </Text>
           </View>
           <Text style={styles.callIcon} allowFontScaling={false}>
-            📞
+            <Ionicons name='call' size='20' color='black' />
           </Text>
         </View>
 

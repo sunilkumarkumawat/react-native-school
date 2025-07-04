@@ -46,7 +46,7 @@ const menuItems = [
       {
         id: 25,
         title: 'Daily Collection Report',
-        screen: 'Categories',
+        screen: 'DailyCollectionReport',
         icon: '🏷️',
       },
       { id: 26, title: 'Fee Follow Up', screen: 'Categories', icon: '🏷️' },

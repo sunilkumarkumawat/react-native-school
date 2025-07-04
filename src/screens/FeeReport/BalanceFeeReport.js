@@ -15,6 +15,7 @@ import {
   Alert,
   BackHandler,
 } from "react-native"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const BalanceFeeReport = () => {
   const [selectedClass, setSelectedClass] = useState("")
@@ -141,7 +142,9 @@ const BalanceFeeReport = () => {
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>{title}</Text>
+          <Text style={styles.modalTitle} allowFontScaling={false}>
+            {title}
+          </Text>
           <FlatList
             data={data}
             keyExtractor={(item, index) => index.toString()}
@@ -153,12 +156,16 @@ const BalanceFeeReport = () => {
                   onClose()
                 }}
               >
-                <Text style={styles.modalItemText}>{item}</Text>
+                <Text style={styles.modalItemText} allowFontScaling={false}>
+                  {item}
+                </Text>
               </TouchableOpacity>
             )}
           />
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text style={styles.closeButtonText} allowFontScaling={false}>
+              Close
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -201,30 +208,44 @@ const BalanceFeeReport = () => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Class</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Class
+          </Text>
           <TouchableOpacity style={styles.smallDropdown} onPress={() => setShowClassModal(true)}>
-            <Text style={[styles.dropdownText, !selectedClass && styles.placeholder]}>{selectedClass || "Select"}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={[styles.dropdownText, !selectedClass && styles.placeholder]} allowFontScaling={false}>
+              {selectedClass || "Select"}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Section</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Section
+          </Text>
           <TouchableOpacity style={styles.smallDropdown} onPress={() => setShowSectionModal(true)}>
-            <Text style={[styles.dropdownText, !selectedSection && styles.placeholder]}>
+            <Text style={[styles.dropdownText, !selectedSection && styles.placeholder]} allowFontScaling={false}>
               {selectedSection || "Select"}
             </Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {selectedClass && selectedSection ? (
         <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-          <Text style={styles.nextButtonText}>Next</Text>
+          <Text style={styles.nextButtonText} allowFontScaling={false}>
+            Next
+          </Text>
         </TouchableOpacity>
       ) : (
         <View style={styles.noData}>
-          <Text style={styles.noDataText}>No data found</Text>
+          <Text style={styles.noDataText} allowFontScaling={false}>
+            No data found
+          </Text>
         </View>
       )}
 
@@ -249,22 +270,36 @@ const BalanceFeeReport = () => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Class</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Class
+          </Text>
           <TouchableOpacity style={styles.smallDropdown}>
-            <Text style={styles.dropdownText}>{selectedClass}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownText} allowFontScaling={false}>
+              {selectedClass}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Section</Text>
+          <Text style={styles.label} allowFontScaling={false}>
+            Section
+          </Text>
           <TouchableOpacity style={styles.smallDropdown}>
-            <Text style={styles.dropdownText}>{selectedSection}</Text>
-            <Text style={styles.dropdownArrow}>▼</Text>
+            <Text style={styles.dropdownText} allowFontScaling={false}>
+              {selectedSection}
+            </Text>
+            <Text style={styles.dropdownArrow} allowFontScaling={false}>
+              ▼
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <Text style={styles.label}>Search</Text>
+      <Text style={styles.label} allowFontScaling={false}>
+        Search
+      </Text>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -272,7 +307,9 @@ const BalanceFeeReport = () => {
           value={searchText}
           onChangeText={setSearchText}
         />
-        <Text style={styles.searchIcon}>🔍</Text>
+        <Text style={styles.searchIcon} allowFontScaling={false}>
+          🔍
+        </Text>
       </View>
 
       {/* Horizontal Scrollable Summary Cards */}
@@ -284,8 +321,12 @@ const BalanceFeeReport = () => {
       >
         {/* {balanceData.map((item, index) => (
           <View key={index} style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>{item.label}</Text>
-            <Text style={styles.summaryValue}>INR {formatCurrency(item.value)}</Text>
+            <Text style={styles.summaryLabel} allowFontScaling={false}>
+              {item.label}
+            </Text>
+            <Text style={styles.summaryValue} allowFontScaling={false}>
+              INR {formatCurrency(item.value)}
+            </Text>
           </View>
         ))} */}
       </ScrollView>
@@ -296,23 +337,35 @@ const BalanceFeeReport = () => {
           <TouchableOpacity key={student.id} style={styles.studentCard} onPress={() => handleStudentClick(student)}>
             <View style={styles.studentHeader}>
               <View style={styles.admissionNumberBadge}>
-                <Text style={styles.admissionNumberText}>Admission Number - {student.admissionNumber}</Text>
+                <Text style={styles.admissionNumberText} allowFontScaling={false}>
+                  Admission Number - {student.admissionNumber}
+                </Text>
               </View>
-              <Text style={styles.moreIcon}>⋯</Text>
+              <Text style={styles.moreIcon} allowFontScaling={false}>
+                ⋯
+              </Text>
             </View>
 
             <View style={styles.studentInfo}>
               <View style={styles.studentDetails}>
-                <Text style={styles.studentName}>{student.name}</Text>
-                <Text style={styles.studentClass}>
+                <Text style={styles.studentName} allowFontScaling={false}>
+                  {student.name}
+                </Text>
+                <Text style={styles.studentClass} allowFontScaling={false}>
                   Class - {student.class} ({student.section})
                 </Text>
-                <Text style={styles.fatherName}>Father Name - {student.fatherName}</Text>
+                <Text style={styles.fatherName} allowFontScaling={false}>
+                  Father Name - {student.fatherName}
+                </Text>
               </View>
               <View style={styles.balanceSection}>
-                <Text style={styles.balanceLabel}>Balance Fee</Text>
+                <Text style={styles.balanceLabel} allowFontScaling={false}>
+                  Balance Fee
+                </Text>
                 <View style={styles.balanceBadge}>
-                  <Text style={styles.balanceAmount}>INR {formatCurrency(student.balanceFee)}</Text>
+                  <Text style={styles.balanceAmount} allowFontScaling={false}>
+                    INR {formatCurrency(student.balanceFee)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -320,7 +373,9 @@ const BalanceFeeReport = () => {
         ))}
         {filteredStudents.length === 0 && (
           <View style={styles.noData}>
-            <Text style={styles.noDataText}>No students found</Text>
+            <Text style={styles.noDataText} allowFontScaling={false}>
+              No students found
+            </Text>
           </View>
         )}
       </ScrollView>
@@ -331,57 +386,92 @@ const BalanceFeeReport = () => {
     <View style={styles.container}>
       <View style={styles.feeReportHeader}>
         <TouchableOpacity onPress={() => setCurrentStep(2)} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Back</Text>
+          <Text style={styles.backButtonText} allowFontScaling={false}>
+            ←
+          </Text>
         </TouchableOpacity>
-        <Text style={styles.feeReportTitle}>Fee Report</Text>
+        <Text style={styles.feeReportTitle} allowFontScaling={false}>
+          Fee Report
+        </Text>
       </View>
 
       <ScrollView style={styles.feeReportContent}>
         {/* Student Info Section */}
         <View style={styles.studentInfoCard}>
           <View style={styles.studentAvatar}>
-            <Text style={styles.avatarText}>{selectedStudent?.name?.charAt(0)?.toUpperCase()}</Text>
+            <Text style={styles.avatarText} allowFontScaling={false}>
+              {selectedStudent?.name?.charAt(0)?.toUpperCase()}
+            </Text>
           </View>
           <View style={styles.studentInfoDetails}>
-            <Text style={styles.studentName}>{selectedStudent?.name}</Text>
-            <Text style={styles.studentClass}>
+            <Text style={styles.studentName} allowFontScaling={false}>
+              {selectedStudent?.name}
+            </Text>
+            <Text style={styles.studentClass} allowFontScaling={false}>
               Class - {selectedStudent?.class} ({selectedStudent?.section})
             </Text>
           </View>
+          <Text style={styles.callIcon} allowFontScaling={false}>
+            <Ionicons name='call' size='20' color='black' />
+          </Text>
         </View>
 
         {/* Student Details Grid */}
         <View style={styles.detailsGrid}>
           <View style={styles.detailRow}>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>ADMISSION NUMBER</Text>
-              <Text style={styles.detailValue}>{selectedStudent?.admissionNumber}</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                ADMISSION NUMBER
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedStudent?.admissionNumber}
+              </Text>
             </View>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>ROLL NUMBER</Text>
-              <Text style={styles.detailValue}>{selectedStudent?.rollNumber}</Text>
-            </View>
-          </View>
-
-          <View style={styles.detailRow}>
-            <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>FATHER NAME</Text>
-              <Text style={styles.detailValue}>{selectedStudent?.fatherName}</Text>
-            </View>
-            <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>GUARDIAN PHONE</Text>
-              <Text style={styles.detailValue}>{selectedStudent?.guardianPhone}</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                ROLL NUMBER
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedStudent?.rollNumber}
+              </Text>
             </View>
           </View>
 
           <View style={styles.detailRow}>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>FATHER PHONE</Text>
-              <Text style={styles.detailValue}>{selectedStudent?.fatherPhone}</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                FATHER NAME
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedStudent?.fatherName}
+              </Text>
             </View>
             <View style={styles.detailItem}>
-              <Text style={styles.detailLabel}>MOTHER PHONE</Text>
-              <Text style={styles.detailValue}>{selectedStudent?.motherPhone || "-"}</Text>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                GUARDIAN PHONE
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedStudent?.guardianPhone}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.detailRow}>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                FATHER PHONE
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedStudent?.fatherPhone}
+              </Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel} allowFontScaling={false}>
+                MOTHER PHONE
+              </Text>
+              <Text style={styles.detailValue} allowFontScaling={false}>
+                {selectedStudent?.motherPhone || "-"}
+              </Text>
             </View>
           </View>
         </View>
@@ -389,43 +479,70 @@ const BalanceFeeReport = () => {
         {/* Fee Breakdown */}
         <View style={styles.feeBreakdownCard}>
           <View style={styles.feeRow}>
-            <Text style={styles.feeLabel}>ASSIGNED FEES TILL TODAY(+)</Text>
-            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.assignedFees || 0)}</Text>
+            <Text style={styles.feeLabel} allowFontScaling={false}>
+              ASSIGNED FEES TILL TODAY(+)
+            </Text>
+            <Text style={styles.feeValue} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.assignedFees || 0)}
+            </Text>
           </View>
           <View style={styles.feeRow}>
-            <Text style={styles.feeLabel}>DISCOUNT ASSIGNED(-)</Text>
-            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.discountAssigned || 0)}</Text>
+            <Text style={styles.feeLabel} allowFontScaling={false}>
+              DISCOUNT ASSIGNED(-)
+            </Text>
+            <Text style={styles.feeValue} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.discountAssigned || 0)}
+            </Text>
           </View>
           <View style={styles.feeRow}>
-            <Text style={styles.feeLabelBold}>NET PAYABLE FEES</Text>
-            <Text style={styles.feeValueBold}>INR {formatCurrency(selectedStudent?.netPayableFees || 0)}</Text>
+            <Text style={styles.feeLabelBold} allowFontScaling={false}>
+              NET PAYABLE FEES
+            </Text>
+            <Text style={styles.feeValueBold} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.netPayableFees || 0)}
+            </Text>
           </View>
           <View style={styles.feeRow}>
-            <Text style={styles.feeLabel}>PAID FEES(-)</Text>
-            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.paidFees || 0)}</Text>
+            <Text style={styles.feeLabel} allowFontScaling={false}>
+              PAID FEES(-)
+            </Text>
+            <Text style={styles.feeValue} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.paidFees || 0)}
+            </Text>
           </View>
           <View style={styles.feeRow}>
-            <Text style={styles.feeLabel}>PAID DISCOUNT(-)</Text>
-            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.paidDiscount || 0)}</Text>
+            <Text style={styles.feeLabel} allowFontScaling={false}>
+              PAID DISCOUNT(-)
+            </Text>
+            <Text style={styles.feeValue} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.paidDiscount || 0)}
+            </Text>
           </View>
           <View style={styles.feeRow}>
-            <Text style={styles.feeLabel}>ADDITIONAL DISCOUNT(-)</Text>
-            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.additionalDiscount || 0)}</Text>
+            <Text style={styles.feeLabel} allowFontScaling={false}>
+              ADDITIONAL DISCOUNT(-)
+            </Text>
+            <Text style={styles.feeValue} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.additionalDiscount || 0)}
+            </Text>
           </View>
           <View style={styles.feeRow}>
-            <Text style={styles.feeLabel}>FINE(+)</Text>
-            <Text style={styles.feeValue}>INR {formatCurrency(selectedStudent?.fine || 0)}</Text>
+            <Text style={styles.feeLabel} allowFontScaling={false}>
+              FINE(+)
+            </Text>
+            <Text style={styles.feeValue} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.fine || 0)}
+            </Text>
           </View>
           <View style={styles.feeRowFinal}>
-            <Text style={styles.feeLabelFinal}>BALANCE</Text>
-            <Text style={styles.feeValueFinal}>INR {formatCurrency(selectedStudent?.balanceFee || 0)}</Text>
+            <Text style={styles.feeLabelFinal} allowFontScaling={false}>
+              BALANCE
+            </Text>
+            <Text style={styles.feeValueFinal} allowFontScaling={false}>
+              INR {formatCurrency(selectedStudent?.balanceFee || 0)}
+            </Text>
           </View>
         </View>
-
-        {/* Contact Button */}
-        <TouchableOpacity style={styles.contactButton}>
-          <Text style={styles.contactButtonText}>CONTACT WITH GUARDIAN 📞</Text>
-        </TouchableOpacity>
       </ScrollView>
     </View>
   )
@@ -459,8 +576,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     color: "#374151",
-    marginBottom: 6,
-    marginTop: 12,
+    marginBottom: 5,
+    marginTop: 10,
   },
   row: {
     flexDirection: "row",
@@ -482,7 +599,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   dropdownText: {
-    fontSize: 15,
+    fontSize: 14,
     color: "#374151",
     fontWeight: "500",
   },
@@ -515,7 +632,7 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     backgroundColor: "#6366f1",
-    padding: 12,
+    padding: 10,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 24,
@@ -540,7 +657,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     backgroundColor: "white",
-    paddingRight: 40,
+    paddingRight: 50,
     fontSize: 14,
     elevation: 1,
     shadowColor: "#000",
@@ -550,8 +667,8 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     position: "absolute",
-    right: 12,
-    top: 12,
+    right: 16,
+    top: 16,
     fontSize: 16,
   },
   summaryScrollView: {
@@ -678,25 +795,28 @@ const styles = StyleSheet.create({
   feeReportHeader: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
+    position: "relative",
   },
   backButton: {
-    marginRight: 15,
+    position: "absolute",
+    left: 0,
+    padding: 8,
   },
   backButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#6366f1",
     fontWeight: "600",
   },
   feeReportTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "700",
     color: "#111827",
     textAlign: "center",
-    flex: 1,
   },
   feeReportContent: {
     flex: 1,
@@ -708,6 +828,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+  },
+  studentInfoDetails: {
+    flex: 1,
   },
   studentAvatar: {
     width: 50,
@@ -816,23 +939,6 @@ const styles = StyleSheet.create({
     color: "#dc2626",
     textAlign: "right",
   },
-  contactButton: {
-    backgroundColor: "#1e3a8a",
-    padding: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    marginBottom: 20,
-    elevation: 2,
-    shadowColor: "#1e3a8a",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  contactButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "700",
-  },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -893,6 +999,11 @@ const styles = StyleSheet.create({
   },
   studentInfoDetails: {
     flex: 1,
+  },
+  callIcon: {
+    fontSize: 20,
+    color: "#10b981",
+    marginLeft: 12,
   },
 })
 

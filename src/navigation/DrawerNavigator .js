@@ -19,6 +19,7 @@ import BalanceFeeReport from '../screens/FeeReport/BalanceFeeReport';
 import TransactionReport from '../screens/FeeReport/TransactionReport';
 import Setting from '../common/Setting';
 import { useTheme } from '../theme/ThemeContext';
+import DailyCollectionReport from '../screens/FeeReport/DailyCollectionReport';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -77,6 +78,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="CurrentBalance" component={CurrentBalance} />
       <Drawer.Screen name="BalanceFeeReport" component={BalanceFeeReport} />
       <Drawer.Screen name="TransactionReport" component={TransactionReport} />
+      <Drawer.Screen name="DailyCollectionReport" component={DailyCollectionReport} />
       <Drawer.Screen name="Setting" component={Setting} />
     </Drawer.Navigator>
   );

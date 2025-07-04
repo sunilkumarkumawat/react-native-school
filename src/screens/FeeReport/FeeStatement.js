@@ -15,6 +15,7 @@ import {
   Alert,
   BackHandler, // Add this import
 } from "react-native"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const FeeStatement = () => {
   const [selectedClass, setSelectedClass] = useState("")
@@ -571,7 +572,7 @@ const FeeStatement = () => {
             </Text>
           </View>
           <Text style={styles.callIcon} allowFontScaling={false}>
-            📞
+            <Ionicons name='call' size='20' color='black' />
           </Text>
         </View>
 
@@ -907,7 +908,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
-    fontSize: 8,
+    fontSize: 11,
     fontWeight: "600",
   },
   moreIcon: {
@@ -915,13 +916,13 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   recordPeriod: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "700",
     color: "#111827",
     marginBottom: 4,
   },
   recordDate: {
-    fontSize: 10,
+    fontSize: 13,
     color: "#6b7280",
     marginBottom: 8,
     fontWeight: "500",
@@ -1162,13 +1163,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentName: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: "700",
     color: "#111827",
     marginBottom: 4,
   },
   studentClass: {
-    fontSize: 11,
+    fontSize: 13,
     color: "#6b7280",
     fontWeight: "500",
   },
