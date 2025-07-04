@@ -223,7 +223,7 @@ const menuItems = [
     title: 'Settings',
     icon: 'settings',
     color: '#a8edea',
-    screen: 'Settings',
+    screen: 'Setting',
     submenus: [],
   },
 ];

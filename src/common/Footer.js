@@ -3,8 +3,11 @@ import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../theme/colors';
+import { useTheme } from '../theme/ThemeContext';
 
 const Footer = () => {
+  const { themeColor } = useTheme();
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const items = [
@@ -22,7 +25,7 @@ const Footer = () => {
     { label: 'Profile View', icon: 'account', screen: 'ProfileView' },
   ];
   return (
-    <View style={[styles.footer, { paddingBottom: insets.bottom }]}>
+    <View style={[styles.footer, { paddingBottom: insets.bottom }, { backgroundColor: themeColor }]}>
       {items.map((item, index) => (
         <TouchableOpacity
           key={index}
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#667eea',
+    
     paddingTop: 10,
     borderTopWidth: 1,
     borderTopColor: '#e5e7eb',

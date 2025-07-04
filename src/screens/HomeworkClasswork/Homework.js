@@ -12,7 +12,9 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-
+import CustomeButton from '../../common/CustomeButton';
+import ActionButton from '../../common/ActionButton';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const Homework = () => {
   const [selectedClass, setSelectedClass] = useState('All');
   const [selectedSection, setSelectedSection] = useState('All');
@@ -29,7 +31,15 @@ const Homework = () => {
 
   const classOptions = ['All', '9th', '10th', '11th', '12th'];
   const sectionOptions = ['All', 'A', 'B', 'C', 'D'];
-  const subjectOptions = ['All', 'Accounts (Th)', 'Mathematics', 'English', 'Science', 'Hindi', 'Social Studies'];
+  const subjectOptions = [
+    'All',
+    'Accounts (Th)',
+    'Mathematics',
+    'English',
+    'Science',
+    'Hindi',
+    'Social Studies',
+  ];
 
   const [homeworkData, setHomeworkData] = useState([
     {
@@ -102,56 +112,69 @@ const Homework = () => {
   // Filter homework based on selected filters and search query
   const getFilteredHomework = () => {
     // If all filters are "All", show empty list to encourage filtering
-    if (selectedClass === 'All' && selectedSection === 'All' && selectedSubject === 'All' && searchQuery === '') {
+    if (
+      selectedClass === 'All' &&
+      selectedSection === 'All' &&
+      selectedSubject === 'All' &&
+      searchQuery === ''
+    ) {
       return [];
     }
 
     return homeworkData.filter(homework => {
-      const matchesClass = selectedClass === 'All' || homework.class === selectedClass;
-      const matchesSection = selectedSection === 'All' || homework.section === selectedSection;
-      const matchesSubject = selectedSubject === 'All' || homework.subject === selectedSubject;
-      const matchesSearch = searchQuery === '' || 
+      const matchesClass =
+        selectedClass === 'All' || homework.class === selectedClass;
+      const matchesSection =
+        selectedSection === 'All' || homework.section === selectedSection;
+      const matchesSubject =
+        selectedSubject === 'All' || homework.subject === selectedSubject;
+      const matchesSearch =
+        searchQuery === '' ||
         homework.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
         homework.teacher.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        homework.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        homework.description
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         homework.class.toLowerCase().includes(searchQuery.toLowerCase());
-      
+
       return matchesClass && matchesSection && matchesSubject && matchesSearch;
     });
   };
 
-  const handleEdit = (homework) => {
-    setEditHomework({...homework});
+  const handleEdit = homework => {
+    setEditHomework({ ...homework });
     setShowEditModal(true);
   };
 
   const handleSaveEdit = () => {
     if (!editHomework) return;
-    
-    setHomeworkData(prev => prev.map(item => 
-      item.id === editHomework.id ? editHomework : item
-    ));
-    
+
+    setHomeworkData(prev =>
+      prev.map(item => (item.id === editHomework.id ? editHomework : item)),
+    );
+
     setShowEditModal(false);
     setEditHomework(null);
     Alert.alert('Success', 'Homework updated successfully!');
   };
 
-  const handleDelete = (homework) => {
+  const handleDelete = homework => {
     Alert.alert(
       'Delete Homework',
       `Are you sure you want to delete homework for ${homework.subject}?`,
       [
         { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Delete', 
+        {
+          text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            setHomeworkData(prev => prev.filter(item => item.id !== homework.id));
+            setHomeworkData(prev =>
+              prev.filter(item => item.id !== homework.id),
+            );
             Alert.alert('Success', 'Homework deleted successfully!');
-          }
-        }
-      ]
+          },
+        },
+      ],
     );
   };
 
@@ -159,52 +182,62 @@ const Homework = () => {
     setShowAddModal(true);
   };
 
-  const handleViewDetails = (homework) => {
+  const handleViewDetails = homework => {
     setSelectedHomework(homework);
     setShowDetailsModal(true);
   };
 
-  const handleSendReminder = (homework) => {
+  const handleSendReminder = homework => {
     Alert.alert(
       'Send Reminder',
       `Send reminder for ${homework.subject} homework to students?`,
       [
         { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Send', 
+        {
+          text: 'Send',
           onPress: () => {
-            Alert.alert('Success', 'Reminder sent to all students successfully!');
-          }
-        }
-      ]
+            Alert.alert(
+              'Success',
+              'Reminder sent to all students successfully!',
+            );
+          },
+        },
+      ],
     );
   };
 
-  const renderDropdown = (label, value, options, onSelect, showModal, setShowModal) => (
+  const renderDropdown = (
+    label,
+    value,
+    options,
+    onSelect,
+    showModal,
+    setShowModal,
+  ) => (
     <View style={styles.inputGroup}>
       <Text style={styles.label}>{label}:</Text>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.dropdownContainer}
         onPress={() => setShowModal(true)}
       >
         <Text style={styles.dropdownText}>{value}</Text>
         <Text style={styles.dropdownArrow}>▼</Text>
       </TouchableOpacity>
-      
+
       <Modal
         visible={showModal}
         transparent={true}
         animationType="fade"
         onRequestClose={() => setShowModal(false)}
       >
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.modalOverlay}
           onPress={() => setShowModal(false)}
         >
           <View style={styles.modalContent}>
             <FlatList
               data={options}
-              keyExtractor={(item) => item}
+              keyExtractor={item => item}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.modalItem}
@@ -213,10 +246,14 @@ const Homework = () => {
                     setShowModal(false);
                   }}
                 >
-                  <Text style={[
-                    styles.modalItemText,
-                    item === value && styles.selectedItem
-                  ]}>{item}</Text>
+                  <Text
+                    style={[
+                      styles.modalItemText,
+                      item === value && styles.selectedItem,
+                    ]}
+                  >
+                    {item}
+                  </Text>
                 </TouchableOpacity>
               )}
             />
@@ -226,21 +263,29 @@ const Homework = () => {
     </View>
   );
 
-  const getPriorityColor = (priority) => {
-    switch(priority) {
-      case 'High': return '#FF6B6B';
-      case 'Medium': return '#FFD93D';
-      case 'Low': return '#6BCF7F';
-      default: return '#6C7CE7';
+  const getPriorityColor = priority => {
+    switch (priority) {
+      case 'High':
+        return '#FF6B6B';
+      case 'Medium':
+        return '#FFD93D';
+      case 'Low':
+        return '#6BCF7F';
+      default:
+        return '#6C7CE7';
     }
   };
 
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'Active': return '#6BCF7F';
-      case 'Pending': return '#FFD93D';
-      case 'Completed': return '#6C7CE7';
-      default: return '#95A5A6';
+  const getStatusColor = status => {
+    switch (status) {
+      case 'Active':
+        return '#6BCF7F';
+      case 'Pending':
+        return '#FFD93D';
+      case 'Completed':
+        return '#6C7CE7';
+      default:
+        return '#95A5A6';
     }
   };
 
@@ -249,8 +294,6 @@ const Homework = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#6C7CE7" barStyle="light-content" />
-      
-      
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Search Bar */}
@@ -268,20 +311,43 @@ const Homework = () => {
         {/* Filter Section */}
         <View style={styles.filterContainer}>
           <View style={styles.filterRow}>
-            {renderDropdown('Class', selectedClass, classOptions, setSelectedClass, showClassModal, setShowClassModal)}
-            {renderDropdown('Section', selectedSection, sectionOptions, setSelectedSection, showSectionModal, setShowSectionModal)}
+            {renderDropdown(
+              'Class',
+              selectedClass,
+              classOptions,
+              setSelectedClass,
+              showClassModal,
+              setShowClassModal,
+            )}
+            {renderDropdown(
+              'Section',
+              selectedSection,
+              sectionOptions,
+              setSelectedSection,
+              showSectionModal,
+              setShowSectionModal,
+            )}
           </View>
-          {renderDropdown('Subject', selectedSubject, subjectOptions, setSelectedSubject, showSubjectModal, setShowSubjectModal)}
+          {renderDropdown(
+            'Subject',
+            selectedSubject,
+            subjectOptions,
+            setSelectedSubject,
+            showSubjectModal,
+            setShowSubjectModal,
+          )}
         </View>
 
         {/* Homework Cards */}
-        {filteredHomework.map((homework) => (
+        {filteredHomework.map(homework => (
           <View key={homework.id} style={styles.homeworkCard}>
             {/* Card Header */}
             <View style={styles.cardHeader}>
               <View style={styles.cardHeaderLeft}>
                 <View style={styles.avatarContainer}>
-                  <Text style={styles.avatarText}>{homework.subject.charAt(0)}</Text>
+                  <Text style={styles.avatarText}>
+                    {homework.subject.charAt(0)}
+                  </Text>
                 </View>
                 <View style={styles.cardHeaderInfo}>
                   <Text style={styles.cardTitle}>{homework.subject}</Text>
@@ -292,16 +358,33 @@ const Homework = () => {
                 </View>
               </View>
               <View style={styles.cardHeaderRight}>
-                <View style={[styles.priorityBadge, { backgroundColor: getPriorityColor(homework.priority) }]}>
-                  <Text style={styles.priorityText}>{homework.priority}</Text>
-                </View>
+                <ActionButton
+                onPress={() => handleViewDetails(homework)}
+                iconSource={require('../../theme/asserts/icon/view.png')} // your local image
+                iconSize={16}
+              />
+              <ActionButton
+                onPress={() => handleSendReminder(homework)}
+                iconSource={require('../../theme/asserts/icon/shedule.png')} // your local image
+                iconSize={16}
+              />
+              <ActionButton
+                onPress={() => handleEdit(homework)}
+                iconSource={require('../../theme/asserts/icon/edit.png')} // your local image
+                iconSize={16}
+              />
+              <ActionButton
+                onPress={() => handleDelete(homework)}
+                iconSource={require('../../theme/asserts/icon/delete.png')} // your local image
+                iconSize={16}
+              />
               </View>
             </View>
 
             {/* Card Content */}
             <View style={styles.cardContent}>
               <Text style={styles.descriptionText}>{homework.description}</Text>
-              
+
               <View style={styles.infoGrid}>
                 <View style={styles.infoItem}>
                   <Text style={styles.infoLabel}>Assigned Date</Text>
@@ -309,11 +392,18 @@ const Homework = () => {
                 </View>
                 <View style={styles.infoItem}>
                   <Text style={styles.infoLabel}>Due Date</Text>
-                  <Text style={styles.infoValue}>{homework.submissionDate}</Text>
+                  <Text style={styles.infoValue}>
+                    {homework.submissionDate}
+                  </Text>
                 </View>
                 <View style={styles.infoItem}>
                   <Text style={styles.infoLabel}>Status</Text>
-                  <View style={[styles.statusBadge, { backgroundColor: getStatusColor(homework.status) }]}>
+                  <View
+                    style={[
+                      styles.statusBadge,
+                      { backgroundColor: getStatusColor(homework.status) },
+                    ]}
+                  >
                     <Text style={styles.statusText}>{homework.status}</Text>
                   </View>
                 </View>
@@ -321,59 +411,51 @@ const Homework = () => {
                   <View style={styles.infoItem}>
                     <Text style={styles.infoLabel}>Attachment</Text>
                     <TouchableOpacity style={styles.attachmentButton}>
-                      <Text style={styles.attachmentText}>📎 {homework.attachment}</Text>
+                      <Text style={styles.attachmentText}>
+                        📎 {homework.attachment}
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 )}
               </View>
             </View>
 
-            {/* Card Actions */}
-            <View style={styles.cardActions}>
-              <TouchableOpacity 
-                style={styles.actionButton}
-                onPress={() => handleViewDetails(homework)}
-              >
-                <Text style={styles.actionButtonText}>View Details</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={styles.primaryActionButton}
-                onPress={() => handleSendReminder(homework)}
-              >
-                <Text style={styles.primaryActionButtonText}>Send Reminder</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Admin Actions */}
-            <View style={styles.adminActions}>
-              <TouchableOpacity 
-                style={styles.editButton}
-                onPress={() => handleEdit(homework)}
-              >
-                <Text style={styles.editButtonText}>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={styles.deleteButton}
-                onPress={() => handleDelete(homework)}
-              >
-                <Text style={styles.deleteButtonText}>Delete</Text>
-              </TouchableOpacity>
-            </View>
+  
+            {/* <View>
+              <CustomeButton
+                iconName="trash" // use any Ionicons name
+                iconSize={20}
+                iconColor="red"
+                onPress={() => console.log('Icon pressed')}
+                buttonStyle={{}}
+              />
+            </View> */}
           </View>
         ))}
 
         {/* Empty state */}
         {filteredHomework.length === 0 && (
           <View style={styles.emptyState}>
-            {selectedClass === 'All' && selectedSection === 'All' && selectedSubject === 'All' && searchQuery === '' ? (
+            {selectedClass === 'All' &&
+            selectedSection === 'All' &&
+            selectedSubject === 'All' &&
+            searchQuery === '' ? (
               <>
-                <Text style={styles.emptyStateText}>Please select filters to view homework</Text>
-                <Text style={styles.emptyStateSubtext}>Choose class, section, or subject to see assignments</Text>
+                <Text style={styles.emptyStateText}>
+                  Please select filters to view homework
+                </Text>
+                <Text style={styles.emptyStateSubtext}>
+                  Choose class, section, or subject to see assignments
+                </Text>
               </>
             ) : (
               <>
-                <Text style={styles.emptyStateText}>No homework assignments found</Text>
-                <Text style={styles.emptyStateSubtext}>Try adjusting your filters or add a new assignment</Text>
+                <Text style={styles.emptyStateText}>
+                  No homework assignments found
+                </Text>
+                <Text style={styles.emptyStateSubtext}>
+                  Try adjusting your filters or add a new assignment
+                </Text>
               </>
             )}
           </View>
@@ -402,45 +484,79 @@ const Homework = () => {
             <ScrollView style={styles.modalBody}>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Subject:</Text>
-                <Text style={styles.detailValue}>{selectedHomework.subject}</Text>
+                <Text style={styles.detailValue}>
+                  {selectedHomework.subject}
+                </Text>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Class & Section:</Text>
-                <Text style={styles.detailValue}>{selectedHomework.class} - Section {selectedHomework.section}</Text>
+                <Text style={styles.detailValue}>
+                  {selectedHomework.class} - Section {selectedHomework.section}
+                </Text>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Teacher:</Text>
-                <Text style={styles.detailValue}>{selectedHomework.teacher}</Text>
+                <Text style={styles.detailValue}>
+                  {selectedHomework.teacher}
+                </Text>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Assigned Date:</Text>
-                <Text style={styles.detailValue}>{selectedHomework.homeworkDate}</Text>
+                <Text style={styles.detailValue}>
+                  {selectedHomework.homeworkDate}
+                </Text>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Submission Date:</Text>
-                <Text style={styles.detailValue}>{selectedHomework.submissionDate}</Text>
+                <Text style={styles.detailValue}>
+                  {selectedHomework.submissionDate}
+                </Text>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Priority:</Text>
-                <View style={[styles.priorityBadge, { backgroundColor: getPriorityColor(selectedHomework.priority) }]}>
-                  <Text style={styles.priorityText}>{selectedHomework.priority}</Text>
+                <View
+                  style={[
+                    styles.priorityBadge,
+                    {
+                      backgroundColor: getPriorityColor(
+                        selectedHomework.priority,
+                      ),
+                    },
+                  ]}
+                >
+                  <Text style={styles.priorityText}>
+                    {selectedHomework.priority}
+                  </Text>
                 </View>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Status:</Text>
-                <View style={[styles.statusBadge, { backgroundColor: getStatusColor(selectedHomework.status) }]}>
-                  <Text style={styles.statusText}>{selectedHomework.status}</Text>
+                <View
+                  style={[
+                    styles.statusBadge,
+                    {
+                      backgroundColor: getStatusColor(selectedHomework.status),
+                    },
+                  ]}
+                >
+                  <Text style={styles.statusText}>
+                    {selectedHomework.status}
+                  </Text>
                 </View>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Description:</Text>
-                <Text style={styles.detailDescription}>{selectedHomework.description}</Text>
+                <Text style={styles.detailDescription}>
+                  {selectedHomework.description}
+                </Text>
               </View>
               {selectedHomework.attachment && (
                 <View style={styles.detailItem}>
                   <Text style={styles.detailLabel}>Attachment:</Text>
                   <TouchableOpacity style={styles.attachmentButton}>
-                    <Text style={styles.attachmentText}>📎 {selectedHomework.attachment}</Text>
+                    <Text style={styles.attachmentText}>
+                      📎 {selectedHomework.attachment}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -469,48 +585,56 @@ const Homework = () => {
                 <TextInput
                   style={styles.editInput}
                   value={editHomework.subject}
-                  onChangeText={(text) => setEditHomework({...editHomework, subject: text})}
+                  onChangeText={text =>
+                    setEditHomework({ ...editHomework, subject: text })
+                  }
                 />
               </View>
-              
+
               <View style={styles.editInputGroup}>
                 <Text style={styles.editLabel}>Teacher:</Text>
                 <TextInput
                   style={styles.editInput}
                   value={editHomework.teacher}
-                  onChangeText={(text) => setEditHomework({...editHomework, teacher: text})}
+                  onChangeText={text =>
+                    setEditHomework({ ...editHomework, teacher: text })
+                  }
                 />
               </View>
-              
+
               <View style={styles.editInputGroup}>
                 <Text style={styles.editLabel}>Description:</Text>
                 <TextInput
                   style={[styles.editInput, styles.editTextArea]}
                   value={editHomework.description}
-                  onChangeText={(text) => setEditHomework({...editHomework, description: text})}
+                  onChangeText={text =>
+                    setEditHomework({ ...editHomework, description: text })
+                  }
                   multiline={true}
                   numberOfLines={4}
                 />
               </View>
-              
+
               <View style={styles.editInputGroup}>
                 <Text style={styles.editLabel}>Due Date:</Text>
                 <TextInput
                   style={styles.editInput}
                   value={editHomework.submissionDate}
-                  onChangeText={(text) => setEditHomework({...editHomework, submissionDate: text})}
+                  onChangeText={text =>
+                    setEditHomework({ ...editHomework, submissionDate: text })
+                  }
                   placeholder="DD-MMM-YYYY"
                 />
               </View>
-              
+
               <View style={styles.editActions}>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.cancelButton}
                   onPress={() => setShowEditModal(false)}
                 >
                   <Text style={styles.cancelButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.saveButton}
                   onPress={handleSaveEdit}
                 >
@@ -536,12 +660,17 @@ const Homework = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.modalBody}>
-            <Text style={styles.addModalText}>Add homework form would be implemented here</Text>
-            <TouchableOpacity 
+            <Text style={styles.addModalText}>
+              Add homework form would be implemented here
+            </Text>
+            <TouchableOpacity
               style={styles.primaryActionButton}
               onPress={() => {
                 setShowAddModal(false);
-                Alert.alert('Success', 'Add homework functionality would be implemented here');
+                Alert.alert(
+                  'Success',
+                  'Add homework functionality would be implemented here',
+                );
               }}
             >
               <Text style={styles.primaryActionButtonText}>Save Homework</Text>
@@ -549,8 +678,6 @@ const Homework = () => {
           </View>
         </SafeAreaView>
       </Modal>
-
-      
     </SafeAreaView>
   );
 };
@@ -752,6 +879,7 @@ const styles = StyleSheet.create({
   },
   cardHeaderRight: {
     alignItems: 'flex-end',
+    flexDirection:'row'
   },
   priorityBadge: {
     paddingHorizontal: 8,
