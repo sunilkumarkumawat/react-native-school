@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import {
   View,
@@ -11,10 +10,9 @@ import {
   StatusBar,
   Dimensions,
   TextInput,
-  FlatList,
-  Platform,
   Alert,
   Modal,
+  SafeAreaView,
 } from "react-native"
 
 const { width } = Dimensions.get("window")
@@ -170,15 +168,12 @@ const StudentAttendance = () => {
 
   const filterStudents = () => {
     let filtered = students
-
     if (selectedClass !== "All") {
       filtered = filtered.filter((student) => student.class === selectedClass)
     }
-
     if (selectedSection !== "All") {
       filtered = filtered.filter((student) => student.section === selectedSection)
     }
-
     if (searchKeyword.trim()) {
       const keyword = searchKeyword.toLowerCase().trim()
       filtered = filtered.filter((student) => {
@@ -189,7 +184,6 @@ const StudentAttendance = () => {
         )
       })
     }
-
     setFilteredStudents(filtered)
   }
 
@@ -247,12 +241,10 @@ const StudentAttendance = () => {
       Excused: 0,
       "Not Marked": 0,
     }
-
     filteredStudents.forEach((student) => {
       const status = attendanceData[student.id] || "Not Marked"
       totals[status] = (totals[status] || 0) + 1
     })
-
     return totals
   }
 
@@ -272,34 +264,52 @@ const StudentAttendance = () => {
         <View style={styles.studentBasicInfo}>
           <Image source={{ uri: student.avatar }} style={styles.avatar} />
           <View style={styles.studentDetails}>
-            <Text style={styles.studentName}>{student.name}</Text>
-            <Text style={styles.classInfo}>
+            <Text style={styles.studentName} allowFontScaling={false}>
+              {student.name}
+            </Text>
+            <Text style={styles.classInfo} allowFontScaling={false}>
               {student.class} - {student.section}
             </Text>
-            <Text style={styles.rollNumber}>Roll: {student.rollNumber}</Text>
+            <Text style={styles.rollNumber} allowFontScaling={false}>
+              Roll: {student.rollNumber}
+            </Text>
           </View>
         </View>
         <TouchableOpacity style={styles.reportButton} onPress={() => showStudentReport(student)}>
-          <Text style={styles.reportButtonText}>📊</Text>
+          <Text style={styles.reportButtonText} allowFontScaling={false}>
+            📊
+          </Text>
         </TouchableOpacity>
       </View>
-
       <View style={styles.statsSection}>
         <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: getAttendancePercentageColor(student.monthlyStats.percentage) }]}>
+          <Text
+            style={[styles.statValue, { color: getAttendancePercentageColor(student.monthlyStats.percentage) }]}
+            allowFontScaling={false}
+          >
             {student.monthlyStats.percentage}%
           </Text>
-          <Text style={styles.statLabel}>Monthly</Text>
+          <Text style={styles.statLabel} allowFontScaling={false}>
+            Monthly
+          </Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{student.monthlyStats.presentDays}</Text>
-          <Text style={styles.statLabel}>Present</Text>
+          <Text style={styles.statValue} allowFontScaling={false}>
+            {student.monthlyStats.presentDays}
+          </Text>
+          <Text style={styles.statLabel} allowFontScaling={false}>
+            Present
+          </Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{student.monthlyStats.absentDays}</Text>
-          <Text style={styles.statLabel}>Absent</Text>
+          <Text style={styles.statValue} allowFontScaling={false}>
+            {student.monthlyStats.absentDays}
+          </Text>
+          <Text style={styles.statLabel} allowFontScaling={false}>
+            Absent
+          </Text>
         </View>
       </View>
     </View>
@@ -315,9 +325,13 @@ const StudentAttendance = () => {
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Attendance Report</Text>
+            <Text style={styles.modalTitle} allowFontScaling={false}>
+              Attendance Report
+            </Text>
             <TouchableOpacity onPress={() => setReportModalVisible(false)} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>✕</Text>
+              <Text style={styles.closeButtonText} allowFontScaling={false}>
+                ✕
+              </Text>
             </TouchableOpacity>
           </View>
           {selectedStudentReport && (
@@ -325,36 +339,56 @@ const StudentAttendance = () => {
               <View style={styles.reportStudentInfo}>
                 <Image source={{ uri: selectedStudentReport.avatar }} style={styles.reportAvatar} />
                 <View>
-                  <Text style={styles.reportStudentName}>{selectedStudentReport.name}</Text>
-                  <Text style={styles.reportClassInfo}>
+                  <Text style={styles.reportStudentName} allowFontScaling={false}>
+                    {selectedStudentReport.name}
+                  </Text>
+                  <Text style={styles.reportClassInfo} allowFontScaling={false}>
                     {selectedStudentReport.class} - Section {selectedStudentReport.section}
                   </Text>
-                  <Text style={styles.reportRollNumber}>Roll: {selectedStudentReport.rollNumber}</Text>
+                  <Text style={styles.reportRollNumber} allowFontScaling={false}>
+                    Roll: {selectedStudentReport.rollNumber}
+                  </Text>
                 </View>
               </View>
-
               <View style={styles.reportStats}>
                 <View style={styles.reportStatCard}>
-                  <Text style={styles.reportStatValue}>{selectedStudentReport.monthlyStats.percentage}%</Text>
-                  <Text style={styles.reportStatLabel}>Attendance Rate</Text>
+                  <Text style={styles.reportStatValue} allowFontScaling={false}>
+                    {selectedStudentReport.monthlyStats.percentage}%
+                  </Text>
+                  <Text style={styles.reportStatLabel} allowFontScaling={false}>
+                    Attendance Rate
+                  </Text>
                 </View>
                 <View style={styles.reportStatCard}>
-                  <Text style={styles.reportStatValue}>{selectedStudentReport.monthlyStats.presentDays}</Text>
-                  <Text style={styles.reportStatLabel}>Days Present</Text>
+                  <Text style={styles.reportStatValue} allowFontScaling={false}>
+                    {selectedStudentReport.monthlyStats.presentDays}
+                  </Text>
+                  <Text style={styles.reportStatLabel} allowFontScaling={false}>
+                    Days Present
+                  </Text>
                 </View>
                 <View style={styles.reportStatCard}>
-                  <Text style={styles.reportStatValue}>{selectedStudentReport.monthlyStats.absentDays}</Text>
-                  <Text style={styles.reportStatLabel}>Days Absent</Text>
+                  <Text style={styles.reportStatValue} allowFontScaling={false}>
+                    {selectedStudentReport.monthlyStats.absentDays}
+                  </Text>
+                  <Text style={styles.reportStatLabel} allowFontScaling={false}>
+                    Days Absent
+                  </Text>
                 </View>
               </View>
-
               <View style={styles.attendanceHistory}>
-                <Text style={styles.historyTitle}>Recent Attendance</Text>
+                <Text style={styles.historyTitle} allowFontScaling={false}>
+                  Recent Attendance
+                </Text>
                 {Object.entries(selectedStudentReport.attendanceHistory).map(([date, status]) => (
                   <View key={date} style={styles.historyItem}>
-                    <Text style={styles.historyDate}>{date}</Text>
+                    <Text style={styles.historyDate} allowFontScaling={false}>
+                      {date}
+                    </Text>
                     <View style={[styles.historyStatus, { backgroundColor: getAttendanceColor(status) }]}>
-                      <Text style={styles.historyStatusText}>{status}</Text>
+                      <Text style={styles.historyStatusText} allowFontScaling={false}>
+                        {status}
+                      </Text>
                     </View>
                   </View>
                 ))}
@@ -367,19 +401,21 @@ const StudentAttendance = () => {
   )
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar backgroundColor="#2c5282" barStyle="light-content" />
+
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Attendance Report</Text>
-        <Text style={styles.headerSubtitle}>
+        <Text style={styles.headerTitle} allowFontScaling={false}>
+          Attendance Report
+        </Text>
+        <Text style={styles.headerSubtitle} allowFontScaling={false}>
           {filteredStudents.length} students • {selectedDate}
         </Text>
       </View>
 
       {/* Main Content - Single ScrollView */}
-      <ScrollView 
+      <ScrollView
         style={styles.mainScrollView}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -387,27 +423,38 @@ const StudentAttendance = () => {
       >
         {/* Date Selector */}
         <View style={styles.dateContainer}>
-          <Text style={styles.dateLabel}>Select Date:</Text>
+          <Text style={styles.dateLabel} allowFontScaling={false}>
+            Select Date:
+          </Text>
           <TouchableOpacity style={styles.dateButton}>
-            <Text style={styles.dateButtonText}>{selectedDate}</Text>
-            <Text style={styles.dateArrow}>📅</Text>
+            <Text style={styles.dateButtonText} allowFontScaling={false}>
+              {selectedDate}
+            </Text>
+            <Text style={styles.dateArrow} allowFontScaling={false}>
+              📅
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* Search and Filters */}
         <View style={styles.searchContainer}>
           <View style={styles.searchInputContainer}>
-            <Text style={styles.searchIcon}>🔍</Text>
+            <Text style={styles.searchIcon} allowFontScaling={false}>
+              🔍
+            </Text>
             <TextInput
               style={styles.searchInput}
               placeholder="Search students..."
               value={searchKeyword}
               onChangeText={setSearchKeyword}
               placeholderTextColor="#9ca3af"
+              allowFontScaling={false}
             />
             {searchKeyword.length > 0 && (
               <TouchableOpacity onPress={() => setSearchKeyword("")} style={styles.clearButton}>
-                <Text style={styles.clearButtonText}>✕</Text>
+                <Text style={styles.clearButtonText} allowFontScaling={false}>
+                  ✕
+                </Text>
               </TouchableOpacity>
             )}
           </View>
@@ -417,7 +464,9 @@ const StudentAttendance = () => {
         <View style={styles.filtersContainer}>
           <View style={styles.dropdownRow}>
             <View style={styles.dropdownWrapper}>
-              <Text style={styles.filterLabel}>Class:</Text>
+              <Text style={styles.filterLabel} allowFontScaling={false}>
+                Class:
+              </Text>
               <TouchableOpacity
                 style={styles.dropdownButton}
                 onPress={() => {
@@ -425,8 +474,12 @@ const StudentAttendance = () => {
                   setShowSectionDropdown(false)
                 }}
               >
-                <Text style={styles.dropdownButtonText}>{selectedClass}</Text>
-                <Text style={styles.dropdownArrow}>{showClassDropdown ? "▲" : "▼"}</Text>
+                <Text style={styles.dropdownButtonText} allowFontScaling={false}>
+                  {selectedClass}
+                </Text>
+                <Text style={styles.dropdownArrow} allowFontScaling={false}>
+                  {showClassDropdown ? "▲" : "▼"}
+                </Text>
               </TouchableOpacity>
               {showClassDropdown && (
                 <View style={styles.dropdownMenu}>
@@ -441,7 +494,11 @@ const StudentAttendance = () => {
                         }}
                       >
                         <Text
-                          style={[styles.dropdownMenuText, selectedClass === classItem && styles.dropdownMenuTextActive]}
+                          style={[
+                            styles.dropdownMenuText,
+                            selectedClass === classItem && styles.dropdownMenuTextActive,
+                          ]}
+                          allowFontScaling={false}
                         >
                           {classItem}
                         </Text>
@@ -451,9 +508,10 @@ const StudentAttendance = () => {
                 </View>
               )}
             </View>
-
             <View style={styles.dropdownWrapper}>
-              <Text style={styles.filterLabel}>Section:</Text>
+              <Text style={styles.filterLabel} allowFontScaling={false}>
+                Section:
+              </Text>
               <TouchableOpacity
                 style={styles.dropdownButton}
                 onPress={() => {
@@ -461,8 +519,12 @@ const StudentAttendance = () => {
                   setShowClassDropdown(false)
                 }}
               >
-                <Text style={styles.dropdownButtonText}>{selectedSection}</Text>
-                <Text style={styles.dropdownArrow}>{showSectionDropdown ? "▲" : "▼"}</Text>
+                <Text style={styles.dropdownButtonText} allowFontScaling={false}>
+                  {selectedSection}
+                </Text>
+                <Text style={styles.dropdownArrow} allowFontScaling={false}>
+                  {showSectionDropdown ? "▲" : "▼"}
+                </Text>
               </TouchableOpacity>
               {showSectionDropdown && (
                 <View style={styles.dropdownMenu}>
@@ -477,7 +539,11 @@ const StudentAttendance = () => {
                         }}
                       >
                         <Text
-                          style={[styles.dropdownMenuText, selectedSection === section && styles.dropdownMenuTextActive]}
+                          style={[
+                            styles.dropdownMenuText,
+                            selectedSection === section && styles.dropdownMenuTextActive,
+                          ]}
+                          allowFontScaling={false}
                         >
                           {section}
                         </Text>
@@ -492,12 +558,22 @@ const StudentAttendance = () => {
 
         {/* Attendance Summary */}
         <View style={styles.summaryContainer}>
-          <Text style={styles.summaryTitle}>Today's Summary</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.summaryScrollView}>
+          <Text style={styles.summaryTitle} allowFontScaling={false}>
+            Today's Summary
+          </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.summaryScrollView}
+          >
             {Object.entries(calculateAttendanceTotals()).map(([status, count]) => (
               <View key={status} style={[styles.summaryCard, { borderLeftColor: getAttendanceColor(status) }]}>
-                <Text style={[styles.summaryCount, { color: getAttendanceColor(status) }]}>{count}</Text>
-                <Text style={styles.summaryLabel}>{status}</Text>
+                <Text style={[styles.summaryCount, { color: getAttendanceColor(status) }]} allowFontScaling={false}>
+                  {count}
+                </Text>
+                <Text style={styles.summaryLabel} allowFontScaling={false}>
+                  {status}
+                </Text>
               </View>
             ))}
           </ScrollView>
@@ -520,46 +596,47 @@ const StudentAttendance = () => {
       {/* Save Button - Fixed at bottom */}
       <View style={styles.saveContainer}>
         <TouchableOpacity style={styles.saveButton} onPress={saveAttendance}>
-          <Text style={styles.saveButtonText}>Save Attendance</Text>
+          <Text style={styles.saveButtonText} allowFontScaling={false}>
+            Save Attendance
+          </Text>
         </TouchableOpacity>
       </View>
 
       <StudentReportModal />
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f8f9fb",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#f8f9fb",
   },
   header: {
     backgroundColor: "#ffffff",
-    paddingTop: Platform.OS === "ios" ? 50 : 20,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 4,
-      },
-    }),
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingHorizontal: 12,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
   },
   headerTitle: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#1f2937",
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#111827",
     marginBottom: 4,
   },
   headerSubtitle: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#6b7280",
+    fontWeight: "500",
   },
   mainScrollView: {
     flex: 1,
@@ -567,12 +644,18 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
     backgroundColor: "#ffffff",
+    marginBottom: 8,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
   },
   dateLabel: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
     color: "#374151",
     marginRight: 12,
@@ -581,65 +664,62 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#f3f4f6",
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
   },
   dateButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#374151",
     marginRight: 8,
+    fontWeight: "500",
   },
   dateArrow: {
-    fontSize: 16,
+    fontSize: 14,
   },
   searchContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
   },
   searchInputContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#ffffff",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
   },
   searchIcon: {
-    fontSize: 18,
-    marginRight: 12,
+    fontSize: 16,
+    marginRight: 8,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     color: "#374151",
   },
   clearButton: {
     padding: 4,
   },
   clearButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#9ca3af",
   },
   filtersContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    paddingHorizontal: 12,
+    marginBottom: 12,
   },
   dropdownRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 16,
+    gap: 8,
   },
   dropdownWrapper: {
     flex: 1,
@@ -654,22 +734,28 @@ const styles = StyleSheet.create({
   dropdownButton: {
     backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "#d1d5db",
+    borderColor: "#e5e7eb",
     borderRadius: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     paddingVertical: 12,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
   },
   dropdownButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#374151",
     fontWeight: "500",
   },
   dropdownArrow: {
     fontSize: 12,
     color: "#6b7280",
+    fontWeight: "bold",
   },
   dropdownMenu: {
     position: "absolute",
@@ -678,28 +764,22 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "#d1d5db",
+    borderColor: "#e5e7eb",
     borderRadius: 8,
     marginTop: 4,
     maxHeight: 150,
     zIndex: 1000,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
   },
   dropdownScrollView: {
     maxHeight: 150,
   },
   dropdownMenuItem: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#f3f4f6",
@@ -708,71 +788,68 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f9ff",
   },
   dropdownMenuText: {
-    fontSize: 16,
+    fontSize: 12,
     color: "#374151",
+    fontWeight: "500",
   },
   dropdownMenuTextActive: {
-    color: "#2563eb",
+    color: "#6366f1",
     fontWeight: "600",
   },
   listContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
   },
   separator: {
-    height: 16,
+    height: 8,
   },
   bottomPadding: {
-    height: 100,
+    height: 80,
   },
   attendanceCard: {
     backgroundColor: "#ffffff",
-    borderRadius: 16,
-    padding: 20,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.12,
-        shadowRadius: 12,
-      },
-      android: {
-        elevation: 6,
-      },
-    }),
+    borderRadius: 8,
+    padding: 10,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    borderLeftWidth: 2,
+    borderLeftColor: "#6366f1",
   },
   studentHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 16,
+    marginBottom: 8,
   },
   studentBasicInfo: {
     flexDirection: "row",
     flex: 1,
   },
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     marginRight: 12,
   },
   studentDetails: {
     flex: 1,
   },
   studentName: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1f2937",
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#111827",
     marginBottom: 2,
   },
   classInfo: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#6366f1",
     fontWeight: "600",
     marginBottom: 2,
   },
   rollNumber: {
-    fontSize: 13,
+    fontSize: 11,
     color: "#f59e0b",
     fontWeight: "500",
   },
@@ -782,15 +859,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   reportButtonText: {
-    fontSize: 20,
+    fontSize: 16,
   },
   statsSection: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f9fafb",
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    backgroundColor: "#f8f9fa",
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
   statItem: {
     flex: 1,
@@ -798,19 +875,20 @@ const styles = StyleSheet.create({
   },
   statDivider: {
     width: 1,
-    height: 30,
+    height: 24,
     backgroundColor: "#e5e7eb",
-    marginHorizontal: 16,
+    marginHorizontal: 12,
   },
   statValue: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1f2937",
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#111827",
     marginBottom: 2,
   },
   statLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: "#6b7280",
+    fontWeight: "500",
     textTransform: "uppercase",
   },
   saveContainer: {
@@ -819,29 +897,28 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: "#ffffff",
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   },
   saveButton: {
     backgroundColor: "#6366f1",
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: 12,
+    borderRadius: 8,
     alignItems: "center",
+    elevation: 2,
+    shadowColor: "#6366f1",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   saveButtonText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 14,
+    fontWeight: "600",
     color: "#ffffff",
   },
   modalOverlay: {
@@ -852,178 +929,163 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: "#ffffff",
-    borderRadius: 20,
+    borderRadius: 12,
     width: width * 0.9,
     maxHeight: "80%",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.25,
-        shadowRadius: 20,
-      },
-      android: {
-        elevation: 10,
-      },
-    }),
+    elevation: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
   },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#f3f4f6",
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#1f2937",
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#111827",
   },
   closeButton: {
     padding: 8,
   },
   closeButtonText: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#6b7280",
+    fontWeight: "600",
   },
   modalBody: {
-    padding: 20,
+    padding: 16,
   },
   reportStudentInfo: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 16,
   },
   reportAvatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 16,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 12,
   },
   reportStudentName: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#1f2937",
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#111827",
     marginBottom: 4,
   },
   reportClassInfo: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#6366f1",
     fontWeight: "600",
     marginBottom: 2,
   },
   reportRollNumber: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#f59e0b",
     fontWeight: "500",
   },
   reportStats: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 24,
+    marginBottom: 16,
   },
   reportStatCard: {
     flex: 1,
-    backgroundColor: "#f9fafb",
-    padding: 16,
-    borderRadius: 12,
+    backgroundColor: "#f8f9fa",
+    padding: 12,
+    borderRadius: 8,
     alignItems: "center",
-    marginHorizontal: 4,
+    marginHorizontal: 2,
   },
   reportStatValue: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#1f2937",
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#111827",
     marginBottom: 4,
   },
   reportStatLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: "#6b7280",
     textAlign: "center",
+    fontWeight: "500",
   },
   attendanceHistory: {
     marginTop: 8,
   },
   historyTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1f2937",
-    marginBottom: 16,
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#111827",
+    marginBottom: 12,
   },
   historyItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#f3f4f6",
   },
   historyDate: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#374151",
+    fontWeight: "500",
   },
   historyStatus: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
   },
   historyStatusText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: "600",
     color: "#ffffff",
   },
   summaryContainer: {
     backgroundColor: "#ffffff",
-    paddingVertical: 16,
-    paddingHorizontal: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
     marginBottom: 8,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 1,
-      },
-    }),
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
   },
   summaryTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
     color: "#374151",
-    marginBottom: 12,
+    marginBottom: 8,
   },
   summaryScrollView: {
-    paddingRight: 20,
+    paddingRight: 12,
   },
   summaryCard: {
-    backgroundColor: "#f9fafb",
+    backgroundColor: "#f8f9fa",
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
     borderRadius: 8,
     marginRight: 8,
     minWidth: 60,
     alignItems: "center",
-    borderLeftWidth: 3,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 1,
-      },
-    }),
+    borderLeftWidth: 2,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
   },
   summaryCount: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 14,
+    fontWeight: "700",
     marginBottom: 2,
   },
   summaryLabel: {
@@ -1034,4 +1096,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default StudentAttendance
+export default StudentAttendance;

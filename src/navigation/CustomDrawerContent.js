@@ -49,7 +49,7 @@ const menuItems = [
         screen: 'DailyCollectionReport',
         icon: '🏷️',
       },
-      { id: 26, title: 'Fee Follow Up', screen: 'Categories', icon: '🏷️' },
+      { id: 26, title: 'Fee Follow Up', screen: 'FeeFollowUp', icon: '🏷️' },
     ],
   },
   {
@@ -62,7 +62,7 @@ const menuItems = [
       {
         id: 32,
         title: 'Mark Students Attendance',
-        screen: 'PendingOrders',
+        screen: 'MarkStudentAttendence',
         icon: '⏳',
       },
       {
@@ -74,10 +74,10 @@ const menuItems = [
       {
         id: 34,
         title: 'Students Leave Management',
-        screen: 'PendingOrders',
+        screen: 'StudentLeaveManagement',
         icon: '⏳',
       },
-      { id: 35, title: 'Students PTM', screen: 'PendingOrders', icon: '⏳' },
+      { id: 35, title: 'Students PTM', screen: 'StudentPTM', icon: '⏳' },
     ],
   },
   {

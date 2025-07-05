@@ -20,6 +20,10 @@ import TransactionReport from '../screens/FeeReport/TransactionReport';
 import Setting from '../common/Setting';
 import { useTheme } from '../theme/ThemeContext';
 import DailyCollectionReport from '../screens/FeeReport/DailyCollectionReport';
+import FeeFollowUp from '../screens/FeeReport/FeeFollowUp';
+import MarkStudentAttendence from '../screens/Student/MarkStudentAttendence';
+import StudentLeaveManagement from '../screens/Student/StudentLeaveManagement';
+import StudentPTM from '../screens/Student/StudentPTM';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -79,6 +83,11 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="BalanceFeeReport" component={BalanceFeeReport} />
       <Drawer.Screen name="TransactionReport" component={TransactionReport} />
       <Drawer.Screen name="DailyCollectionReport" component={DailyCollectionReport} />
+      <Drawer.Screen name="FeeFollowUp" component={FeeFollowUp} />
+      <Drawer.Screen name="MarkStudentAttendence" component={MarkStudentAttendence} />
+      <Drawer.Screen name="StudentLeaveManagement" component={StudentLeaveManagement} />
+      <Drawer.Screen name="StudentPTM" component={StudentPTM} />
+      
       <Drawer.Screen name="Setting" component={Setting} />
     </Drawer.Navigator>
   );

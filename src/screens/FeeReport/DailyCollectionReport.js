@@ -273,7 +273,7 @@ const DailyCollectionReport = () => {
   })
 
   const renderStep1 = () => (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle} allowFontScaling={false}>
@@ -284,9 +284,13 @@ const DailyCollectionReport = () => {
         </Text>
       </View>
 
-      {/* Summary Cards */}
+      {/* Summary Cards - Horizontal Scroll */}
       <View style={styles.summarySection}>
-        <View style={styles.summaryRow}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.summaryScrollContainer}
+        >
           <View style={[styles.summaryCard, styles.totalCard]}>
             <Text style={styles.summaryValue} allowFontScaling={false}>
               {formatCurrency(dailySummary.totalCollected)}
@@ -309,8 +313,6 @@ const DailyCollectionReport = () => {
               +8.5%
             </Text>
           </View>
-        </View>
-        <View style={styles.summaryRow}>
           <View style={[styles.summaryCard, styles.avgCard]}>
             <Text style={styles.summaryValue} allowFontScaling={false}>
               {formatCurrency(dailySummary.averagePerStudent)}
@@ -333,7 +335,7 @@ const DailyCollectionReport = () => {
               -12.1%
             </Text>
           </View>
-        </View>
+        </ScrollView>
       </View>
 
       {/* Payment Mode Breakdown */}
@@ -409,8 +411,8 @@ const DailyCollectionReport = () => {
         </View>
       </View>
 
-      {/* Collections List */}
-      <ScrollView style={styles.collectionsList} showsVerticalScrollIndicator={false}>
+      {/* Collections List - Remove ScrollView wrapper */}
+      <View style={styles.collectionsList}>
         {filteredCollections.map((collection) => (
           <TouchableOpacity
             key={collection.id}
@@ -457,7 +459,7 @@ const DailyCollectionReport = () => {
             </View>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
 
       {/* Modals */}
       <DropdownModal
@@ -481,7 +483,7 @@ const DailyCollectionReport = () => {
         onSelect={setSelectedPaymentMode}
         title="Select Payment Mode"
       />
-    </View>
+    </ScrollView>
   )
 
   const renderStep2 = () => (
@@ -661,7 +663,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     paddingTop: 16,
-    paddingBottom: 0,
   },
   // Header
   header: {
@@ -684,13 +685,13 @@ const styles = StyleSheet.create({
   summarySection: {
     marginBottom: 16,
   },
-  summaryRow: {
+  summaryScrollContainer: {
     flexDirection: "row",
     gap: 8,
-    marginBottom: 8,
+    paddingHorizontal: 4,
   },
   summaryCard: {
-    flex: 1,
+    width: 140,
     padding: 10,
     borderRadius: 8,
     backgroundColor: "white",
@@ -832,7 +833,6 @@ const styles = StyleSheet.create({
   },
   // Collections List
   collectionsList: {
-    flex: 1,
     marginBottom: 20,
   },
   collectionCard: {
