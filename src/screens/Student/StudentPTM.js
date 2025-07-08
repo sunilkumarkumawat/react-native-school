@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   BackHandler,
 } from "react-native"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const StudentPTM = () => {
   const [currentStep, setCurrentStep] = useState(1)
@@ -272,7 +273,6 @@ const StudentPTM = () => {
 
     let actionText = ""
     let confirmText = ""
-
     switch (action) {
       case "reschedule":
         actionText = "reschedule"
@@ -494,7 +494,7 @@ const StudentPTM = () => {
       <View style={styles.searchContainer}>
         <View style={styles.searchInputContainer}>
           <Text style={styles.searchIcon} allowFontScaling={false}>
-            🔍
+            
           </Text>
           <TextInput
             style={styles.searchInput}
@@ -631,28 +631,39 @@ const StudentPTM = () => {
       </View>
 
       <ScrollView style={styles.detailContent} showsVerticalScrollIndicator={false}>
-        {/* Student Info Card */}
+        {/* Improved Student Info Card */}
         <View style={styles.studentInfoCard}>
-          <View style={styles.studentAvatar}>
-            <Image source={{ uri: selectedPTM?.avatar }} style={styles.profileAvatar} />
+          <View style={styles.studentHeaderRow}>
+            <View style={styles.studentAvatarContainer}>
+              <Image source={{ uri: selectedPTM?.avatar }} style={styles.profileAvatar} />
+            </View>
+            <View style={styles.studentMainInfo}>
+              <Text style={styles.studentNameLarge} allowFontScaling={false}>
+                {selectedPTM?.studentName}
+              </Text>
+              <Text style={styles.studentClass} allowFontScaling={false}>
+                Class {selectedPTM?.class} ({selectedPTM?.section})
+              </Text>
+              <Text style={styles.rollNumber} allowFontScaling={false}>
+                Roll No: {selectedPTM?.rollNumber}
+              </Text>
+            </View>
+            <View style={[styles.statusBadgeLarge, { backgroundColor: getStatusColor(selectedPTM?.status) }]}>
+              <Text style={styles.statusTextLarge} allowFontScaling={false}>
+                {selectedPTM?.status}
+              </Text>
+            </View>
           </View>
-          <View style={styles.studentInfo}>
-            <Text style={styles.studentNameLarge} allowFontScaling={false}>
-              {selectedPTM?.studentName}
-            </Text>
-            <Text style={styles.studentClass} allowFontScaling={false}>
-              Class {selectedPTM?.class} ({selectedPTM?.section}) - Roll: {selectedPTM?.rollNumber}
+
+          <View style={styles.parentInfoSection}>
+            <Text style={styles.parentInfoTitle} allowFontScaling={false}>
+              Parent Information
             </Text>
             <Text style={styles.parentNameLarge} allowFontScaling={false}>
               {selectedPTM?.parentName}
             </Text>
             <Text style={styles.parentPhone} allowFontScaling={false}>
-              {selectedPTM?.parentPhone}
-            </Text>
-          </View>
-          <View style={[styles.statusBadgeLarge, { backgroundColor: getStatusColor(selectedPTM?.status) }]}>
-            <Text style={styles.statusTextLarge} allowFontScaling={false}>
-              {selectedPTM?.status}
+              <Ionicons name='call' size='12' color='black' />  {selectedPTM?.parentPhone}
             </Text>
           </View>
         </View>
@@ -974,7 +985,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 8,
     paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingVertical: 5,
     borderWidth: 1,
     borderColor: "#e5e7eb",
     elevation: 1,
@@ -1275,45 +1286,52 @@ const styles = StyleSheet.create({
   detailContent: {
     flex: 1,
   },
-  // Student Info Card
+  // Improved Student Info Card Layout
   studentInfoCard: {
     backgroundColor: "#f0f9ff",
     borderRadius: 12,
     padding: 16,
-    flexDirection: "row",
-    alignItems: "center",
     marginBottom: 20,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
   },
-  studentAvatar: {
-    marginRight: 15,
+  studentHeaderRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 16,
+  },
+  studentAvatarContainer: {
+    marginRight: 16,
   },
   profileAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#ffffff",
+  },
+  studentMainInfo: {
+    flex: 1,
   },
   studentNameLarge: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "700",
     color: "#111827",
     marginBottom: 4,
   },
   studentClass: {
-    fontSize: 13,
+    fontSize: 14,
     color: "#6b7280",
     fontWeight: "500",
-    marginBottom: 4,
+    marginBottom: 2,
   },
-  parentNameLarge: {
-    fontSize: 13,
+  rollNumber: {
+    fontSize: 14,
     color: "#374151",
     fontWeight: "600",
-    marginBottom: 4,
-  },
-  parentPhone: {
-    fontSize: 13,
-    color: "#6b7280",
-    fontWeight: "500",
   },
   statusBadgeLarge: {
     paddingHorizontal: 12,
@@ -1324,11 +1342,38 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
+    alignSelf: "flex-start",
   },
   statusTextLarge: {
     color: "white",
     fontSize: 12,
     fontWeight: "700",
+  },
+  parentInfoSection: {
+    backgroundColor: "#ffffff",
+    borderRadius: 8,
+    padding: 12,
+    // borderLeftWidth: 3,
+    // borderLeftColor: "#6366f1",
+  },
+  parentInfoTitle: {
+    fontSize: 10,
+    color: "#6b7280",
+    fontWeight: "600",
+    marginBottom: 6,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  parentNameLarge: {
+    fontSize: 14,
+    color: "#111827",
+    fontWeight: "600",
+    marginBottom: 4,
+  },
+  parentPhone: {
+    fontSize: 12,
+    color: "#6b7280",
+    fontWeight: "500",
   },
   // Info Cards
   infoCard: {

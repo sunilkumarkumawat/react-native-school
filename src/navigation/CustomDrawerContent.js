@@ -86,19 +86,19 @@ const menuItems = [
     icon: 'exam',
     color: '#43e97b',
     submenus: [
-      { id: 41, title: 'Exam Marks', screen: 'AllCustomers',  },
+      { id: 41, title: 'Exam Marks', screen: 'ExamMarks',  },
       { id: 42, title: 'Exam Schedule', screen: 'ExamSchedule',  },
-      { id: 43, title: 'Teacher Comment', screen: 'AllCustomers',  },
+      { id: 43, title: 'Teacher Comment', screen: 'TeacherComment',  },
       {
         id: 44,
         title: 'Co-Curricular Grade',
-        screen: 'AllCustomers',
+        screen: 'CoCurricularGrade',
         
       },
       {
         id: 45,
         title: 'Primary Evaluation',
-        screen: 'AddCustomer',
+        screen: 'PrimaryEvaluation',
         
       },
     ],

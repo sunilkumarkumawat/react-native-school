@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   BackHandler,
 } from "react-native"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const StudentLeaveManagement = () => {
   const [currentStep, setCurrentStep] = useState(1)
@@ -405,7 +406,7 @@ const StudentLeaveManagement = () => {
       <View style={styles.searchContainer}>
         <View style={styles.searchInputContainer}>
           <Text style={styles.searchIcon} allowFontScaling={false}>
-            🔍
+            
           </Text>
           <TextInput
             style={styles.searchInput}
@@ -542,28 +543,39 @@ const StudentLeaveManagement = () => {
       </View>
 
       <ScrollView style={styles.detailContent} showsVerticalScrollIndicator={false}>
-        {/* Student Info Card */}
+        {/* Student Info Card - Improved Layout */}
         <View style={styles.studentInfoCard}>
-          <View style={styles.studentAvatar}>
-            <Image source={{ uri: selectedLeave?.avatar }} style={styles.profileAvatar} />
+          <View style={styles.studentHeaderRow}>
+            <View style={styles.studentAvatarContainer}>
+              <Image source={{ uri: selectedLeave?.avatar }} style={styles.profileAvatar} />
+            </View>
+            <View style={styles.studentMainInfo}>
+              <Text style={styles.studentNameLarge} allowFontScaling={false}>
+                {selectedLeave?.studentName}
+              </Text>
+              <Text style={styles.studentClass} allowFontScaling={false}>
+                Class {selectedLeave?.class} ({selectedLeave?.section})
+              </Text>
+              <Text style={styles.rollNumber} allowFontScaling={false}>
+                Roll No: {selectedLeave?.rollNumber}
+              </Text>
+            </View>
+            <View style={[styles.statusBadgeLarge, { backgroundColor: getStatusColor(selectedLeave?.status) }]}>
+              <Text style={styles.statusTextLarge} allowFontScaling={false}>
+                {selectedLeave?.status}
+              </Text>
+            </View>
           </View>
-          <View style={styles.studentInfo}>
-            <Text style={styles.studentNameLarge} allowFontScaling={false}>
-              {selectedLeave?.studentName}
-            </Text>
-            <Text style={styles.studentClass} allowFontScaling={false}>
-              Class {selectedLeave?.class} ({selectedLeave?.section}) - Roll: {selectedLeave?.rollNumber}
+
+          <View style={styles.parentInfoSection}>
+            <Text style={styles.parentInfoTitle} allowFontScaling={false}>
+              Parent Information
             </Text>
             <Text style={styles.parentNameLarge} allowFontScaling={false}>
-              Parent: {selectedLeave?.parentName}
+              {selectedLeave?.parentName}
             </Text>
             <Text style={styles.parentPhone} allowFontScaling={false}>
-              📞 {selectedLeave?.parentPhone}
-            </Text>
-          </View>
-          <View style={[styles.statusBadgeLarge, { backgroundColor: getStatusColor(selectedLeave?.status) }]}>
-            <Text style={styles.statusTextLarge} allowFontScaling={false}>
-              {selectedLeave?.status}
+            <Ionicons name='call' size='12' color='black' /> {selectedLeave?.parentPhone}
             </Text>
           </View>
         </View>
@@ -638,13 +650,13 @@ const StudentLeaveManagement = () => {
             {selectedLeave.documents.map((doc, index) => (
               <TouchableOpacity key={index} style={styles.documentItem}>
                 <Text style={styles.documentIcon} allowFontScaling={false}>
-                  📎
+                  <Ionicons name='link' size='20' color='black' />
                 </Text>
                 <Text style={styles.documentName} allowFontScaling={false}>
                   {doc}
                 </Text>
                 <Text style={styles.downloadIcon} allowFontScaling={false}>
-                  ⬇️
+                  
                 </Text>
               </TouchableOpacity>
             ))}
@@ -1097,45 +1109,52 @@ const styles = StyleSheet.create({
   detailContent: {
     flex: 1,
   },
-  // Student Info Card
+  // Improved Student Info Card Layout
   studentInfoCard: {
     backgroundColor: "#f0f9ff",
     borderRadius: 12,
     padding: 16,
-    flexDirection: "row",
-    alignItems: "center",
     marginBottom: 20,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
   },
-  studentAvatar: {
-    marginRight: 15,
+  studentHeaderRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 16,
+  },
+  studentAvatarContainer: {
+    marginRight: 16,
   },
   profileAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#ffffff",
+  },
+  studentMainInfo: {
+    flex: 1,
   },
   studentNameLarge: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "700",
     color: "#111827",
     marginBottom: 4,
   },
   studentClass: {
-    fontSize: 13,
+    fontSize: 14,
     color: "#6b7280",
     fontWeight: "500",
     marginBottom: 2,
   },
-  parentNameLarge: {
-    fontSize: 13,
+  rollNumber: {
+    fontSize: 14,
     color: "#374151",
     fontWeight: "600",
-    marginBottom: 2,
-  },
-  parentPhone: {
-    fontSize: 12,
-    color: "#6b7280",
-    fontWeight: "500",
   },
   statusBadgeLarge: {
     paddingHorizontal: 12,
@@ -1146,11 +1165,38 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
+    alignSelf: "flex-start",
   },
   statusTextLarge: {
     color: "white",
     fontSize: 12,
     fontWeight: "700",
+  },
+  parentInfoSection: {
+    backgroundColor: "#ffffff",
+    borderRadius: 8,
+    padding: 12,
+    // borderLeftWidth: 3,
+    // borderLeftColor: "#6366f1",
+  },
+  parentInfoTitle: {
+    fontSize: 10 ,
+    color: "#6b7280",
+    fontWeight: "600",
+    marginBottom: 6,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  parentNameLarge: {
+    fontSize: 14,
+    color: "#111827",
+    fontWeight: "600",
+    marginBottom: 4,
+  },
+  parentPhone: {
+    fontSize: 12,
+    color: "#6b7280",
+    fontWeight: "500",
   },
   // Info Cards
   infoCard: {
@@ -1258,6 +1304,7 @@ const styles = StyleSheet.create({
   approveButtonLarge: {
     backgroundColor: "#10b981",
     padding: 12,
+    
     borderRadius: 8,
     alignItems: "center",
     marginBottom: 8,
@@ -1277,6 +1324,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     alignItems: "center",
+    marginBottom: 8,
     elevation: 2,
     shadowColor: "#ef4444",
     shadowOffset: { width: 0, height: 2 },
@@ -1290,4 +1338,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default StudentLeaveManagement;
+export default StudentLeaveManagement

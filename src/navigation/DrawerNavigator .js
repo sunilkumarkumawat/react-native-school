@@ -24,6 +24,10 @@ import FeeFollowUp from '../screens/FeeReport/FeeFollowUp';
 import MarkStudentAttendence from '../screens/Student/MarkStudentAttendence';
 import StudentLeaveManagement from '../screens/Student/StudentLeaveManagement';
 import StudentPTM from '../screens/Student/StudentPTM';
+import ExamMarks from '../screens/Exam/ExamMarks';
+import TeacherComment from '../screens/Exam/TeacherComment';
+import CoCurricularGrade from '../screens/Exam/CoCurricularGrade';
+import PrimaryEvaluation from '../screens/Exam/PrimaryEvaluation';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -87,6 +91,10 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="MarkStudentAttendence" component={MarkStudentAttendence} />
       <Drawer.Screen name="StudentLeaveManagement" component={StudentLeaveManagement} />
       <Drawer.Screen name="StudentPTM" component={StudentPTM} />
+      <Drawer.Screen name="ExamMarks" component={ExamMarks} />
+      <Drawer.Screen name="TeacherComment" component={TeacherComment} />
+      <Drawer.Screen name="CoCurricularGrade" component={CoCurricularGrade} />
+      <Drawer.Screen name="PrimaryEvaluation" component={PrimaryEvaluation} />
       
       <Drawer.Screen name="Setting" component={Setting} />
     </Drawer.Navigator>
