@@ -28,6 +28,7 @@ const PrimaryEvaluation = () => {
   const [evaluationData, setEvaluationData] = useState([])
   const [studentInfo, setStudentInfo] = useState(null)
 
+  
   // Sample data for primary classes
   const classes = ["1st", "2nd", "3rd", "4th", "5th"]
   const sections = ["A", "B", "C", "D"]
@@ -1363,17 +1364,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 12,
     padding: 16,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
+    borderWidth:1,
+    borderColor:'#00000020'
+  
   },
   subjectHeader: {
     flexDirection: "row",
@@ -1615,3 +1608,5 @@ const styles = StyleSheet.create({
 })
 
 export default PrimaryEvaluation;
+
+

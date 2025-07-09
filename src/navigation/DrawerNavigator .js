@@ -28,6 +28,11 @@ import ExamMarks from '../screens/Exam/ExamMarks';
 import TeacherComment from '../screens/Exam/TeacherComment';
 import CoCurricularGrade from '../screens/Exam/CoCurricularGrade';
 import PrimaryEvaluation from '../screens/Exam/PrimaryEvaluation';
+import DisciplinaryReport from '../screens/Disciplinary/DisciplinaryReport';
+import StaffDirectory from '../screens/HumanResource/StaffDirectory';
+import StaffAttendanceReport from '../screens/HumanResource/StaffAttendenceReport';
+import ApplyLeave from '../screens/HumanResource/ApplyLeave';
+import ApproveLeaveRequest from '../screens/HumanResource/ApproveLeaveRequest';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -95,6 +100,11 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="TeacherComment" component={TeacherComment} />
       <Drawer.Screen name="CoCurricularGrade" component={CoCurricularGrade} />
       <Drawer.Screen name="PrimaryEvaluation" component={PrimaryEvaluation} />
+      <Drawer.Screen name="DisciplinaryReport" component={DisciplinaryReport} />
+      <Drawer.Screen name="StaffDirectory" component={StaffDirectory} />
+      <Drawer.Screen name="StaffAttendanceReport" component={StaffAttendanceReport} />
+      <Drawer.Screen name="ApplyLeave" component={ApplyLeave} />
+      <Drawer.Screen name="ApproveLeaveRequest" component={ApproveLeaveRequest} />
       
       <Drawer.Screen name="Setting" component={Setting} />
     </Drawer.Navigator>

@@ -112,7 +112,7 @@ const menuItems = [
       {
         id: 51,
         title: 'Disciplinary Report',
-        screen: 'SalesReport',
+        screen: 'DisciplinaryReport',
         
       },
     ],
@@ -123,12 +123,12 @@ const menuItems = [
     icon: 'desk',
     color: '#fa709a',
     submenus: [
-      { id: 61, title: 'Staff Directory', screen: 'SalesReport',  },
+      { id: 61, title: 'Staff Directory', screen: 'StaffDirectory',  },
       { id: 62, title: 'Recruitment', screen: 'SalesReport',  },
       {
         id: 63,
         title: 'Staff Attendence Report',
-        screen: 'SalesReport',
+        screen: 'StaffAttendanceReport',
         
       },
       {
@@ -137,11 +137,11 @@ const menuItems = [
         screen: 'SalesReport',
         
       },
-      { id: 65, title: 'Apply Leave', screen: 'SalesReport', },
+      { id: 65, title: 'Apply Leave', screen: 'ApplyLeave', },
       {
         id: 66,
         title: 'Approve Leave Request',
-        screen: 'SalesReport',
+        screen: 'ApproveLeaveRequest',
         
       },
       { id: 67, title: 'Payroll', screen: 'SalesReport',  },
