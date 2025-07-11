@@ -144,8 +144,8 @@ const menuItems = [
         screen: 'ApproveLeaveRequest',
         
       },
-      { id: 67, title: 'Payroll', screen: 'SalesReport',  },
-      { id: 68, title: 'Task', screen: 'SalesReport', },
+      { id: 67, title: 'Payroll', screen: 'Payroll',  },
+      { id: 68, title: 'Task', screen: 'Task', },
       { id: 69, title: 'Employee', screen: 'SalesReport',  },
     ],
   },

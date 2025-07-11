@@ -33,6 +33,9 @@ import StaffDirectory from '../screens/HumanResource/StaffDirectory';
 import StaffAttendanceReport from '../screens/HumanResource/StaffAttendenceReport';
 import ApplyLeave from '../screens/HumanResource/ApplyLeave';
 import ApproveLeaveRequest from '../screens/HumanResource/ApproveLeaveRequest';
+import StaffPayroll from '../screens/HumanResource/Payroll';
+import Payroll from '../screens/HumanResource/Payroll';
+import Task from '../screens/HumanResource/Task';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -105,6 +108,8 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="StaffAttendanceReport" component={StaffAttendanceReport} />
       <Drawer.Screen name="ApplyLeave" component={ApplyLeave} />
       <Drawer.Screen name="ApproveLeaveRequest" component={ApproveLeaveRequest} />
+      <Drawer.Screen name="Payroll" component={Payroll} />
+      <Drawer.Screen name="Task" component={Task} />
       
       <Drawer.Screen name="Setting" component={Setting} />
     </Drawer.Navigator>
