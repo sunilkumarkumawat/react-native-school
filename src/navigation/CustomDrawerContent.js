@@ -155,11 +155,11 @@ const menuItems = [
     icon: 'graduate',
     color: '#fa709a',
     submenus: [
-      { id: 71, title: 'Teacher Timetable', screen: 'SalesReport',  },
+      { id: 71, title: 'Teacher Timetable', screen: 'TeacherTimetable',  },
       {
         id: 72,
         title: 'Daily Class Timetable',
-        screen: 'SalesReport',
+        screen: 'DailyClassTimetable',
         
       },
     ],
@@ -170,8 +170,8 @@ const menuItems = [
     icon: 'salary',
     color: '#fa709a',
     submenus: [
-      { id: 81, title: 'Income', screen: 'SalesReport',  },
-      { id: 82, title: 'Expense', screen: 'SalesReport', },
+      { id: 81, title: 'Income', screen: 'Income',  },
+      { id: 82, title: 'Expense', screen: 'Expense', },
     ],
   },
   {

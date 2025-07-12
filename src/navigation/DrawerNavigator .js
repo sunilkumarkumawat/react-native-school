@@ -36,6 +36,10 @@ import ApproveLeaveRequest from '../screens/HumanResource/ApproveLeaveRequest';
 import StaffPayroll from '../screens/HumanResource/Payroll';
 import Payroll from '../screens/HumanResource/Payroll';
 import Task from '../screens/HumanResource/Task';
+import TeacherTimetable from '../screens/Academics/TeacherTimetable';
+import DailyClassTimetable from '../screens/Academics/DailyClassTimetable';
+import Income from '../screens/IncomeExpense/Income';
+import Expense from '../screens/IncomeExpense/Expense';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -110,6 +114,10 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="ApproveLeaveRequest" component={ApproveLeaveRequest} />
       <Drawer.Screen name="Payroll" component={Payroll} />
       <Drawer.Screen name="Task" component={Task} />
+      <Drawer.Screen name="TeacherTimetable" component={TeacherTimetable} />
+      <Drawer.Screen name="DailyClassTimetable" component={DailyClassTimetable} />
+      <Drawer.Screen name="Income" component={Income} />
+      <Drawer.Screen name="Expense" component={Expense} />
       
       <Drawer.Screen name="Setting" component={Setting} />
     </Drawer.Navigator>
