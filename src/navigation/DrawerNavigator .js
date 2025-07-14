@@ -40,6 +40,10 @@ import TeacherTimetable from '../screens/Academics/TeacherTimetable';
 import DailyClassTimetable from '../screens/Academics/DailyClassTimetable';
 import Income from '../screens/IncomeExpense/Income';
 import Expense from '../screens/IncomeExpense/Expense';
+import AdmissionEnquiry from '../screens/FrontOffice/AdmissionEnquiry';
+import VisitorBook from '../screens/FrontOffice/VisitorBook';
+import Complain from '../screens/FrontOffice/complain';
+import GatePass from '../screens/FrontOffice/GatePass';
 
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
@@ -118,6 +122,10 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="DailyClassTimetable" component={DailyClassTimetable} />
       <Drawer.Screen name="Income" component={Income} />
       <Drawer.Screen name="Expense" component={Expense} />
+      <Drawer.Screen name="AdmissionEnquiry" component={AdmissionEnquiry} />
+      <Drawer.Screen name="VisitorBook" component={VisitorBook} />
+      <Drawer.Screen name="Complain" component={Complain} />
+      <Drawer.Screen name="GatePass" component={GatePass} />
       
       <Drawer.Screen name="Setting" component={Setting} />
     </Drawer.Navigator>

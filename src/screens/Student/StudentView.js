@@ -13,7 +13,9 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   SafeAreaView,
+  Alert
 } from "react-native"
+import { Strings } from "../../theme/Strings"
 
 const { width } = Dimensions.get("window")
 
@@ -27,6 +29,44 @@ const StudentView = () => {
   const [showSectionDropdown, setShowSectionDropdown] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedStudentDetail, setSelectedStudentDetail] = useState(null)
+  const token = '66|swQajga9OvTwvOecV9tRDNyEZsUOTp9MShfQjLzude6dd81f';
+    const [studentData, setStudentData] = useState([]);
+
+   const fetchUser = async () => {
+      const formData = new FormData();
+      formData.append('branch_id', '-1'); // send as string
+  
+      try {
+        const response = await fetch(
+          `${Strings.APP_BASE_URL}/getStudents`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              // ❌ Don't set Content-Type here!
+            },
+            body: formData,
+          },
+        );
+  
+        const result = await response.json();
+  
+        console.log('student:', result);
+        //Alert.alert('User Result', JSON.stringify(result)); // Convert to string
+  
+        if (result.status) {
+          // Alert.alert('Success', 'User fetched successfully!');
+          setStudentData(result.data);
+        }
+      } catch (error) {
+        console.error('Error fetch user:', error);
+        // Alert.alert('Error', error.message);
+      }
+    };
+
+    useEffect(() => {
+        fetchUser();
+      }, []);
 
   // Sample student data with expanded profile information
   const students = [
@@ -301,7 +341,7 @@ const StudentView = () => {
     <View style={styles.studentCard}>
       <View style={styles.cardHeader}>
         <View style={styles.avatarContainer}>
-          <Image source={{ uri: student.avatar }} style={styles.avatar} />
+          <Image source={{ uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face', }} style={styles.avatar} />
           {student.isOnline && <View style={styles.onlineIndicator} />}
         </View>
         <View style={styles.studentInfo}>
@@ -309,16 +349,16 @@ const StudentView = () => {
             {student.name}
           </Text>
           <Text style={styles.classSection} allowFontScaling={false}>
-            {student.class} - Section {student.section}
+            {student.class_name} - Section {student.section_name}
           </Text>
           <Text style={styles.rollNumber} allowFontScaling={false}>
-            Roll No: {student.rollNumber}
+            Roll No: {student.roll_no}
           </Text>
           <Text style={styles.studentEmail} allowFontScaling={false}>
             {student.email}
           </Text>
         </View>
-        <View style={styles.dropdownContainer}>
+        {/* <View style={styles.dropdownContainer}>
           <TouchableOpacity
             style={styles.moreButton}
             onPress={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}
@@ -417,7 +457,7 @@ const StudentView = () => {
               </TouchableOpacity>
             </View>
           )}
-        </View>
+        </View> */}
       </View>
       <View style={styles.cardBody}>
         <View style={styles.contactContainer}>
@@ -425,10 +465,10 @@ const StudentView = () => {
             📱
           </Text>
           <Text style={styles.contactText} allowFontScaling={false}>
-            {student.parentContact}
+            {student.mobile}
           </Text>
           <Text style={styles.lastActive} allowFontScaling={false}>
-            • {student.lastActive}
+            • 2 mins ago
           </Text>
         </View>
         <View style={styles.subjectsContainer}>
@@ -436,7 +476,7 @@ const StudentView = () => {
             Subjects:
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.subjectsList}>
+            {/* <View style={styles.subjectsList}>
               {student.subjects.map((subject, index) => (
                 <View key={index} style={styles.subjectChip}>
                   <Text style={styles.subjectText} allowFontScaling={false}>
@@ -444,7 +484,7 @@ const StudentView = () => {
                   </Text>
                 </View>
               ))}
-            </View>
+            </View> */}
           </ScrollView>
         </View>
         <View style={styles.statsRow}>
@@ -916,7 +956,7 @@ const StudentView = () => {
 
           {/* Student List */}
           <FlatList
-            data={filteredStudents}
+            data={studentData}
             renderItem={({ item }) => <StudentCard student={item} />}
             keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={styles.listContainer}

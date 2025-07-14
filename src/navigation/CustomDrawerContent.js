@@ -180,10 +180,10 @@ const menuItems = [
     icon: 'receptionist',
     color: '#fa709a',
     submenus: [
-      { id: 91, title: 'Admission Enquiry', screen: 'SalesReport',  },
-      { id: 92, title: 'Visitor Book', screen: 'SalesReport',  },
-      { id: 93, title: 'Complain', screen: 'SalesReport',  },
-      { id: 94, title: 'Gate Pass', screen: 'SalesReport',  },
+      { id: 91, title: 'Admission Enquiry', screen: 'AdmissionEnquiry',  },
+      { id: 92, title: 'Visitor Book', screen: 'VisitorBook',  },
+      { id: 93, title: 'Complain', screen: 'Complain',  },
+      { id: 94, title: 'Gate Pass', screen: 'GatePass',  },
     ],
   },
   {
