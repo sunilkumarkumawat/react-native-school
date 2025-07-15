@@ -471,22 +471,24 @@ const StudentView = () => {
             • 2 mins ago
           </Text>
         </View>
-        <View style={styles.subjectsContainer}>
-          <Text style={styles.subjectsLabel} allowFontScaling={false}>
-            Subjects:
-          </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {/* <View style={styles.subjectsList}>
-              {student.subjects.map((subject, index) => (
-                <View key={index} style={styles.subjectChip}>
-                  <Text style={styles.subjectText} allowFontScaling={false}>
-                    {subject}
-                  </Text>
-                </View>
-              ))}
-            </View> */}
-          </ScrollView>
-        </View>
+       <View style={styles.subjectsContainer}>
+  <Text style={styles.subjectsLabel} allowFontScaling={false}>
+    Subjects:
+  </Text>
+  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    <View style={styles.subjectsList}>
+      {student.subject_names &&
+        student.subject_names.split(',').map((subject, index) => (
+          <View key={index} style={styles.subjectChip}>
+            <Text style={styles.subjectText} allowFontScaling={false}>
+              {subject.trim()}
+            </Text>
+          </View>
+        ))}
+    </View>
+  </ScrollView>
+</View>
+
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
             <Text
