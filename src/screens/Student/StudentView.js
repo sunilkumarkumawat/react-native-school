@@ -30,43 +30,74 @@ const StudentView = () => {
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedStudentDetail, setSelectedStudentDetail] = useState(null)
   const token = '66|swQajga9OvTwvOecV9tRDNyEZsUOTp9MShfQjLzude6dd81f';
-    const [studentData, setStudentData] = useState([]);
+  const [studentData, setStudentData] = useState([]);
+  const [classOptions, setClassOptions] = useState([{ label: "All", value: "All" }]);
 
-   const fetchUser = async () => {
-      const formData = new FormData();
-      formData.append('branch_id', '-1'); // send as string
-  
-      try {
-        const response = await fetch(
-          `${Strings.APP_BASE_URL}/getStudents`,
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              // ❌ Don't set Content-Type here!
-            },
-            body: formData,
-          },
-        );
-  
-        const result = await response.json();
-  
-        console.log('student:', result);
-        //Alert.alert('User Result', JSON.stringify(result)); // Convert to string
-  
-        if (result.status) {
-          // Alert.alert('Success', 'User fetched successfully!');
-          setStudentData(result.data);
-        }
-      } catch (error) {
-        console.error('Error fetch user:', error);
-        // Alert.alert('Error', error.message);
+  const fetchClassList = async () => {
+    try {
+      const response = await fetch(`${Strings.APP_BASE_URL}/className`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await response.json();
+      console.log('Class List:', result);
+
+      if (result.success) {
+        const dynamicClassList = result.data.map(cls => ({
+          label: cls.label,
+          value: cls.value,  // use label as value so it matches student.class like "10th"
+        }));
+        // Add "All" as the first option
+        setClassOptions([{ label: "All", value: "All" }, ...dynamicClassList]);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching class list:', error);
+    }
+  };
 
-    useEffect(() => {
-        fetchUser();
-      }, []);
+  useEffect(() => {
+    fetchClassList();  // 👈 get dynamic class list
+    fetchUser();       // 👈 get students
+  }, []);
+
+
+// Alert.alert(JSON.stringify(classOptions));
+
+
+
+  const fetchUser = async () => {
+    try {
+      const response = await fetch(`${Strings.APP_BASE_URL}/studentList`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json', // ✅ Add this
+        },
+
+      });
+
+      const result = await response.json();
+
+      console.log('student:', result);
+      //Alert.alert('User Result', JSON.stringify(result));
+
+      if (result.success) {
+        setStudentData(result.data);
+      }
+    } catch (error) {
+      console.error('Error fetch user:', error);
+      Alert.alert('Error', error.message);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   // Sample student data with expanded profile information
   const students = [
@@ -211,6 +242,7 @@ const StudentView = () => {
     },
     // Continue with other students with similar expanded data structure
   ]
+
 
   const classes = ["All", "9th", "10th", "11th", "12th"]
   const sections = ["All", "A", "B", "C", "D"]
@@ -471,23 +503,23 @@ const StudentView = () => {
             • 2 mins ago
           </Text>
         </View>
-       <View style={styles.subjectsContainer}>
-  <Text style={styles.subjectsLabel} allowFontScaling={false}>
-    Subjects:
-  </Text>
-  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-    <View style={styles.subjectsList}>
-      {student.subject_names &&
-        student.subject_names.split(',').map((subject, index) => (
-          <View key={index} style={styles.subjectChip}>
-            <Text style={styles.subjectText} allowFontScaling={false}>
-              {subject.trim()}
-            </Text>
-          </View>
-        ))}
-    </View>
-  </ScrollView>
-</View>
+        <View style={styles.subjectsContainer}>
+          <Text style={styles.subjectsLabel} allowFontScaling={false}>
+            Subjects:
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.subjectsList}>
+              {student.subject_names &&
+                student.subject_names.map((subject, index) => (
+                  <View key={index} style={styles.subjectChip}>
+                    <Text style={styles.subjectText} allowFontScaling={false}>
+                      {subject.trim()}
+                    </Text>
+                  </View>
+                ))}
+            </View>
+          </ScrollView>
+        </View>
 
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
@@ -752,26 +784,26 @@ const StudentView = () => {
               </View>
             </View>
           )) || (
-            // Fallback activities if none exist
-            <View style={styles.activityItem}>
-              <View style={styles.activityIcon}>
-                <Text style={styles.activityIconText} allowFontScaling={false}>
-                  📚
-                </Text>
+              // Fallback activities if none exist
+              <View style={styles.activityItem}>
+                <View style={styles.activityIcon}>
+                  <Text style={styles.activityIconText} allowFontScaling={false}>
+                    📚
+                  </Text>
+                </View>
+                <View style={styles.activityInfo}>
+                  <Text style={styles.activityTitle} allowFontScaling={false}>
+                    No Recent Activities
+                  </Text>
+                  <Text style={styles.activityDesc} allowFontScaling={false}>
+                    Check back later for updates
+                  </Text>
+                  <Text style={styles.activityTime} allowFontScaling={false}>
+                    --
+                  </Text>
+                </View>
               </View>
-              <View style={styles.activityInfo}>
-                <Text style={styles.activityTitle} allowFontScaling={false}>
-                  No Recent Activities
-                </Text>
-                <Text style={styles.activityDesc} allowFontScaling={false}>
-                  Check back later for updates
-                </Text>
-                <Text style={styles.activityTime} allowFontScaling={false}>
-                  --
-                </Text>
-              </View>
-            </View>
-          )}
+            )}
         </View>
 
         {/* Action Buttons */}
@@ -829,7 +861,7 @@ const StudentView = () => {
           <View style={styles.searchContainer}>
             <View style={styles.searchInputContainer}>
               <Text style={styles.searchIcon} allowFontScaling={false}>
-                🔍
+                
               </Text>
               <TextInput
                 style={styles.searchInput}
@@ -874,37 +906,42 @@ const StudentView = () => {
                 </TouchableOpacity>
                 {showClassDropdown && (
                   <View style={styles.dropdownMenu}>
-                    {classes.map((classItem) => (
-                      <TouchableOpacity
-                        key={classItem}
-                        style={[styles.dropdownMenuItem, selectedClass === classItem && styles.dropdownMenuItemActive]}
-                        onPress={() => {
-                          setSelectedClass(classItem)
-                          setShowClassDropdown(false)
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styles.dropdownMenuText,
-                            selectedClass === classItem && styles.dropdownMenuTextActive,
-                          ]}
-                          allowFontScaling={false}
-                        >
-                          {classItem}
-                        </Text>
-                        {selectedClass === classItem && (
-                          <Text style={styles.checkmark} allowFontScaling={false}>
-                            ✓
-                          </Text>
-                        )}
-                      </TouchableOpacity>
-                    ))}
-                  </View>
+  <ScrollView style={{ maxHeight: 200 }} showsVerticalScrollIndicator={false} > {/* You can adjust maxHeight as needed */}
+    {classOptions.map((classItem) => (
+      <TouchableOpacity
+        key={classItem.value}
+        style={[
+          styles.dropdownMenuItem,
+          selectedClass === classItem.label && styles.dropdownMenuItemActive,
+        ]}
+        onPress={() => {
+          setSelectedClass(classItem.label);
+          setShowClassDropdown(false);
+        }}
+      >
+        <Text
+          style={[
+            styles.dropdownMenuText,
+            selectedClass === classItem.label && styles.dropdownMenuTextActive,
+          ]}
+          allowFontScaling={false}
+        >
+          {classItem.label}
+        </Text>
+        {selectedClass === classItem.label && (
+          <Text style={styles.checkmark} allowFontScaling={false}>
+            ✓
+          </Text>
+        )}
+      </TouchableOpacity>
+    ))}
+  </ScrollView>
+</View>
                 )}
               </View>
 
               {/* Section Dropdown */}
-              <View style={styles.dropdownWrapper}>
+              {/* <View style={styles.dropdownWrapper}>
                 <Text style={styles.filterLabel} allowFontScaling={false}>
                   Section:
                 </Text>
@@ -952,7 +989,7 @@ const StudentView = () => {
                     ))}
                   </View>
                 )}
-              </View>
+              </View> */}
             </View>
           </View>
 
@@ -1041,6 +1078,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
+    
   },
   searchIcon: {
     fontSize: 16,
@@ -1053,6 +1091,7 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     padding: 4,
+    
   },
   clearButtonText: {
     fontSize: 14,
