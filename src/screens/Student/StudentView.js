@@ -246,62 +246,69 @@ const StudentView = () => {
 
   const classes = ["All", "9th", "10th", "11th", "12th"]
   const sections = ["All", "A", "B", "C", "D"]
-
-  useEffect(() => {
-    filterStudents()
-  }, [searchKeyword, selectedClass, selectedSection])
+  
+useEffect(() => {
+  if (studentData.length > 0) {
+    filterStudents();
+  }
+}, [studentData, selectedClass, selectedSection, searchKeyword]);
 
   const filterStudents = () => {
-    let filtered = students
+    let filtered = studentData
 
     // Filter by class
     if (selectedClass !== "All") {
-      filtered = filtered.filter((student) => student.class === selectedClass)
-    }
+  filtered = filtered.filter((student) => student.class_name === selectedClass);
+}
 
     // Filter by section
     if (selectedSection !== "All") {
       filtered = filtered.filter((student) => student.section === selectedSection)
     }
 
-    // Filter by keyword (name, email, roll number, parent contact, or subjects)
-    if (searchKeyword.trim()) {
-      const keyword = searchKeyword.toLowerCase().trim()
-      filtered = filtered.filter((student) => {
-        // Search in name
-        const nameMatch = student.name.toLowerCase().includes(keyword)
-        // Search in email
-        const emailMatch = student.email.toLowerCase().includes(keyword)
-        // Search in roll number
-        const rollMatch = student.rollNumber.toLowerCase().includes(keyword)
-        // Search in parent contact (both with and without special characters)
-        const phoneDigitsOnly = student.parentContact.replace(/\D/g, "")
-        const keywordDigitsOnly = keyword.replace(/\D/g, "")
-        const phoneMatch =
-          student.parentContact.toLowerCase().includes(keyword) ||
-          (keywordDigitsOnly && phoneDigitsOnly.includes(keywordDigitsOnly))
-        // Search in subjects
-        const subjectMatch = student.subjects.some((subject) => subject.toLowerCase().includes(keyword))
-        // Search in status
-        const statusMatch = student.status.toLowerCase().includes(keyword)
-        // Search in class (without 'th' suffix for easier searching)
-        const classNumber = student.class.replace("th", "")
-        const classMatch = student.class.toLowerCase().includes(keyword) || classNumber.includes(keyword)
-        // Search in section
-        const sectionMatch = student.section.toLowerCase().includes(keyword)
+   // Filter by keyword (name, email, roll number, parent contact, subjects, status, class, section)
+if (searchKeyword.trim()) {
+  const keyword = searchKeyword.toLowerCase().trim();
 
-        return (
-          nameMatch ||
-          emailMatch ||
-          rollMatch ||
-          phoneMatch ||
-          subjectMatch ||
-          statusMatch ||
-          classMatch ||
-          sectionMatch
+  filtered = filtered.filter((student) => {
+    // Defensive access (optional chaining and fallback values)
+    const nameMatch = student.name?.toLowerCase().includes(keyword);
+    const emailMatch = student.email?.toLowerCase().includes(keyword);
+    const rollMatch = student.roll_no?.toLowerCase().includes(keyword);
+
+    const phoneDigitsOnly = student.mobile?.replace(/\D/g, "") || "";
+    const keywordDigitsOnly = keyword.replace(/\D/g, "");
+    const phoneMatch =
+      student.parentContact?.toLowerCase().includes(keyword) ||
+      (keywordDigitsOnly && phoneDigitsOnly.includes(keywordDigitsOnly));
+
+    const subjectMatch = Array.isArray(student.subjects)
+      ? student.subjects.some((subject) =>
+          subject?.toLowerCase().includes(keyword)
         )
-      })
-    }
+      : false;
+
+    const statusMatch = student.status?.toLowerCase().includes(keyword);
+
+    const classMatch =
+      student.class?.toLowerCase().includes(keyword) ||
+      student.class?.replace("th", "").includes(keyword);
+
+    const sectionMatch = student.section?.toLowerCase().includes(keyword);
+
+    return (
+      nameMatch ||
+      emailMatch ||
+      rollMatch ||
+      phoneMatch ||
+      subjectMatch ||
+      statusMatch ||
+      classMatch ||
+      sectionMatch
+    );
+  });
+}
+
 
     setFilteredStudents(filtered)
   }
@@ -522,7 +529,7 @@ const StudentView = () => {
         </View>
 
         <View style={styles.statsRow}>
-          <View style={styles.statItem}>
+          {/* <View style={styles.statItem}>
             <Text
               style={[styles.statValue, { color: getAttendanceColor(student.attendance) }]}
               allowFontScaling={false}
@@ -532,9 +539,9 @@ const StudentView = () => {
             <Text style={styles.statLabel} allowFontScaling={false}>
               Attendance
             </Text>
-          </View>
+          </View> */}
           <View style={styles.statDivider} />
-          <View style={styles.statItem}>
+          {/* <View style={styles.statItem}>
             <View style={styles.statusContainer}>
               <View style={[styles.statusDot, { backgroundColor: getStatusColor(student.status) }]} />
               <Text style={[styles.statusText, { color: getStatusColor(student.status) }]} allowFontScaling={false}>
@@ -544,7 +551,7 @@ const StudentView = () => {
             <Text style={styles.statLabel} allowFontScaling={false}>
               Status
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
       <View style={styles.cardFooter}>
@@ -865,7 +872,7 @@ const StudentView = () => {
               </Text>
               <TextInput
                 style={styles.searchInput}
-                placeholder="Search by name, roll no, email, phone, subject..."
+                placeholder="Search by name, roll no, email, phone..."
                 value={searchKeyword}
                 onChangeText={setSearchKeyword}
                 placeholderTextColor="#9ca3af"
@@ -883,60 +890,64 @@ const StudentView = () => {
 
           {/* Class and Section Filters */}
           <View style={styles.filtersContainer}>
-            <View style={styles.dropdownRow}>
-              {/* Class Dropdown */}
-              <View style={styles.dropdownWrapper}>
-                <Text style={styles.filterLabel} allowFontScaling={false}>
-                  Class:
-                </Text>
-                <TouchableOpacity
-                  style={styles.dropdownButton}
-                  onPress={() => {
-                    setShowClassDropdown(!showClassDropdown)
-                    setShowSectionDropdown(false)
-                    setActiveDropdown(null)
-                  }}
-                >
-                  <Text style={styles.dropdownButtonText} allowFontScaling={false}>
-                    {selectedClass}
-                  </Text>
-                  <Text style={styles.dropdownArrow} allowFontScaling={false}>
-                    {showClassDropdown ? "▲" : "▼"}
-                  </Text>
-                </TouchableOpacity>
-                {showClassDropdown && (
-                  <View style={styles.dropdownMenu}>
-  <ScrollView style={{ maxHeight: 200 }} showsVerticalScrollIndicator={false} > {/* You can adjust maxHeight as needed */}
-    {classOptions.map((classItem) => (
+  <View style={styles.dropdownRow}>
+    {/* Class Dropdown */}
+    <View style={styles.dropdownWrapper}>
+      <Text style={styles.filterLabel} allowFontScaling={false}>
+        Class:
+      </Text>
+      
       <TouchableOpacity
-        key={classItem.value}
-        style={[
-          styles.dropdownMenuItem,
-          selectedClass === classItem.label && styles.dropdownMenuItemActive,
-        ]}
+        style={styles.dropdownButton}
         onPress={() => {
-          setSelectedClass(classItem.label);
-          setShowClassDropdown(false);
+          setShowClassDropdown(!showClassDropdown);
+          setShowSectionDropdown(false);
+          setActiveDropdown(null);
         }}
       >
-        <Text
-          style={[
-            styles.dropdownMenuText,
-            selectedClass === classItem.label && styles.dropdownMenuTextActive,
-          ]}
-          allowFontScaling={false}
-        >
-          {classItem.label}
+        <Text style={styles.dropdownButtonText} allowFontScaling={false}>
+          {selectedClass}
         </Text>
-        {selectedClass === classItem.label && (
-          <Text style={styles.checkmark} allowFontScaling={false}>
-            ✓
-          </Text>
-        )}
+        <Text style={styles.dropdownArrow} allowFontScaling={false}>
+          {showClassDropdown ? "▲" : "▼"}
+        </Text>
       </TouchableOpacity>
-    ))}
-  </ScrollView>
-</View>
+
+      {showClassDropdown && (
+        <View style={styles.dropdownMenu}>
+          <ScrollView style={{ maxHeight: 200 }} showsVerticalScrollIndicator={false}>
+            {classOptions.map((classItem) => (
+              <TouchableOpacity
+                key={classItem.label}
+                style={[
+                  styles.dropdownMenuItem,
+                  selectedClass === classItem.label && styles.dropdownMenuItemActive,
+                ]}
+                onPress={() => {
+                  setSelectedClass(classItem.label);
+                  setShowClassDropdown(false);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.dropdownMenuText,
+                    selectedClass === classItem.label && styles.dropdownMenuTextActive,
+                  ]}
+                  allowFontScaling={false}
+                >
+                  {classItem.label}
+                </Text>
+                {selectedClass === classItem.label && (
+                  <Text style={styles.checkmark} allowFontScaling={false}>
+                    ✓
+                  </Text>
+                )}
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      
+
                 )}
               </View>
 
@@ -995,7 +1006,7 @@ const StudentView = () => {
 
           {/* Student List */}
           <FlatList
-            data={studentData}
+            data={filteredStudents}
             renderItem={({ item }) => <StudentCard student={item} />}
             keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={styles.listContainer}
@@ -1353,42 +1364,42 @@ const styles = StyleSheet.create({
     color: "#0284c7",
     fontWeight: "500",
   },
-  statsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f8f9fa",
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  statItem: {
-    flex: 1,
-    alignItems: "center",
-  },
-  statDivider: {
-    width: 1,
-    height: 24,
-    backgroundColor: "#e5e7eb",
-    marginHorizontal: 12,
-  },
-  statValue: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 2,
-  },
-  statLabel: {
-    fontSize: 11,
-    color: "#6b7280",
-    fontWeight: "500",
-    textTransform: "uppercase",
-  },
-  statusContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 2,
-  },
+  // statsRow: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   backgroundColor: "#f8f9fa",
+  //   borderRadius: 8,
+  //   paddingVertical: 8,
+  //   paddingHorizontal: 12,
+  // },
+  // statItem: {
+  //   flex: 1,
+  //   alignItems: "center",
+  // },
+  // statDivider: {
+  //   width: 1,
+  //   height: 24,
+  //   backgroundColor: "#e5e7eb",
+  //   marginHorizontal: 12,
+  // },
+  // statValue: {
+  //   fontSize: 14,
+  //   fontWeight: "700",
+  //   color: "#111827",
+  //   marginBottom: 2,
+  // },
+  // statLabel: {
+  //   fontSize: 11,
+  //   color: "#6b7280",
+  //   fontWeight: "500",
+  //   textTransform: "uppercase",
+  // },
+  // statusContainer: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   marginBottom: 2,
+  // },
   statusDot: {
     width: 6,
     height: 6,
